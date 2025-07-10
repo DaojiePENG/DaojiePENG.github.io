@@ -95,7 +95,7 @@
               <a href="https://github.com/jonyzhang2023">Qiang Zhang</a><sup>1,2*</sup>,
             </span>
             <span class="author-block">
-              <a href="https://personal.hkust-gz.edu.cn/junma/index.html">Jun MA</a><sup>1,3</sup>
+              <a href="https://personal.hkust-gz.edu.cn/junma/index.html">Jun Ma</a><sup>1,3</sup>
             </span>
           </div>
 
@@ -120,7 +120,7 @@
                 </a>
               </span>
               <span class="link-block">
-                <a href=""
+                <a href="https://arxiv.org/abs/2507.06747"
                    class="external-link button is-normal is-rounded is-dark">
                   <span class="icon">
                       <i class="ai ai-arxiv"></i>
@@ -178,8 +178,7 @@
       </video> -->
 
       <h2 class="subtitle has-text-centered">
-        <span class="dnerf">LOVON</span> is a novel system that integrates LLMs for hierarchical task planning 
-        with open-vocabulary visual detection and legged robot mobility.
+        <span class="dnerf">LOVON</span>, a novel framework that integrates large language models (LLMs) for hierarchical task planning with open-vocabulary visual detection models, tailored for effective long-range object navigation in dynamic, unstructured environments.
       </h2>
     </div>
   </div>
@@ -292,15 +291,13 @@
             with open-vocabulary visual detection and legged robot mobility. 
           </p> -->
           <p>
-            Object navigation in open-world environments remain a critical challenge for robotic systems. Despite advancements 
-            in large language models (LLMs) for task planning, open-vocabulary vision models for object detection, and versatile 
-            legged robots capable of traversing complex terrains, existing approaches lack a unified navigation framework to execute 
-            composite long-range missions. We propose <i>LOVON</i>, a novel system that integrates LLMs for hierarchical task planning 
-            with open-vocabulary visual detection and legged robot mobility. To address real-world challenges including visual jittering, 
-            blind zones, and temporary target loss, we design dedicated solutions such as Laplacian Variance Filtering for visual stabilization. 
-            Extensive evaluations on Go2, B2, and H1-2 legged platforms demonstrate successful completion of long-sequence tasks involving 
-            real-time detection, search, and navigation toward open-vocabulary dynamic targets. To the best of our knowledge, this work presents 
-            the first operational system achieving such capabilities in unstructured environments. 
+            Object navigation in open-world environments remains a formidable and pervasive challenge for robotic systems, particularly when it comes to executing long-horizon tasks that require both open-world object detection and high-level task planning. 
+            Traditional methods often struggle to integrate these components effectively, and this limits their capability to deal with complex, long-range navigation missions. 
+            In this paper, we propose LOVON, a novel framework that integrates large language models (LLMs) for hierarchical task planning with open-vocabulary visual detection models, tailored for effective long-range object navigation in dynamic, unstructured environments.
+            To tackle real-world challenges including visual jittering, blind zones, and temporary target loss, we design dedicated solutions such as Laplacian Variance Filtering for visual stabilization. 
+            We also develop a functional execution logic for the robot that guarantees LOVON's capabilities in autonomous navigation, task adaptation, and robust task completion.
+            Extensive evaluations demonstrate the successful completion of long-sequence tasks involving real-time detection, search, and navigation toward open-vocabulary dynamic targets. 
+            Furthermore, real-world experiments across different legged robots (Unitree Go2, B2, and H1-2) showcase the compatibility and appealing plug-and-play feature of LOVON. 
           </p>
         </div>
       </div>
@@ -324,9 +321,8 @@
         <h2 class="title is-3">LOVON Pipeline</h2>
         <div class="content has-text-justified">
         <p>
-          The LOVON system is designed to integrate LLMs for hierarchical task planning with open-vocabulary visual detection and legged robot mobility.
-          The pipeline consists of several key components, including visual stabilization, object detection, and navigation planning.
-          The system is capable of operating in various environments, including indoor and outdoor settings, and can handle dynamic objects in real-time.
+          First, the LLM task planner reconfigures the human’s task into basic instructions, while the detection model processes the video stream using a Laplace filter. 
+          Then, the mission instructions, target object, bounding box, and states are input to the Language-to-Motion Model, which generates the robot's control vector and feedback, progressively completing all tasks.
         </p>
         </div>
         <img src="./static/images/pipeline.png" alt="LOVON Pipeline" width="100%">
