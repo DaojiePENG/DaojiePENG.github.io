@@ -1,491 +1,356 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="description" content="DevPort Personal Portfolio/CV HTML Template suitable for you">
-    <meta name="title" content="DevPort personal portfolio website template html5" />
-    <meta name="robots" content="DevPort, portfolio, resume, personal" />
-    <title>Daojie PENG's Personal Website</title>
-    <!-- ================favIcon========== -->
-    <link rel="icon" href="assets/img/fav-icon.png" type="image/gif" sizes="80x80">
-    <!-- =============font========== -->
-    <link rel="stylesheet" href="assets/font/icofont.min.css">
-    <!-- ==================Bootstrap============ -->
-    <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-    <!-- =============animate css ============== -->
-    <link rel="stylesheet" href="assets/css/animate.min.css">
-    <!-- ============swiper slider ========== -->
-    <link rel="stylesheet" href="assets/css/swiper-bundle.min.css">
-    <!-- =================style============ -->
-    <link rel="stylesheet" href="assets/css/style.css" id="change-mood">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Daojie Peng - Robotics & Embodied Intelligence</title>
+  <link rel="stylesheet" href="style.css">
+  <!-- GitHub Icon FontAwesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- JS全局自动加粗Daojie Peng，所有论文作者无需手动加strong标签 -->
+  <script>
+window.onload = function(){
+  let authorDom = document.querySelectorAll(".paper-authors");
+  authorDom.forEach(item=>{
+    item.innerHTML = item.innerHTML.replaceAll("Daojie Peng","<strong style='color:#1e293b;font-weight:700;'>Daojie Peng</strong>")
+  })
+}
+  </script>
+  <script>
+function switchView(type, mode) {
+  const grid = document.getElementById(type + '-grid');
+  const cards = grid.querySelectorAll(type === 'papers' ? '.paper-card' : '.patent-card');
+  const buttons = document.querySelectorAll('.view-toggle');
+  
+  buttons.forEach(btnGroup => {
+    btnGroup.querySelectorAll('.view-btn').forEach(btn => btn.classList.remove('active'));
+    if (btnGroup.querySelector(`.view-btn[onclick*="${mode}"]`)) {
+      btnGroup.querySelector(`.view-btn[onclick*="${mode}"]`).classList.add('active');
+    }
+  });
 
+  if (mode === 'list') {
+    grid.classList.remove('grid');
+    grid.classList.add('list');
+    cards.forEach(c => c.classList.add('list-mode'));
+  } else {
+    grid.classList.remove('list');
+    grid.classList.add('grid');
+    cards.forEach(c => c.classList.remove('list-mode'));
+  }
+}
+</script>
 </head>
-
 <body>
-    <div class="body-wrapper">
-        <!-- Preloader Start -->
-        <div id="preloader">
-            <div class="loader3">
-                <span></span>
-                <span></span>
-            </div>
-        </div>
-        <!-- Preloader End -->
-        <!-- ============dark and light====== -->
-        <a class="night__mood">
-            <img src="assets/img/gear.gif" alt="gear">
-        </a>
-        <!-- ============dark and light end====== -->
-        <!-- sidebar toggle  -->
-        <!-- menu toggler -->
-        <div class="hamburger-menu">
-            <span class="line-top"></span>
-            <span class="line-center"></span>
-            <span class="line-bottom"></span>
-        </div>
-        <!-- sidebar  -->
-        <div class="side-bar">
-            <div class="sidebar-content">
-                <div class="user-info">
-                    <div class="user-img">
-                        <img src="assets/img/user/pdj.png" alt="">
-                    </div>
-                    <h2 class="name">Daojie PENG</h2>
-                    <p class="user-role">PhD in HKUST-GZ</p>
-                </div>
 
-                <div class="menu">
-                    <ul class="menu-ul">
-                        <li class="menu-list"><a href="index.html" class="menu-link"><span class="icofont-home"></span> Home</a></li>
-                        <li class="menu-list"><a href="resume.html" class="menu-link"><span class="icofont-notepad"></span> Resume</a></li>
-                        <li class="menu-list"><a href="work.html" class="menu-link"><span class="icofont-bag-alt"></span> Work</a></li>
-                        <li class="menu-list"><a href="stories.html" class="menu-link"><span class="icofont-oscommerce"></span> Stories</a></li>
-                        <li class="menu-list"><a href="contact.html" class="menu-link"><span class="icofont-contact-add"></span> Contact</a></li>
-                    </ul>
-                </div>
-
-                <div class="social">
-                    <ul class="social-ul">
-                        <li class="social-list">
-                            <a href="#" class="social-link"><i class="icofont-facebook"></i></a>
-                        </li>
-                        <li class="social-list">
-                            <a href="#" class="social-link"><i class="icofont-instagram"></i></a>
-                        </li>
-                        <li class="social-list">
-                            <a href="#" class="social-link"><i class="icofont-behance"></i></a>
-                        </li>
-                        <li class="social-list">
-                            <a href="#" class="social-link"><i class="icofont-pinterest"></i></a>
-                        </li>
-                        <li class="social-list">
-                            <a href="#" class="social-link"><i class="icofont-twitter"></i></a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-            <!-- end sidebar content  -->
-        </div>
-        <!-- end sidebar  -->
-        <!-- content wrapper start  -->
-        <div class="content-wrapper">
-            <div class="page-marg mt-0">
-                <section>
-                    <div class="welcome-sec">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-lg-8">
-                                    <div class="welcome-content">
-                                        <h1 class="welcome">
-                                            Hello And Welcome!
-                                        </h1>
-                                        <p>
-                                            I am Daojie PENG, a PhD student at the Hong Kong University of Science and Technology (Guangzhou). <br>
-                                            I am passionate about research and development in the field of robotics and computer science, particularly in the areas of autonomous systems and artificial intelligence. 
-                                            My academic journey has equipped me with a strong foundation in both theoretical and practical aspects of these fields, and I am eager to contribute to innovative projects that push the boundaries of technology.
-                                        </p>
-                                    </div>
-                                </div>
-
-                                <div class="cv-download">
-                                    <a href="#" class="cv-link">
-                                        <span class="icofont-notepad cv-icon"></span>
-                                        <p>Download CV</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                    <!-- welcome section end  -->
-                </section>
-                <!-- end section  -->
-
-                <!-- skill  -->
-                <section>
-                    <div class="skill-section my-6">
-                        <div class="container-fluid">
-                            <div class="row">
-                                <div class="col-lg-6">
-                                    <div class="skill-con">
-                                        <div class="sm-sec-head">
-                                            <h3>Skill</h3>
-                                        </div>
-
-                                        <div class="skill-point mb-3">
-                                            <div class="skill-row">
-                                                <div class="skill">
-                                                    <p>Robotics</p>
-                                                    <div class="skill-bar wow slideInLeft animated" style="width: 95%;">
-                                                        <span class="skill-count">95%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-point mb-3">
-                                            <div class="skill-row">
-                                                <div class="skill">
-                                                    <p>Computer Science</p>
-                                                    <div class="skill-bar wow slideInLeft animated" style="width: 90%;">
-                                                        <span class="skill-count">90%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div class="skill-point mb-3">
-                                            <div class="skill-row">
-                                                <div class="skill">
-                                                    <p>Vision-Language Model</p>
-                                                    <div class="skill-bar wow slideInLeft animated" style="width: 90%;">
-                                                        <span class="skill-count">90%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-
-                                    </div>
-                                </div>
-                                <div class="col-lg-6">
-                                    <div class="skill-con">
-                                        <div class="sm-sec-head">
-                                            <h3>expertize</h3>
-                                        </div>
-                                        <div class="row">
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>Robotics</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>Computer Science</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>Embodied Systems</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>PyTorch</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>Autonomous Systems</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>Vision-Language Model</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>Quantum Computing</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>audio video editing</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>Install and configuration</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>C++</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>FPGA Design</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>web development</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>Management</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>photography</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>social media</p>
-                                                </div>
-                                            </div>
-                                            <div class="col-md-6 col-sm-6 col-12">
-                                                <div class="expert-con">
-                                                    <i class="icofont-tick-mark"></i>
-                                                    <p>app development</p>
-                                                </div>
-                                            </div>
-
-                                        </div>
-
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-                <!-- skill end  -->
-                <!-- service  -->
-                <div class="service-sec">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="col-lg-4 col-sm-6 col-md-6 my-2 wow slideInUp " data-wow-duration="1000ms">
-                                <div class="service-card">
-                                    <div class="service-content">
-                                        <div class="serve-icon">
-                                            <i class="icofont-robot-face"></i>
-                                        </div>
-                                        <h4 class="serve-title">Robotics</h4>
-                                        <p>Bring robots into our lives</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6 col-md-6 my-2  wow slideInUp" data-wow-duration="1200ms">
-                                <div class="service-card">
-                                    <div class="service-content">
-                                        <div class="serve-icon">
-                                            <i class="icofont-circuit"></i>
-                                        </div>
-                                        <h4 class="serve-title">Artificial intelligence</h4>
-                                        <p>Liberate human productivity</p>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-lg-4 col-sm-6 col-md-6 my-2 wow slideInUp " data-wow-duration="1500ms">
-                                <div class="service-card">
-                                    <div class="service-content">
-                                        <div class="serve-icon">
-                                            <i class="icofont-brand-designfloat"></i>
-                                        </div>
-                                        <h4 class="serve-title">Embodied Systems</h4>
-                                        <p>Anytime, anywhere, anything</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- language  -->
-                <section>
-                    <div class="language-sec my-4">
-                        <div class="container-fluid">
-                            <div class="sm-sec-head">
-                                <h3>language</h3>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="language-bar">
-                                        <div class="skill-point mb-3">
-                                            <div class="skill-row">
-                                                <div class="skill">
-                                                    <p>Chinese</p>
-                                                    <div class="skill-bar wow slideInLeft animated" style="width: 98%;">
-                                                        <span class="skill-count">98%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="language-bar">
-                                        <div class="skill-point mb-3">
-                                            <div class="skill-row">
-                                                <div class="skill">
-                                                    <p>english</p>
-                                                    <div class="skill-bar wow slideInLeft animated" style="width: 88%;">
-                                                        <span class="skill-count">88%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <div class="language-bar">
-                                        <div class="skill-point mb-3">
-                                            <div class="skill-row">
-                                                <div class="skill">
-                                                    <p>Japanese</p>
-                                                    <div class="skill-bar wow slideInLeft animated" style="width: 8%;">
-                                                        <span class="skill-count">8%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-md-6">
-                                    <div class="language-bar">
-                                        <div class="skill-point mb-3">
-                                            <div class="skill-row">
-                                                <div class="skill">
-                                                    <p>French</p>
-                                                    <div class="skill-bar wow slideInLeft animated" style="width: 8%;">
-                                                        <span class="skill-count">8%</span>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </section>
-
-                <!-- customer review  -->
-                <div class="customer-review-sec">
-                    <div class="container-fluid">
-                        <div class="d-flex justify-content-center">
-                            <div class="col-md-10 col-12">
-                                <div class="swiper customer-review">
-                                    <div class="customer-review-slider swiper-wrapper">
-                                        <div class="slider-item swiper-slide">
-                                            <div class="customer-info">
-                                                <div class="img-arrow">
-                                                    <div class="customer-img">
-                                                        <img src="assets/img/user/zhangliang.png" alt="">
-                                                    </div>
-                                                    <div class="mark-border"></div>
-                                                </div>
-                                                <div class="customer-name">
-                                                    <h4>Liang ZHANG - Professor of Shandong University</h4>
-                                                </div>
-                                                <div class="message">
-                                                    <p>"Daojie is a talented and dedicated student. He has a strong foundation in robotics, computer science and engineering, and he is always eager to learn new skills and technologies. I am confident that he will make significant contributions to the field of robotics and autonomous systems."</p>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="slider-item swiper-slide">
-                                            <div class="customer-info">
-                                                <div class="img-arrow">
-                                                    <div class="customer-img">
-                                                        <img src="assets/img/user/luyao.jpg" alt="">
-                                                    </div>
-                                                    <div class="mark-border"></div>
-                                                </div>
-                                                <div class="customer-name">
-                                                    <h4>Yao LU - Researcher of Southern University of Science and Technology</h4>
-                                                </div>
-                                                <div class="message">
-                                                    <p>"During Daojie's master time, I am his supervisor. He has shown great potential in his research and has a strong work ethic. He is always willing to go the extra mile to achieve his goals. I believe that he will excel in his PhD studies and make a positive impact in the field of robotics and autonomous systems."</p>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                        <div class="slider-item swiper-slide">
-                                            <div class="customer-info">
-                                                <div class="img-arrow">
-                                                    <div class="customer-img">
-                                                        <img src="assets/img/user/majun.jfif" alt="">
-                                                    </div>
-                                                    <div class="mark-border"></div>
-                                                </div>
-                                                <div class="customer-name">
-                                                    <h4>Jun MA - Professor of Hong Kong University of Science and Technology</h4>
-                                                </div>
-                                                <div class="message">
-                                                    <p>"Daojie is quiet a diligent and hardworking student. He has a keen interest in robotics and autonomous systems, and he is always looking for ways to improve his skills and knowledge. I am confident that he will succeed in his PhD studies and make valuable contributions to the field."</p>
-                                                </div>
-
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="swiper-pagination"></div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <!-- end review -->
-            </div>
-            <!-- footer start -->
-            <footer>
-                <div class="footer-sec">
-                    <div class="container-fluid">
-                        <div class="row">
-                            <div class="footer-area">
-                                <p>&copy; 2025 - All right reserve. <a target="_blank" href="https://daojiepeng.github.io/Personal/" title="DaojiePENG">DaojiePENG</a></p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </div>
+<!-- Navigation Bar -->
+<div class="navbar">
+  <div class="container nav-inner">
+    <div class="brand">Daojie PENG</div>
+    <div class="nav-links">
+      <a href="#home">Home</a>
+      <a href="#publications">Publications</a>
+      <a href="#patents">Patents</a>
+      <a href="#education">Education</a>
     </div>
-    <!-- end body wrapper  -->
+  </div>
+</div>
 
-    <!-- ============script========= -->
-    <!-- =============jQuery========= -->
-    <script src="assets/js/jquery.min.js"></script>
-    <!-- ===============bootstrap=========== -->
-    <script src="assets/js/bootstrap.bundle.js"></script>
-    <!-- ===========wow js=========== -->
-    <script src="assets/js/wow.min.js"></script>
-    <!-- =========swiped slider ======== -->
-    <script src="assets/js/swiper-bundle.min.js"></script>
-    <!-- =============custom js========= -->
-    <script src="assets/js/app.js"></script>
+<!-- Hero & Bio -->
+<section id="home" class="hero container">
+  <img src="assets/figures/daojie.png" alt="Daojie Peng" class="avatar">
+  <div class="hero-info">
+    <h1>Daojie Peng</h1>
+    <div class="title">PhD Student in Robotics and Autonomous Systems</div>
+    <div class="affiliation">Hong Kong University of Science and Technology (Guangzhou)</div>
+    <div class="contact">
+      <a href="mailto:Daojie.PENG@qq.com">📧 Email</a>
+      <a href="https://github.com/DaojiePENG" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
+    </div>
+    <p style="margin-top:16px; font-size:0.95rem;">
+        I am currently a PhD Student in Robotics and Autonomous Systems at the Hong Kong University of Science and Technology (Guangzhou). I completed my undergraduate studies at Shandong University and my postgraduate studies at Southern University of Science and Technology, which has equipped me with a solid and continuous academic foundation in engineering and intelligent robotics.
+    </p>
+    <p style="margin-top:16px; font-size:0.95rem;">    
+        My research focuses on embodied intelligence, robotic perception and control, vision-language-action models, and world-action models. My specific research scope covers foundational action large models, physical AI, legged robots, humanoid robots, and cloud-edge-end collaborative systems. Committed to solving fundamental and long-term challenging problems in physical artificial intelligence, I aim to build generalizable and deployable intelligent robotic systems that adapt to real-world physical environments.
+    </p>
+  </div>
+</section>
+
+
+<!-- Publications -->
+<section id="publications" class="section container">
+  <h2 class="section-title">📚 Publications</h2>
+  
+  <div class="view-toggle">
+    <button class="view-btn active" onclick="switchView('papers', 'list')">List View</button>
+    <button class="view-btn" onclick="switchView('papers', 'grid')">Grid View</button>
+  </div>
+
+  <div class="papers-grid list" id="papers-grid">
+    <!-- AttenA+ | NeurIPS 2026 Preprint -->
+    <div class="paper-card list-mode">
+      <div class="paper-corner-tag">NeurIPS</div>
+      <img src="assets/figures/AttenA+.png" class="paper-img">
+      <div class="paper-content">
+        <div class="tag-group">
+          <span class="tag-conf">📝 NeurIPS 2026</span>
+          <span class="tag-preprint">🔓 Preprint</span>
+        </div>
+        <div class="paper-title">AttenA+: Rectifying Action Inequality in Robotic Foundation Models</div>
+        <div class="paper-authors">Daojie Peng, Fulong Ma, Jiahang Cao, Qiang Zhang, Xupeng Xie, Jian Guo, Ping Luo, Andrew F. Luo, Boyu Zhou, Jun Ma</div>
+        <div class="paper-links">
+          <a href="https://arxiv.org/abs/2605.13548" target="_blank">📄 Paper</a>
+          <a href="https://github.com/DaojiePENG/AttenA-Plus" target="_blank">💻 Code</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LiteViLNet | RAL 2026 Preprint -->
+    <div class="paper-card list-mode">
+      <div class="paper-corner-tag">RAL</div>
+      <img src="assets/figures/LiteViLNet.png" class="paper-img">
+      <div class="paper-content">
+        <div class="tag-group">
+          <span class="tag-journal">📜 RAL 2026</span>
+          <span class="tag-preprint">🔓 Preprint</span>
+        </div>
+        <div class="paper-title">LiteViLNet: Lightweight Vision-LiDAR Fusion Network for Efficient Road Segmentation</div>
+        <div class="paper-authors">Daojie Peng, Bingtao Wang, Fulong Ma, Liang Zhang, Jun Ma</div>
+        <div class="paper-links">
+          <a href="https://arxiv.org/abs/2605.21007" target="_blank">📄 Paper</a>
+          <a href="https://github.com/Bingtao-Wang/LiteViLNet" target="_blank">💻 Code</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- Annotation-Free | RAL 2026 Preprint -->
+    <div class="paper-card list-mode">
+      <div class="paper-corner-tag">RAL</div>
+      <img src="assets/figures/AnotationFree.png" class="paper-img">
+      <div class="paper-content">
+        <div class="tag-group">
+          <span class="tag-journal">📜 RAL 2026</span>
+          <span class="tag-preprint">🔓 Preprint</span>
+        </div>
+        <div class="paper-title">Annotation-Free Detection of Drivable Areas and Curbs Leveraging LiDAR Point Cloud Maps</div>
+        <div class="paper-authors">Fulong Ma, Daojie Peng, Jun Ma</div>
+        <div class="paper-links">
+          <a href="https://arxiv.org/abs/2603.27553" target="_blank">📄 Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- SOL-Nav | ECCV 2026 Preprint -->
+    <div class="paper-card list-mode">
+      <div class="paper-corner-tag">ECCV</div>
+      <img src="assets/figures/SOL-Nav.png" class="paper-img">
+      <div class="paper-content">
+        <div class="tag-group">
+          <span class="tag-conf">📝 ECCV 2026</span>
+          <span class="tag-preprint">🔓 Preprint</span>
+        </div>
+        <div class="paper-title">Structured Observation Language for Efficient and Generalizable Vision-Language Navigation</div>
+        <div class="paper-authors">Daojie Peng, Fulong Ma, Jun Ma</div>
+        <div class="paper-links">
+          <a href="https://arxiv.org/abs/2603.27577" target="_blank">📄 Paper</a>
+          <a href="https://github.com/DaojiePENG/sol-nav" target="_blank">💻 Code</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- TopoNav | ICRA 2026 Camera Ready -->
+    <div class="paper-card list-mode">
+      <div class="paper-corner-tag">ICRA</div>
+      <img src="assets/figures/TopoNav.png" class="paper-img">
+      <div class="paper-content">
+        <div class="tag-group">
+          <span class="tag-conf">📝 ICRA 2026</span>
+          <span class="tag-camera">✅ Camera Ready</span>
+        </div>
+        <div class="paper-title">TopoNav: Topological Graphs as a Key Enabler for Advanced Object Navigation</div>
+        <div class="paper-authors">Peiran Liu, Qiang Zhang, Daojie Peng, Lingfeng Zhang, Yihao Qin, Hang Zhou, Jun Ma, Renjing Xu, Yiding Ji</div>
+        <div class="paper-links">
+          <a href="https://arxiv.org/abs/2509.01364" target="_blank">📄 Paper</a>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOVON | TMECH Preprint -->
+    <div class="paper-card list-mode">
+      <div class="paper-corner-tag">TMECH</div>
+      <img src="assets/figures/LOVON.png" class="paper-img">
+      <div class="paper-content">
+        <div class="tag-group">
+          <span class="tag-journal">📜 TMECH 2026</span>
+          <span class="tag-preprint">🔓 Preprint</span>
+        </div>
+        <div class="paper-title">LOVON: Legged Open-Vocabulary Object Navigator</div>
+        <div class="paper-authors">Daojie Peng, Jiahang Cao, Qiang Zhang, Jun Ma</div>
+        <div class="paper-links">
+          <a href="https://arxiv.org/abs/2507.06747" target="_blank">📄 Paper</a>
+          <a href="https://github.com/DaojiePENG/LOVON" target="_blank">💻 Code</a>
+          <a href="https://daojiepeng.github.io/LOVON/" target="_blank">🌐 Project</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Patents 专利板块（英文展示） -->
+<section id="patents" class="section container">
+  <h2 class="section-title">📜 Patents</h2>
+  
+  <div class="view-toggle">
+    <button class="view-btn active" onclick="switchView('patents', 'list')">List View</button>
+    <button class="view-btn" onclick="switchView('patents', 'grid')">Grid View</button>
+  </div>
+
+  <div class="patents-grid list" id="patents-grid">
+    <!--1 CN115824026A 发明专利，第一发明人-->
+    <div class="patent-card list-mode">
+      <div class="patent-corner-tag">Invention</div>
+      <img src="assets/patents/CN115824026A.png" class="patent-img">
+      <div class="patent-content">
+        <div class="patent-title">Differential Resonant Cavity Displacement Sensing System</div>
+        <div class="patent-info">App No.:202310108732.1 | Pub No.:CN115824026A</div>
+        <div class="paper-authors">Daojie Peng</div>
+        <div class="patent-tag-group">
+          <span class="tag-invent">1st Inventor</span>
+          <span class="tag-invent">Invention Patent</span>
+        </div>
+        <div class="patent-links">
+          <a href="assets/patents/CN115824026A.PDF" target="_blank">📄 Full PDF</a>
+        </div>
+      </div>
+    </div>
+    <!--2 CN116214555A-->
+    <div class="patent-card list-mode">
+      <div class="patent-corner-tag">Invention</div>
+      <img src="assets/patents/CN116214555A.png" class="patent-img">
+      <div class="patent-content">
+        <div class="patent-title">Multi-Degree-of-Freedom (Multi-DOF) Robotic Manipulator</div>
+        <div class="patent-info">App No.:202310229097.2 | Pub No.:CN116214555A</div>
+        <div class="paper-authors">Daojie Peng</div>
+        <div class="patent-tag-group">
+          <span class="tag-invent">1st Inventor</span>
+          <span class="tag-invent">Invention Patent</span>
+        </div>
+        <div class="patent-links">
+          <a href="assets/patents/CN116214555A.PDF" target="_blank">📄 Full PDF</a>
+        </div>
+      </div>
+    </div>
+    <!--3 CN116834949A-->
+    <div class="patent-card list-mode">
+      <div class="patent-corner-tag">Invention</div>
+      <img src="assets/patents/CN116834949A.png" class="patent-img">
+      <div class="patent-content">
+        <div class="patent-title">Hybrid Aircraft and Its Control Method</div>
+        <div class="patent-info">App No.:202310808122.2 | Pub No.:CN116834949A</div>
+        <div class="paper-authors">Daojie Peng</div>
+        <div class="patent-tag-group">
+          <span class="tag-invent">1st Inventor</span>
+          <span class="tag-invent">Invention Patent</span>
+        </div>
+        <div class="patent-links">
+          <a href="assets/patents/CN116834949A.PDF" target="_blank">📄 Full PDF</a>
+        </div>
+      </div>
+    </div>
+    <!--4 CN116929290A-->
+    <div class="patent-card list-mode">
+      <div class="patent-corner-tag">Invention</div>
+      <img src="assets/patents/CN116929290A.png" class="patent-img">
+      <div class="patent-content">
+        <div class="patent-title">Binocular Disparity-based Stereo Depth Measurement Method, System, and Storage Medium</div>
+        <div class="patent-info">App No.:202310916798.3 | Pub No.:CN116929290A</div>
+        <div class="paper-authors">Daojie Peng</div>
+        <div class="patent-tag-group">
+          <span class="tag-invent">1st Inventor</span>
+          <span class="tag-invent">Invention Patent</span>
+        </div>
+        <div class="patent-links">
+          <a href="assets/patents/CN116929290A.PDF" target="_blank">📄 Full PDF</a>
+        </div>
+      </div>
+    </div>
+    <!--5 CN218498352U 实用新型 第一发明人-->
+    <div class="patent-card list-mode">
+      <div class="patent-corner-tag">Utility</div>
+      <img src="assets/patents/CN218498352U.png" class="patent-img">
+      <div class="patent-content">
+        <div class="patent-title">Resonant Cavity</div>
+        <div class="patent-info">App No.:202222817815.1 | Pub No.:CN218498352U</div>
+        <div class="paper-authors">Daojie Peng</div>
+        <div class="patent-tag-group">
+          <span class="tag-invent">1st Inventor</span>
+          <span class="tag-utility">Utility Model</span>
+        </div>
+        <div class="patent-links">
+          <a href="assets/patents/CN218498352U.PDF" target="_blank">📄 Full PDF</a>
+        </div>
+      </div>
+    </div>
+    <!--6 CN220253443U 实用新型 第二发明人-->
+    <div class="patent-card list-mode">
+      <div class="patent-corner-tag">Utility</div>
+      <img src="assets/patents/CN220253443U.png" class="patent-img">
+      <div class="patent-content">
+        <div class="patent-title">Resonator</div>
+        <div class="patent-info">App No.:202321801161.1 | Pub No.:CN220253443U</div>
+        <div class="paper-authors">Yao Lu, Daojie Peng</div>
+        <div class="patent-tag-group">
+          <span class="tag-co-invent">2nd Inventor</span>
+          <span class="tag-utility">Utility Model</span>
+        </div>
+        <div class="patent-links">
+          <a href="assets/patents/CN220253443U.PDF" target="_blank">📄 Full PDF</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Education -->
+<section id="education" class="section container">
+  <h2 class="section-title">🎓 Education</h2>
+  <div class="education-list">
+    <div class="edu-item">
+      <img src="assets/logos/HKUST.png" class="edu-logo" alt="HKUST(GZ)">
+      <div class="edu-text">
+        <div class="edu-top">
+          <span class="edu-school">Hong Kong University of Science and Technology (Guangzhou)</span>
+          <span>2025 – Present</span>
+        </div>
+        <div>PhD Student, Robotics and Autonomous Systems</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <img src="assets/logos/SUSTech.png" class="edu-logo" alt="SUSTech">
+      <div class="edu-text">
+        <div class="edu-top">
+          <span class="edu-school">Southern University of Science and Technology</span>
+          <span>2021 – 2024</span>
+        </div>
+        <div>Master’s Degree, Electronic Science and Technology</div>
+      </div>
+    </div>
+    <div class="edu-item">
+      <img src="assets/logos/SDU.png" class="edu-logo" alt="SDU">
+      <div class="edu-text">
+        <div class="edu-top">
+          <span class="edu-school">Shandong University</span>
+          <span>2017 – 2021</span>
+        </div>
+        <div>Bachelor’s Degree, Communication Engineering</div>
+      </div>
+    </div>
+  </div>
+</section>
+<!-- Footer -->
+<footer class="footer">
+  <div class="container">© 2025 Daojie Peng | HKUST(GZ) Robotics</div>
+</footer>
+
 </body>
-
 </html>
