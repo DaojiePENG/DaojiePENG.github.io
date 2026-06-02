@@ -72,6 +72,25 @@
       align-items: center;
       gap: 8px;
     }
+    /* 企业项目标题橙色调区分 */
+    .proj-section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #d97706;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    /* 校徽图标样式 */
+    .edu-logo{
+      width:22px;
+      height:22px;
+      vertical-align: middle;
+      margin-right:6px;
+    }
 
     /* 一行式教育排版 */
     .edu-row {
@@ -79,8 +98,9 @@
       justify-content: space-between;
       font-size: 14.5px;
       margin-bottom: 6px;
+      align-items:center;
     }
-    .edu-left { font-weight: 600; }
+    .edu-left { font-weight: 600; display:flex; align-items:center;}
     .edu-right { color: #334155; }
 
     /* 本硕左右分栏 */
@@ -94,6 +114,7 @@
       display: flex;
       justify-content: space-between;
       font-size: 14.5px;
+      align-items:center;
     }
 
     /* 论文卡片 */
@@ -118,9 +139,15 @@
       font-weight: 600;
       margin-bottom: 3px;
     }
+    .proj-conf{
+      font-size:12.5px;
+      color:#d97706;
+      font-weight:600;
+      margin-bottom:3px;
+    }
     .paper-title-full {
       font-weight: 600;
-      font-size: 14px;
+      font-size: 13px;
       margin-bottom: 4px;
     }
     .paper-abs {
@@ -206,24 +233,39 @@
     </div>
   </div>
 
-  <!-- ===================== 你要的全新教育排版 ===================== -->
+  <!-- ===================== 教育（增加校徽图标） ===================== -->
   <div class="cv-section">
     <div class="cv-section-title">🎓 Education</div>
     
-    <!-- PhD 单独一行 -->
-    <div class="edu-row">
-      <div class="edu-left">PhD, HKUST(GZ)</div>
-      <div class="edu-right">2025 – Present</div>
-    </div>
-
-    <!-- 本硕 左右分栏一行 -->
+    <!-- PhD 左右分栏一行 + HKUST校徽 -->
+     
     <div class="edu-dual">
       <div class="edu-col">
-        <div class="edu-left">MSc, SUSTech</div>
+        <div class="edu-left">
+          <img src="../assets/logos/HKUST.png" class="edu-logo">HKUST(GZ), PhD
+        </div>
+        <div class="edu-right">2025 – Present</div>
+      </div>
+      <div class="edu-col">
+        <div class="edu-left">
+          <img src="../assets/logos/HKUST.png" class="edu-logo">HKUST(GZ), RA
+        </div>
+        <div class="edu-right">2024 – 2025</div>
+      </div>
+    </div>
+
+    <!-- 本硕 左右分栏一行 + SUSTech、SDU校徽 -->
+    <div class="edu-dual">
+      <div class="edu-col">
+        <div class="edu-left">
+          <img src="../assets/logos/SUSTech.png" class="edu-logo">SUSTech, MSc
+        </div>
         <div class="edu-right">2021 – 2024</div>
       </div>
       <div class="edu-col">
-        <div class="edu-left">BSc, SDU</div>
+        <div class="edu-left">
+          <img src="../assets/logos/SDU.png" class="edu-logo">SDU, BSc
+        </div>
         <div class="edu-right">2017 – 2021</div>
       </div>
     </div>
@@ -233,7 +275,7 @@
   <div class="cv-section">
     <div class="cv-section-title">🔬 Research Interests</div>
     <div style="font-size:14px;">
-      <strong>Embodied AI:</strong> VLA, WAM, Robotic Foundation Model, Legged Robot Control &nbsp;&nbsp;|&nbsp;&nbsp;
+      <strong>Embodied AI:</strong> Vision-Language-Action Model, World-Action Model, Robotic Foundation Model, Legged Robot Control &nbsp;&nbsp;|&nbsp;&nbsp;
       <strong>Autonomous Driving:</strong> Vision-LiDAR Fusion, 3D Perception, Navigation
     </div>
   </div>
@@ -288,6 +330,15 @@
     </div>
 
     <div class="paper-card-small">
+      <img src="../assets/figures/GeoSem-WAM.png" class="paper-thumb">
+      <div class="paper-detail">
+        <div class="paper-conf">CoRL 2026 Preprint | Co-First Author | <a href="https://arxiv.org/abs/2603.27553" target="_blank">arXiv</a></div>
+        <div class="paper-title-full">GeoSem-WAM: Geometry- and Semantic-Aware World Action Models</div>
+        <div class="paper-abs">Proposed a geometry- and semantic-aware world action model for embodied agents. Enhanced the model's ability to understand and interact with complex environments by integrating geometric and semantic information.</div>
+      </div>
+    </div>
+
+    <div class="paper-card-small">
       <img src="../assets/figures/AnotationFree.png" class="paper-thumb">
       <div class="paper-detail">
         <div class="paper-conf">RAL 2026 Preprint | Co-First Author | <a href="https://arxiv.org/abs/2603.27553" target="_blank">arXiv</a></div>
@@ -295,9 +346,23 @@
         <div class="paper-abs">Proposed an annotation-free perception method based on LiDAR map prior. Eliminated reliance on manual labeling, reduced industrial deployment cost, and improved adaptability for autonomous driving roadside perception.</div>
       </div>
     </div>
+
   </div>
 
   <div class="page-break"></div>
+
+  <!-- ========== 新增：校企合作项目（华为百万横向） ========== -->
+  <div class="cv-section">
+    <div class="proj-section-title">🤝 Industrial Cooperation Projects</div>
+    <div class="paper-card-small">
+      <img src="../assets/figures/huawei_proj.png" class="paper-thumb">
+      <div class="paper-detail">
+        <div class="proj-conf">2025 – Present | Project Lead | Million-level Industry Project with Huawei</div>
+        <div class="paper-title-full">Edge-Cloud Collaborative VLA Control Architecture for Embodied Robots</div>
+        <div class="paper-abs">Led full-stack development for Huawei-sponsored project. Completed spatial semantic topological map construction, LLM-driven NL-based robot navigation, and edge-cloud collaborative large-model deployment on real legged robots.</div>
+      </div>
+    </div>
+  </div>
 
   <!-- Patents -->
   <div class="cv-section">
