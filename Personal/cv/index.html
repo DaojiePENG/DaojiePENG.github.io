@@ -3,7 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Daojie Peng | CV </title>
+  <title>Daojie Peng | CV</title>
+  <link rel="icon" href="../assets/logos/PDJ.png" type="image/x-icon">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
@@ -45,18 +46,42 @@
       object-fit: cover;
     }
     .cv-header-text h1 {
-      font-size: 25px;
-      color: #2563eb;
-      margin-bottom: 5px;
+      font-size: 28px;           /* 稍微大一点点更大气 */
+      font-weight: 700;          /* 标准粗体，稳重专业 */
+      color: #2563eb;            /* 保持你原来的主题蓝 */
+      margin-bottom: 6px;
+      letter-spacing: 0.5px;     /* 字间距微调，高级感 */
+      font-family: 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
     }
     .cv-contact {
       font-size: 13.5px;
       color: #475569;
     }
-    .cv-contact a {
+    .cv-motto {
+      font-size: 23px;
+      font-style: italic;
       color: #2563eb;
-      text-decoration: none;
-      margin-right: 13px;
+      white-space: nowrap;
+      font-weight: 500;
+      /* 左边边距 */
+      margin-left: 28px;
+    }
+    /* 统一链接颜色：访问过不变色 */
+    a:link,
+    a:visited {
+      color: #5510d6 !important;
+      text-decoration: none !important;
+    }
+    a:hover {
+      color: #5510d6 !important;
+      text-decoration: underline !important;
+    }
+    a:active {
+      color: #5510d6 !important;
+    }
+    .tel-copy{
+      color:#5510d6;
+      cursor:pointer;
     }
     .cv-section {
       margin-bottom: 18px;
@@ -72,7 +97,6 @@
       align-items: center;
       gap: 8px;
     }
-    /* 企业项目标题橙色调区分 */
     .proj-section-title {
       font-size: 17px;
       font-weight: 700;
@@ -84,15 +108,12 @@
       align-items: center;
       gap: 8px;
     }
-    /* 校徽图标样式 */
     .edu-logo{
       width:22px;
       height:22px;
       vertical-align: middle;
       margin-right:6px;
     }
-
-    /* 一行式教育排版 */
     .edu-row {
       display: flex;
       justify-content: space-between;
@@ -102,8 +123,6 @@
     }
     .edu-left { font-weight: 600; display:flex; align-items:center;}
     .edu-right { color: #334155; }
-
-    /* 本硕左右分栏 */
     .edu-dual {
       display: flex;
       gap: 40px;
@@ -116,8 +135,6 @@
       font-size: 14.5px;
       align-items:center;
     }
-
-    /* 论文卡片 */
     .paper-card-small {
       display: flex;
       gap: 12px;
@@ -155,8 +172,6 @@
       color: #475569;
       line-height: 1.5;
     }
-
-    /* 专利卡片 */
     .patent-card-small {
       display: flex;
       gap: 12px;
@@ -176,7 +191,7 @@
     .patent-detail { flex: 1; }
     .patent-title {
       font-weight: 600;
-      font-size: 13px;
+      font-size: 12px;
       margin-bottom: 3px;
     }
     .patent-info {
@@ -184,15 +199,26 @@
       color: #475569;
       line-height: 1.5;
     }
-
+    .cv-desc {
+      font-size: 12px;
+      color: #304665;
+      line-height: 1.6;
+      padding-left: 12px;
+      border-left: 3px solid #2563eb;
+    }
+    .cv-hornor {
+      font-size: 12px;
+      color: #486c59;
+      line-height: 1.6;
+      padding-left: 12px;
+      border-left: 3px solid #0cf07e;
+    }
     .page-break {
       page-break-before: always;
       height: 0;
       margin: 0;
       visibility: hidden;
     }
-
-    /* PDF按钮 */
     .download-pdf-btn {
       display: block;
       margin: 20px auto;
@@ -205,8 +231,17 @@
       cursor: pointer;
       box-shadow: 0 3px 10px rgba(37,99,235,0.15);
     }
-
     @media print {
+      @page {
+        size: A4;
+        margin: 16mm 20mm;
+        marks: none;
+        bleed: none;
+        @top-left { content: ""; }
+        @top-right { content: ""; }
+        @bottom-left { content: ""; }
+        @bottom-right { content: ""; }
+      }
       .download-pdf-btn { display: none !important; }
       .cv-wrap { padding: 0; }
       html, body { height: 100%; overflow: visible; }
@@ -227,15 +262,27 @@
       <h1>Daojie Peng</h1>
       <div class="cv-contact">
         <a href="mailto:Daojie.PENG@qq.com"><i class="fa-solid fa-envelope"></i> Daojie.PENG@qq.com</a>
+          &nbsp;|&nbsp;
         <a href="https://github.com/DaojiePENG" target="_blank"><i class="fa-brands fa-github"></i> GitHub</a>
-        <span>+8615238182598</span>
+        <br>
+        <!-- 新增个人主页，使用PDJ图标 -->
+        <a href="https://daojiepeng.github.io/Personal/" target="_blank">
+          <img src="../assets/logos/PDJ.png" style="width:14px;height:14px;vertical-align:middle;margin-right:4px;">Homepage
+        </a>
+        &nbsp;|&nbsp;
+        <!-- 手机号带电话图标、点击复制 -->
+        <span class="tel-copy" onclick="copyPhone(this)" data-phone="+8615238182598">
+          <i class="fa-solid fa-mobile-screen-button"></i> +8615238182598
+        </span>
       </div>
     </div>
+    <!-- 右侧座右铭 -->
+    <div class="cv-motto"><i class="fa-solid fa-brain"></i> I see, I learn, I create.</div>
   </div>
 
   <!-- ===================== 教育（增加校徽图标） ===================== -->
   <div class="cv-section">
-    <div class="cv-section-title">🎓 Education</div>
+    <div class="cv-section-title">🎓 Education Background</div>
     
     <!-- PhD 左右分栏一行 + HKUST校徽 -->
      
@@ -248,9 +295,9 @@
       </div>
       <div class="edu-col">
         <div class="edu-left">
-          <img src="../assets/logos/HKUST.png" class="edu-logo">HKUST(GZ), RA
+          <!-- <img src="../assets/logos/HKUST.png" class="edu-logo">HKUST(GZ), RA -->
         </div>
-        <div class="edu-right">2024 – 2025</div>
+        <!-- <div class="edu-right">2024 – 2025</div> -->
       </div>
     </div>
 
@@ -282,7 +329,7 @@
 
   <!-- Research & Publications -->
   <div class="cv-section">
-    <div class="cv-section-title">📚 Research & Publications</div>
+    <div class="cv-section-title">📚 Selected Research & Publications</div>
 
     <div class="paper-card-small">
       <img src="../assets/figures/AttenA+.png" class="paper-thumb">
@@ -372,7 +419,7 @@
       <img src="../assets/patents/CN115824026A.png" class="patent-thumb">
       <div class="patent-detail">
         <div class="patent-title">Differential Resonant Cavity Displacement Sensing System | CN115824026A (Invention, 1st Inventor) | <a href="https://daojiepeng.github.io/Personal/assets/patents/CN115824026A.PDF" target="_blank">Full PDF</a></div>
-        <div class="patent-info">Designed a high-precision differential resonant cavity displacement sensing scheme, which effectively improves measurement linearity and stability. Widely applicable to precision sensing, quantum experiment and robotic micro displacement detection scenarios.</div>
+        <div class="patent-info">Designed a high-precision differential resonant cavity displacement sensor, significantly improving linearity and stability. Widely applicable to precision sensing, quantum experiments, and robotic micro-displacement detection.</div>
       </div>
     </div>
 
@@ -417,7 +464,58 @@
     </div>
   </div>
 
+  <!-- Honors & Awards -->
+  <div class="cv-section">
+    <div class="cv-section-title">🏆 Honors & Awards</div>
+    <div class="cv-item"> 
+      <div class="cv-hornor">2024 HKUST(GZ) Full Scholarship for Postgraduate Studies (University)</div>
+    </div>
+    <div class="cv-item">
+      <div class="cv-hornor">2023 National Postgraduate Scholarship (National)</div>
+    </div>
+    <div class="cv-item">
+      <div class="cv-hornor">2021 18th Huawei Cup National Graduate Mathematical Modeling Competition, Third Prize (National)</div>
+    </div>
+    <div class="cv-item">
+      <div class="cv-hornor">2020 Shandong Provincial Science & Technology Competition Third Prize (Provincial)</div>
+    </div>
+    <div class="cv-item">
+      <div class="cv-hornor">2019 Shandong Electronic Design Competition Third Prize (Provincial)</div>
+    </div>
+    <div class="cv-item">
+      <div class="cv-hornor">2019 100m Freestyle Swimming, Third Prize (University)</div>
+    </div>
+  </div>
+
+  <!-- Self-Evaluation -->
+  <div class="cv-section">
+    <div class="cv-section-title">🙂 Self-Evaluation</div>
+    <div class="cv-desc">
+      Self-motivated, rigorous and detail-oriented, with solid theoretical and engineering background
+      in robotics, embodied intelligence and embedded system. Keen on academic innovation and
+      practical implementation, good at communication and teamwork.
+    </div>
+  </div>
+
 </div>
 
+<script>
+// 手机号点击复制函数
+function copyPhone(el){
+  const phone = el.dataset.phone;
+  navigator.clipboard.writeText(phone).then(()=>{
+    alert('Phone number copied successfully!');
+  }).catch(()=>{
+    // 兼容低版本浏览器
+    const input = document.createElement('input');
+    input.value = phone;
+    document.body.appendChild(input);
+    input.select();
+    document.execCommand('copy');
+    document.body.removeChild(input);
+    alert('Phone number copied successfully!');
+  })
+}
+</script>
 </body>
 </html>
