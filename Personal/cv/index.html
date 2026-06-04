@@ -97,10 +97,76 @@
       align-items: center;
       gap: 8px;
     }
+    .edu-section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #2563eb;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .res-section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #2563eb;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pub-section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #2563eb;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
     .proj-section-title {
       font-size: 17px;
       font-weight: 700;
       color: #d97706;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .pat-section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #2563eb;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .hornor-section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #2563eb;
+      padding-bottom: 6px;
+      border-bottom: 1px solid #e2e8f0;
+      margin-bottom: 10px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .eval-section-title {
+      font-size: 17px;
+      font-weight: 700;
+      color: #2563eb;
       padding-bottom: 6px;
       border-bottom: 1px solid #e2e8f0;
       margin-bottom: 10px;
@@ -282,7 +348,7 @@
 
   <!-- ===================== 教育（增加校徽图标） ===================== -->
   <div class="cv-section">
-    <div class="cv-section-title">🎓 Education Background</div>
+    <div class="edu-section-title">🎓 Education Background</div>
     
     <!-- PhD 左右分栏一行 + HKUST校徽 -->
      
@@ -320,7 +386,7 @@
 
   <!-- ===================== 紧凑研究方向 ===================== -->
   <div class="cv-section">
-    <div class="cv-section-title">🔬 Research Interests</div>
+    <div class="res-section-title">🔬 Research Interests</div>
     <div style="font-size:14px;">
       <strong>Embodied AI:</strong> Vision-Language-Action Model, World-Action Model, Robotic Foundation Model, Legged Robot Control &nbsp;&nbsp;|&nbsp;&nbsp;
       <strong>Autonomous Driving:</strong> Vision-LiDAR Fusion, 3D Perception, Navigation
@@ -329,12 +395,12 @@
 
   <!-- Research & Publications -->
   <div class="cv-section">
-    <div class="cv-section-title">📚 Selected Research & Publications</div>
+    <div class="pub-section-title">📚 Selected Research & Publications</div>
 
     <div class="paper-card-small">
       <img src="../assets/figures/AttenA+.png" class="paper-thumb">
       <div class="paper-detail">
-        <div class="paper-conf">NeurIPS 2026 Preprint | First Author | <a href="https://arxiv.org/abs/2605.13548" target="_blank">arXiv</a></div>
+        <div class="paper-conf">NeurIPS 2026 UR | First Author | <a href="https://arxiv.org/abs/2605.13548" target="_blank">arXiv</a></div>
         <div class="paper-title-full">AttenA+: Rectifying Action Inequality in Robotic Foundation Models</div>
         <div class="paper-abs">Led research to mitigate action distribution imbalance in VLA robot foundation models. Proposed attention-driven rectification for balanced action space, boosting generalization and real-world deployment on legged/humanoid robots.</div>
       </div>
@@ -343,7 +409,7 @@
     <div class="paper-card-small">
       <img src="../assets/figures/LOVON.png" class="paper-thumb">
       <div class="paper-detail">
-        <div class="paper-conf">TMECH 2026 Preprint | First Author | <a href="https://arxiv.org/abs/2507.06747" target="_blank">arXiv</a></div>
+        <div class="paper-conf">TMECH 2026 UR | First Author | <a href="https://arxiv.org/abs/2507.06747" target="_blank">arXiv</a></div>
         <div class="paper-title-full">LOVON: Legged Open-Vocabulary Object Navigator</div>
         <div class="paper-abs">Led the first open-vocabulary navigation framework tailored for legged robots. Fused V-L reasoning and locomotion to realize zero-finetune target navigation across complex open environments.</div>
       </div>
@@ -361,7 +427,7 @@
     <div class="paper-card-small">
       <img src="../assets/figures/SOL-Nav.png" class="paper-thumb">
       <div class="paper-detail">
-        <div class="paper-conf">ECCV 2026 Preprint | First Author | <a href="https://arxiv.org/abs/2603.27577" target="_blank">arXiv</a></div>
+        <div class="paper-conf">ECCV 2026 UR | First Author | <a href="https://arxiv.org/abs/2603.27577" target="_blank">arXiv</a></div>
         <div class="paper-title-full">Structured Observation Language for Efficient and Generalizable Vision-Language Navigation</div>
         <div class="paper-abs">Proposed structured observation language for VLN to mitigate domain bias. Enhanced cross-scene generalization and enables fast cross-environment model deployment.</div>
       </div>
@@ -370,7 +436,7 @@
     <div class="paper-card-small">
       <img src="../assets/figures/LiteViLNet.png" class="paper-thumb">
       <div class="paper-detail">
-        <div class="paper-conf">RAL 2026 Preprint | First Author | <a href="https://arxiv.org/abs/2605.21007" target="_blank">arXiv</a></div>
+        <div class="paper-conf">RAL 2026 UR | First Author | <a href="https://arxiv.org/abs/2605.21007" target="_blank">arXiv</a></div>
         <div class="paper-title-full">LiteViLNet: Lightweight Vision-LiDAR Fusion Network</div>
         <div class="paper-abs">Developed ultra-lightweight vision-LiDAR fusion network for road segmentation. Optimized model parameters and inference speed, suitable for low-power edge devices in autonomous driving and intelligent vehicle perception systems.</div>
       </div>
@@ -379,7 +445,7 @@
     <div class="paper-card-small">
       <img src="../assets/figures/GeoSem-WAM.png" class="paper-thumb">
       <div class="paper-detail">
-        <div class="paper-conf">CoRL 2026 Preprint | Co-First Author | <a href="https://arxiv.org/abs/2603.27553" target="_blank">arXiv</a></div>
+        <div class="paper-conf">CoRL 2026 UR | Co-First Author | <a href="https://arxiv.org/abs/2606.03188" target="_blank">arXiv</a></div>
         <div class="paper-title-full">GeoSem-WAM: Geometry- and Semantic-Aware World Action Models</div>
         <div class="paper-abs">Proposed a geometry- and semantic-aware world action model for embodied agents. Enhanced the model's ability to understand and interact with complex environments by integrating geometric and semantic information.</div>
       </div>
@@ -388,7 +454,7 @@
     <div class="paper-card-small">
       <img src="../assets/figures/AnotationFree.png" class="paper-thumb">
       <div class="paper-detail">
-        <div class="paper-conf">RAL 2026 Preprint | Co-First Author | <a href="https://arxiv.org/abs/2603.27553" target="_blank">arXiv</a></div>
+        <div class="paper-conf">RAL 2026 UR | Co-First Author | <a href="https://arxiv.org/abs/2603.27553" target="_blank">arXiv</a></div>
         <div class="paper-title-full">Annotation-Free Drivable Area and Curbs Detection</div>
         <div class="paper-abs">Proposed an annotation-free perception method based on LiDAR map prior. Eliminated reliance on manual labeling, reduced industrial deployment cost, and improved adaptability for autonomous driving roadside perception.</div>
       </div>
@@ -413,7 +479,7 @@
 
   <!-- Patents -->
   <div class="cv-section">
-    <div class="cv-section-title">📜 Patents</div>
+    <div class="pat-section-title">📜 Patents</div>
 
     <div class="patent-card-small">
       <img src="../assets/patents/CN115824026A.png" class="patent-thumb">
@@ -466,7 +532,7 @@
 
   <!-- Honors & Awards -->
   <div class="cv-section">
-    <div class="cv-section-title">🏆 Honors & Awards</div>
+    <div class="hornor-section-title">🏆 Honors & Awards</div>
     <div class="cv-item"> 
       <div class="cv-hornor">2024 HKUST(GZ) Full Scholarship for Postgraduate Studies (University)</div>
     </div>
@@ -489,7 +555,7 @@
 
   <!-- Self-Evaluation -->
   <div class="cv-section">
-    <div class="cv-section-title">🙂 Self-Evaluation</div>
+    <div class="eval-section-title">🙂 Self-Evaluation</div>
     <div class="cv-desc">
       Self-motivated, rigorous and detail-oriented, with solid theoretical and engineering background
       in robotics, embodied intelligence and embedded system. Keen on academic innovation and
