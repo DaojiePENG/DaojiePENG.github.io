@@ -84,6 +84,15 @@ body {
   color: var(--gray);
   margin-bottom: 12px;
 }
+.hero .title a {
+  margin-right: 16px;
+  color: var(--primary);
+  text-decoration: none;
+  font-weight: 500;
+}
+.hero .title a:hover {
+  text-decoration: underline;
+}
 .hero .affiliation {
   color: var(--dark);
   font-weight: 500;
