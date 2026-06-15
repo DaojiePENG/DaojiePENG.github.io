@@ -1,0 +1,684 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description"
+        content="SOL-Nav: Structured Observation Language for Efficient and Generalizable Vision-Language Navigation.">
+  <meta name="keywords" content="Vision-Language Navigation, VLN, Structured Observation, Language Model, Embodied AI, Robotics">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SOL-Nav — Structured Observation Language for Vision-Language Navigation</title>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="icon" href="./static/images/HKUST-Logo-icon_0.png">
+
+  <style>
+    :root {
+      --primary: #4F46E5;
+      --primary-light: #818CF8;
+      --primary-dark: #3730A3;
+      --accent: #06B6D4;
+      --accent2: #8B5CF6;
+      --success: #10B981;
+      --bg-dark: #0F172A;
+      --bg-card: #1E293B;
+      --text-primary: #F8FAFC;
+      --text-secondary: #94A3B8;
+      --text-dark: #1E293B;
+      --text-dark-secondary: #475569;
+      --glass-bg: rgba(255,255,255,0.06);
+      --glass-border: rgba(255,255,255,0.1);
+      --section-light: #F8FAFC;
+      --section-alt: #F1F5F9;
+    }
+
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: var(--text-dark);
+      line-height: 1.7;
+      overflow-x: hidden;
+      -webkit-font-smoothing: antialiased;
+    }
+
+    /* ========== NAVBAR ========== */
+    .nav {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+      background: rgba(15,23,42,0.85);
+      backdrop-filter: blur(20px); -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255,255,255,0.06);
+      transition: all 0.3s ease;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 2rem;
+    }
+    .nav-brand {
+      font-weight: 800; font-size: 1.1rem; color: #fff;
+      letter-spacing: -0.02em;
+    }
+    .nav-brand span { 
+      background: linear-gradient(135deg, var(--primary-light), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links a {
+      color: var(--text-secondary); text-decoration: none; font-size: 0.875rem;
+      font-weight: 500; margin-left: 2rem; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    /* ========== HERO ========== */
+    .hero {
+      background: linear-gradient(135deg, #0F172A 0%, #1E1B4B 40%, #312E81 70%, #1E293B 100%);
+      padding: 8rem 2rem 5rem; text-align: center; position: relative;
+      overflow: hidden;
+    }
+    .hero::before {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(ellipse 80% 60% at 50% 20%, rgba(79,70,229,0.15), transparent),
+                  radial-gradient(ellipse 60% 50% at 80% 60%, rgba(6,182,212,0.1), transparent);
+    }
+    .hero-content { position: relative; max-width: 900px; margin: 0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(79,70,229,0.2); border: 1px solid rgba(129,140,248,0.3);
+      padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem;
+      color: var(--primary-light); font-weight: 500; margin-bottom: 1.5rem;
+    }
+    .hero-badge .dot {
+      width: 6px; height: 6px; border-radius: 50%;
+      background: var(--success); animation: pulse-dot 2s infinite;
+    }
+    @keyframes pulse-dot {
+      0%,100% { opacity: 1; } 50% { opacity: 0.4; }
+    }
+    .hero h1 {
+      font-size: clamp(2rem, 4.5vw, 3.2rem); font-weight: 800; color: #fff;
+      line-height: 1.2; letter-spacing: -0.03em; margin-bottom: 1.5rem;
+    }
+    .hero h1 .gradient-text {
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--accent) 50%, #34D399 100%);
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .hero-authors {
+      font-size: 1.05rem; color: var(--text-secondary); margin-bottom: 0.5rem;
+      font-weight: 400;
+    }
+    .hero-authors a { color: var(--primary-light); text-decoration: none; font-weight: 500; }
+    .hero-authors a:hover { text-decoration: underline; }
+    .hero-affil {
+      font-size: 0.85rem; color: rgba(148,163,184,0.7); margin-bottom: 2.5rem;
+    }
+    .hero-actions {
+      display: flex; gap: 0.75rem; justify-content: center; flex-wrap: wrap;
+    }
+    .hero-btn {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      padding: 0.7rem 1.5rem; border-radius: 12px; font-size: 0.9rem;
+      font-weight: 600; text-decoration: none; transition: all 0.3s ease;
+      border: none; cursor: pointer;
+    }
+    .hero-btn.primary {
+      background: linear-gradient(135deg, var(--primary), var(--accent2));
+      color: #fff; box-shadow: 0 4px 20px rgba(79,70,229,0.4);
+    }
+    .hero-btn.primary:hover {
+      transform: translateY(-2px); box-shadow: 0 8px 30px rgba(79,70,229,0.5);
+    }
+    .hero-btn.secondary {
+      background: rgba(255,255,255,0.08); color: #fff;
+      border: 1px solid rgba(255,255,255,0.15);
+      backdrop-filter: blur(10px);
+    }
+    .hero-btn.secondary:hover {
+      background: rgba(255,255,255,0.14); transform: translateY(-2px);
+    }
+
+    /* ========== HIGHLIGHTS BAR ========== */
+    .highlights {
+      background: var(--bg-dark);
+      border-top: 1px solid rgba(255,255,255,0.05);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+    }
+    .highlights-inner {
+      max-width: 1100px; margin: 0 auto; padding: 2.5rem 2rem;
+      display: grid; grid-template-columns: repeat(4, 1fr); gap: 2rem;
+      text-align: center;
+    }
+    .highlight-item .highlight-val {
+      font-size: 2rem; font-weight: 800;
+      background: linear-gradient(135deg, var(--primary-light), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .highlight-item .highlight-label {
+      font-size: 0.8rem; color: var(--text-secondary); margin-top: 0.25rem;
+      font-weight: 500; text-transform: uppercase; letter-spacing: 0.05em;
+    }
+
+    /* ========== SECTIONS ========== */
+    .section { padding: 5rem 2rem; }
+    .section.light { background: var(--section-light); }
+    .section.alt { background: var(--section-alt); }
+    .section.dark {
+      background: linear-gradient(135deg, var(--bg-dark), #1E1B4B);
+      color: var(--text-primary);
+    }
+    .section-inner { max-width: 1000px; margin: 0 auto; }
+    .section-title {
+      font-size: 2rem; font-weight: 800; text-align: center;
+      letter-spacing: -0.02em; margin-bottom: 1rem;
+    }
+    .section-title .gradient-text {
+      background: linear-gradient(135deg, var(--primary), var(--accent));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .section-subtitle {
+      text-align: center; color: var(--text-dark-secondary);
+      max-width: 700px; margin: 0 auto 3rem; font-size: 1.05rem;
+    }
+    .dark .section-subtitle { color: var(--text-secondary); }
+
+    /* ========== ABSTRACT ========== */
+    .abstract-box {
+      background: #fff; border-radius: 20px; padding: 3rem;
+      box-shadow: 0 4px 30px rgba(0,0,0,0.06);
+      border: 1px solid #E2E8F0;
+      font-size: 1.02rem; line-height: 1.85;
+      color: var(--text-dark-secondary);
+    }
+    .abstract-box strong { color: var(--text-dark); }
+
+    /* ========== FIGURE BLOCKS ========== */
+    .figure-block {
+      margin-bottom: 3rem;
+    }
+    .figure-block img {
+      width: 100%; border-radius: 16px;
+      box-shadow: 0 8px 40px rgba(0,0,0,0.1);
+      border: 1px solid #E2E8F0;
+    }
+    .figure-caption {
+      margin-top: 1rem; font-size: 0.9rem; color: var(--text-dark-secondary);
+      text-align: center; line-height: 1.7;
+    }
+    .dark .figure-block img {
+      box-shadow: 0 8px 40px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255,255,255,0.08);
+    }
+    .dark .figure-caption { color: var(--text-secondary); }
+
+    /* ========== FEATURE CARDS ========== */
+    .features-grid {
+      display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    }
+    .feature-card {
+      background: rgba(255,255,255,0.04);
+      border: 1px solid rgba(255,255,255,0.08);
+      border-radius: 16px; padding: 2rem;
+      transition: all 0.3s ease;
+      position: relative; overflow: hidden;
+    }
+    .feature-card::before {
+      content: ''; position: absolute; top: 0; left: 0; right: 0; height: 3px;
+      background: linear-gradient(90deg, var(--primary-light), var(--accent));
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .feature-card:hover { 
+      background: rgba(255,255,255,0.07);
+      transform: translateY(-4px);
+      box-shadow: 0 12px 40px rgba(0,0,0,0.2);
+    }
+    .feature-card:hover::before { opacity: 1; }
+    .feature-icon {
+      width: 48px; height: 48px; border-radius: 12px;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 1.25rem; margin-bottom: 1rem;
+    }
+    .feature-icon.blue { background: rgba(79,70,229,0.15); color: var(--primary-light); }
+    .feature-icon.green { background: rgba(16,185,129,0.15); color: var(--success); }
+    .feature-icon.cyan { background: rgba(6,182,212,0.15); color: var(--accent); }
+    .feature-icon.purple { background: rgba(139,92,246,0.15); color: var(--accent2); }
+    .feature-card h3 {
+      font-size: 1.1rem; font-weight: 700; margin-bottom: 0.5rem; color: #fff;
+    }
+    .feature-card p { font-size: 0.9rem; color: var(--text-secondary); line-height: 1.65; }
+
+    /* ========== RESULTS TABLES ========== */
+    .results-wrapper {
+      display: grid; gap: 2.5rem;
+    }
+    .result-card {
+      background: #fff; border-radius: 16px; overflow: hidden;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.05);
+      border: 1px solid #E2E8F0;
+    }
+    .result-card-header {
+      padding: 1.25rem 1.5rem; font-weight: 700; font-size: 1rem;
+      border-bottom: 1px solid #E2E8F0;
+      background: linear-gradient(135deg, rgba(79,70,229,0.04), rgba(6,182,212,0.04));
+    }
+    .result-table {
+      width: 100%; border-collapse: collapse; font-size: 0.9rem;
+    }
+    .result-table th, .result-table td {
+      padding: 0.85rem 1.25rem; text-align: center;
+    }
+    .result-table th {
+      font-weight: 600; font-size: 0.8rem; text-transform: uppercase;
+      letter-spacing: 0.04em; color: var(--text-dark-secondary);
+      border-bottom: 2px solid #E2E8F0; background: #FAFBFC;
+    }
+    .result-table td { border-bottom: 1px solid #F1F5F9; }
+    .result-table tr:last-child td { border-bottom: none; }
+    .result-table .ours {
+      background: linear-gradient(135deg, rgba(79,70,229,0.06), rgba(6,182,212,0.06));
+      font-weight: 700;
+    }
+    .result-table .ours td:first-child {
+      color: var(--primary); font-weight: 700;
+    }
+    .result-table .best { color: var(--primary); font-weight: 800; }
+
+    /* ========== VIDEO ========== */
+    .video-container {
+      border-radius: 20px; overflow: hidden;
+      box-shadow: 0 20px 60px rgba(0,0,0,0.15);
+      border: 1px solid #E2E8F0;
+    }
+    .video-container video { width: 100%; display: block; }
+
+    /* ========== BIBTEX ========== */
+    .bibtex-box {
+      background: var(--bg-card); border-radius: 16px; padding: 2rem;
+      border: 1px solid rgba(255,255,255,0.08); position: relative;
+      overflow-x: auto;
+    }
+    .bibtex-box pre {
+      font-family: 'JetBrains Mono', monospace; font-size: 0.85rem;
+      color: var(--text-secondary); line-height: 1.8; white-space: pre;
+    }
+    .bibtex-box .copy-btn {
+      position: absolute; top: 1rem; right: 1rem;
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.12);
+      color: var(--text-secondary); padding: 0.4rem 0.8rem; border-radius: 8px;
+      font-size: 0.75rem; cursor: pointer; transition: all 0.2s;
+    }
+    .bibtex-box .copy-btn:hover { background: rgba(255,255,255,0.15); color: #fff; }
+
+    /* ========== FOOTER ========== */
+    .footer {
+      background: var(--bg-dark); padding: 3rem 2rem;
+      border-top: 1px solid rgba(255,255,255,0.06); text-align: center;
+    }
+    .footer-links { margin-bottom: 1rem; }
+    .footer-links a {
+      color: var(--text-secondary); font-size: 1.25rem; margin: 0 0.75rem;
+      text-decoration: none; transition: color 0.2s;
+    }
+    .footer-links a:hover { color: #fff; }
+    .footer p { font-size: 0.8rem; color: rgba(148,163,184,0.5); }
+    .footer a { color: rgba(148,163,184,0.7); }
+
+    /* ========== ANIMATIONS ========== */
+    .fade-up {
+      opacity: 0; transform: translateY(30px);
+      transition: opacity 0.7s ease, transform 0.7s ease;
+    }
+    .fade-up.visible { opacity: 1; transform: translateY(0); }
+
+    /* ========== RESPONSIVE ========== */
+    @media (max-width: 768px) {
+      .highlights-inner { grid-template-columns: 1fr 1fr; gap: 1.5rem; }
+      .features-grid { grid-template-columns: 1fr; }
+      .hero { padding: 7rem 1.5rem 4rem; }
+      .nav-links { display: none; }
+      .abstract-box { padding: 2rem; }
+    }
+    @media (max-width: 480px) {
+      .highlights-inner { grid-template-columns: 1fr 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ========== NAVBAR ========== -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand"><span>SOL-Nav</span></div>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#deployment">Deployment</a>
+      <a href="https://github.com/DaojiePENG/sol-nav" target="_blank"><i class="fab fa-github"></i> Code</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ========== HERO ========== -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge">
+      <span class="dot"></span> ECCV 2026 Submission
+    </div>
+    <h1>
+      <span class="gradient-text">Structured Observation Language</span><br>
+      for Efficient &amp; Generalizable<br>Vision-Language Navigation
+    </h1>
+    <div class="hero-authors">
+      <a href="https://daojiepeng.github.io/Personal/">Daojie Peng</a><sup>1</sup> &nbsp;&middot;&nbsp;
+      <a href="#">Fulong Ma</a><sup>1</sup> &nbsp;&middot;&nbsp;
+      <a href="https://personal.hkust-gz.edu.cn/junma/index.html">Jun Ma</a><sup>1,2</sup>
+    </div>
+    <div class="hero-affil">
+      <sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou) &nbsp;&middot;&nbsp;
+      <sup>2</sup> The Hong Kong University of Science and Technology
+    </div>
+    <div class="hero-actions">
+      <a href="./static/paper/SOL-Nav_paper.pdf" class="hero-btn primary">
+        <i class="fas fa-file-pdf"></i> Paper
+      </a>
+      <a href="https://arxiv.org/abs/2603.27577" class="hero-btn secondary" target="_blank">
+        <i class="ai ai-arxiv"></i> arXiv
+      </a>
+      <a href="https://github.com/DaojiePENG/sol-nav" class="hero-btn secondary" target="_blank">
+        <i class="fab fa-github"></i> Code
+      </a>
+      <a href="#video-section" class="hero-btn secondary">
+        <i class="fas fa-play"></i> Video
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== HIGHLIGHTS ========== -->
+<section class="highlights">
+  <div class="highlights-inner">
+    <div class="highlight-item">
+      <div class="highlight-val">0.6B</div>
+      <div class="highlight-label">Parameters</div>
+    </div>
+    <div class="highlight-item">
+      <div class="highlight-val">0.8s</div>
+      <div class="highlight-label">Edge Inference</div>
+    </div>
+    <div class="highlight-item">
+      <div class="highlight-val">53.6%</div>
+      <div class="highlight-label">SR on R2R-CE</div>
+    </div>
+    <div class="highlight-item">
+      <div class="highlight-val">10&times;</div>
+      <div class="highlight-label">Smaller than SOTA</div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== ABSTRACT ========== -->
+<section class="section light" id="abstract">
+  <div class="section-inner fade-up">
+    <h2 class="section-title">Abstract</h2>
+    <div class="abstract-box">
+      <p>
+        Vision-Language Navigation (VLN) requires an embodied agent to navigate complex environments by following natural language instructions, which typically demands tight fusion of visual and language modalities. Existing VLN methods often convert raw images into visual tokens or implicit features, requiring large-scale visual pre-training and suffering from poor generalization under environmental variations (e.g., lighting, texture).
+      </p>
+      <br>
+      <p>
+        To address these issues, we propose <strong>SOL-Nav</strong> (Structured Observation Language for Navigation), a novel framework that translates egocentric visual observations into compact structured language descriptions for efficient and generalizable navigation. Specifically, we divide RGB-D images into an N&times;N grid, extract representative <strong>semantic</strong>, <strong>color</strong>, and <strong>depth</strong> information for each grid cell to form structured text, and concatenate this with the language instruction as pure language input to a pre-trained language model (PLM). Experimental results on standard VLN benchmarks (R2R-CE, RxR-CE) and real-world deployments demonstrate that SOL-Nav significantly reduces the model size and training data dependency, fully leverages the reasoning and representation capabilities of PLMs, and achieves strong generalization to unseen environments.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== VIDEO ========== -->
+<section class="section" id="video-section">
+  <div class="section-inner fade-up">
+    <h2 class="section-title">Video <span class="gradient-text">Demonstration</span></h2>
+    <p class="section-subtitle">SOL-Nav's performance on simulated benchmarks and real-world robotic deployments with Unitree Go2.</p>
+    <div class="video-container">
+      <video autoplay muted loop playsinline controls>
+        <source src="./static/videos/SOL-Nav_Video.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- ========== CORE ADVANTAGES ========== -->
+<section class="section dark">
+  <div class="section-inner fade-up">
+    <h2 class="section-title" style="color:#fff;">Core <span class="gradient-text">Advantages</span></h2>
+    <p class="section-subtitle">A pure-language approach to vision-language navigation that is efficient, generalizable, and deployable.</p>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon blue"><i class="fas fa-bolt"></i></div>
+        <h3>Reduced Training Cost</h3>
+        <p>Eliminates scratch training of visual encoders. Only requires small-scale navigation data for PLM fine-tuning via LoRA, drastically cutting computational overhead.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon green"><i class="fas fa-shield-alt"></i></div>
+        <h3>Strong Generalization</h3>
+        <p>Structured text avoids environmental noise (lighting/texture variations) and enables robust adaptation to unseen scenes without visual domain adaptation.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon cyan"><i class="fas fa-diagram-project"></i></div>
+        <h3>Simplified Pipeline</h3>
+        <p>No complex multimodal encoders or fusion modules. Pure language model for navigation decision-making with lower computational cost.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon purple"><i class="fas fa-robot"></i></div>
+        <h3>Real-World Deployable</h3>
+        <p>Tiny model size (0.6B params) and low inference latency (0.8s on edge devices) for practical physical robot integration on Unitree Go2.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== METHOD ========== -->
+<section class="section light" id="method">
+  <div class="section-inner fade-up">
+    <h2 class="section-title">Method <span class="gradient-text">Overview</span></h2>
+    <p class="section-subtitle">
+      RGB-D observations are converted into structured textual descriptions with multi-resolution grids encoding depth, semantic, and color information, forming a pure language prompt for a pre-trained LLM.
+    </p>
+
+    <div class="figure-block">
+      <img src="./static/images/Pipeline_SOL_Nav.png" alt="SOL-Nav Pipeline">
+      <p class="figure-caption">
+        <strong>Fig. 1.</strong> Pipeline of SOL-Nav. RGB-D observations are converted into structured textual descriptions with 2&times;2 / 4&times;4 / 6&times;6 multi-resolution grids (long/short-term history, current observation) encoding depth, semantic, and color information. The structured observation sequence, navigation instruction, and system description form a pure language prompt for action prediction.
+      </p>
+    </div>
+
+    <div class="figure-block" style="max-width: 800px; margin: 0 auto;">
+      <img src="./static/images/Structured_Observation_SOL_Nav.png" alt="Structured Observation Prompt">
+      <p class="figure-caption">
+        <strong>Fig. 2.</strong> Structured Observation Language Prompt for LLM. The prompt integrates system description, structured observations at multiple time steps, and task instruction to guide the language model for action prediction.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== RESULTS ========== -->
+<section class="section" id="results">
+  <div class="section-inner fade-up">
+    <h2 class="section-title">Experimental <span class="gradient-text">Results</span></h2>
+    <p class="section-subtitle">
+      SOL-Nav achieves state-of-the-art or comparable performance with a 0.6B parameter model &mdash; 10&times; smaller than SOTA multimodal models, without additional training data or waypoint predictors.
+    </p>
+
+    <div class="results-wrapper">
+      <!-- R2R-CE -->
+      <div class="result-card">
+        <div class="result-card-header">R2R-CE Val-Unseen &nbsp;·&nbsp; No Extra Data / No Waypoint Predictor</div>
+        <table class="result-table">
+          <thead>
+            <tr><th>Method</th><th>NE (&darr;)</th><th>OS (&uarr;)</th><th>SR (&uarr;)</th><th>SPL (&uarr;)</th></tr>
+          </thead>
+          <tbody>
+            <tr class="ours">
+              <td>SOL-Nav (Ours)</td>
+              <td class="best">5.11</td>
+              <td class="best">72.9</td>
+              <td class="best">53.6</td>
+              <td class="best">49.2</td>
+            </tr>
+            <tr><td>NaVILA</td><td>5.37</td><td>57.6</td><td>49.7</td><td>45.5</td></tr>
+            <tr><td>UniNaVid</td><td>5.58</td><td>53.3</td><td>47.0</td><td>42.7</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- RxR-CE -->
+      <div class="result-card">
+        <div class="result-card-header">RxR-CE Val-Unseen &nbsp;·&nbsp; No Extra Data</div>
+        <table class="result-table">
+          <thead>
+            <tr><th>Method</th><th>NE (&darr;)</th><th>OS (&uarr;)</th><th>SR (&uarr;)</th><th>SPL (&uarr;)</th></tr>
+          </thead>
+          <tbody>
+            <tr class="ours">
+              <td>SOL-Nav (Ours)</td>
+              <td>6.87</td>
+              <td class="best">60.5</td>
+              <td>48.6</td>
+              <td class="best">42.3</td>
+            </tr>
+            <tr><td>UniNaVid</td><td>6.24</td><td>55.5</td><td>48.7</td><td>40.9</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Ablation -->
+      <div class="result-card">
+        <div class="result-card-header">Ablation Study &nbsp;·&nbsp; R2R-CE Val-Unseen</div>
+        <table class="result-table">
+          <thead>
+            <tr><th>Ablation</th><th>NE (&darr;)</th><th>OS (&uarr;)</th><th>SR (&uarr;)</th><th>SPL (&uarr;)</th></tr>
+          </thead>
+          <tbody>
+            <tr class="ours">
+              <td>Full Model (SOL-Nav)</td>
+              <td class="best">5.11</td>
+              <td class="best">72.9</td>
+              <td class="best">53.6</td>
+              <td class="best">49.2</td>
+            </tr>
+            <tr><td>Lower Res (4&times;4)</td><td>6.84</td><td>43.4</td><td>34.5</td><td>29.8</td></tr>
+            <tr><td>No Historical Obs</td><td>7.81</td><td>39.4</td><td>26.5</td><td>21.9</td></tr>
+            <tr><td>No Depth Info</td><td>7.98</td><td>31.2</td><td>21.6</td><td>17.8</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ========== DEPLOYMENT ========== -->
+<section class="section alt" id="deployment">
+  <div class="section-inner fade-up">
+    <h2 class="section-title">Real-World <span class="gradient-text">Deployment</span></h2>
+    <p class="section-subtitle">
+      Deployed on Unitree Go2 with NVIDIA Jetson AGX Orin and Intel RealSense D435i. TensorRT quantization achieves 0.8s inference latency on the edge device.
+    </p>
+    <div class="figure-block">
+      <img src="./static/images/Deployment_Overview_SOL_Nav.png" alt="Deployment Pipeline">
+      <p class="figure-caption">
+        <strong>Fig. 3.</strong> The SOL-Nav deployment pipeline. RGB-D input from the RealSense camera is processed through SegFormer for semantic segmentation, then converted to structured observations. The prompt builder integrates observations with system description and task instruction, feeding into Qwen3-Embedding (0.6B) for multi-step action prediction on the edge device.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== REAL-WORLD EXPERIMENTS ========== -->
+<section class="section light">
+  <div class="section-inner fade-up">
+    <h2 class="section-title">Real-World <span class="gradient-text">Navigation Experiments</span></h2>
+    <p class="section-subtitle">
+      Experiments across three distinct indoor scenarios &mdash; Tea Area, Hall Stairs, and Meeting Room &mdash; with varying lighting, furniture density, and terrain complexity.
+    </p>
+    <div class="figure-block">
+      <img src="./static/images/Realworld_Exp_SOL_Nav.png" alt="Real-World Experiments">
+      <p class="figure-caption">
+        <strong>Fig. 4.</strong> Real-world navigation experiments in three distinct scenarios. Each column shows the task instruction, environment photo, and multi-modal perception outputs (RGB-D, depth, semantic segmentation, and color mapping), demonstrating SOL-Nav's robustness across diverse environments.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ========== BIBTEX ========== -->
+<section class="section dark" id="bibtex">
+  <div class="section-inner fade-up">
+    <h2 class="section-title" style="color:#fff;">Citation</h2>
+    <p class="section-subtitle">If you find SOL-Nav useful for your research, please cite our paper.</p>
+    <div class="bibtex-box">
+      <button class="copy-btn" onclick="copyBibtex()"><i class="fas fa-copy"></i> Copy</button>
+      <pre id="bibtex-code">@article{peng2026structured,
+  title={Structured Observation Language for Efficient and Generalizable Vision-Language Navigation},
+  author={Peng, Daojie and Ma, Fulong and Ma, Jun},
+  journal={arXiv preprint arXiv:2603.27577},
+  year={2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- ========== FOOTER ========== -->
+<footer class="footer">
+  <div class="footer-links">
+    <a href="./static/paper/SOL-Nav_paper.pdf" title="Paper"><i class="fas fa-file-pdf"></i></a>
+    <a href="https://arxiv.org/abs/2603.27577" target="_blank" title="arXiv"><i class="ai ai-arxiv"></i></a>
+    <a href="https://github.com/DaojiePENG/sol-nav" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+  </div>
+  <p>Website template inspired by <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">Nerfies</a>.</p>
+</footer>
+
+<!-- ========== SCRIPTS ========== -->
+<script>
+  // Scroll fade-in animations
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        entry.target.classList.add('visible');
+      }
+    });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+  // Smooth scroll for anchor links
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const target = document.querySelector(a.getAttribute('href'));
+      if (target) target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    });
+  });
+
+  // Navbar background on scroll
+  window.addEventListener('scroll', () => {
+    const nav = document.querySelector('.nav');
+    nav.style.background = window.scrollY > 50
+      ? 'rgba(15,23,42,0.95)' : 'rgba(15,23,42,0.85)';
+  });
+
+  // Copy BibTeX
+  function copyBibtex() {
+    const text = document.getElementById('bibtex-code').innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      const btn = document.querySelector('.copy-btn');
+      btn.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      setTimeout(() => btn.innerHTML = '<i class="fas fa-copy"></i> Copy', 2000);
+    });
+  }
+</script>
+
+</body>
+</html>

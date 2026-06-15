@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="LiteViLNet: Lightweight Vision-LiDAR Fusion Network for Efficient Road Segmentation.">
+  <meta name="keywords" content="Road Segmentation, Vision-LiDAR Fusion, Lightweight Network, Autonomous Driving, RGB-D, Edge Deployment">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>LiteViLNet — Lightweight Vision-LiDAR Fusion for Road Segmentation</title>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="icon" href="./static/images/HKUST-Logo-icon_0.png">
+
+  <style>
+    :root {
+      --c1: #0D9488;      /* teal */
+      --c1-light: #2DD4BF;
+      --c1-dark: #0F766E;
+      --c2: #F59E0B;      /* amber */
+      --c2-light: #FBBF24;
+      --c3: #06B6D4;      /* cyan */
+      --success: #22C55E;
+      --bg-dark: #0C0A09;
+      --bg-card: #1C1917;
+      --text-light: #FAFAF9;
+      --text-muted: #A8A29E;
+      --section-light: #FAFAF9;
+      --section-alt: #F5F5F4;
+      --border-light: #E7E5E4;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #292524; line-height: 1.7;
+      overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    }
+
+    /* ===== NAV ===== */
+    .nav {
+      position: fixed; top:0; left:0; right:0; z-index:1000;
+      background: rgba(12,10,9,0.8); backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255,255,255,0.05);
+      transition: background 0.3s;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 2rem;
+    }
+    .nav-brand { font-weight: 800; font-size: 1.1rem; }
+    .nav-brand span {
+      background: linear-gradient(135deg, var(--c1-light), var(--c2));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.875rem;
+      font-weight: 500; margin-left: 2rem; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    /* ===== HERO ===== */
+    .hero {
+      background: linear-gradient(160deg, #0C0A09 0%, #134E4A 35%, #115E59 55%, #1C1917 100%);
+      padding: 8rem 2rem 5rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content:''; position: absolute; inset:0;
+      background: radial-gradient(ellipse 70% 50% at 30% 30%, rgba(13,148,136,0.12), transparent),
+                  radial-gradient(ellipse 50% 40% at 70% 70%, rgba(245,158,11,0.08), transparent);
+    }
+    .hero::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:120px;
+      background: linear-gradient(to bottom, transparent, #0C0A09);
+    }
+    .hero-content { position:relative; z-index:1; max-width:920px; margin:0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(13,148,136,0.15); border: 1px solid rgba(45,212,191,0.25);
+      padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem;
+      color: var(--c1-light); font-weight: 500; margin-bottom: 1.5rem;
+    }
+    .hero-badge .dot {
+      width:6px; height:6px; border-radius:50%;
+      background: var(--success); animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero h1 {
+      font-size: clamp(2rem,4.5vw,3.2rem); font-weight:800; color:#fff;
+      line-height:1.2; letter-spacing:-0.03em; margin-bottom:1.5rem;
+    }
+    .hero h1 .gt {
+      background: linear-gradient(135deg, var(--c1-light), var(--c2-light), #FDE68A);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .hero-authors { font-size:1rem; color:var(--text-muted); margin-bottom:0.5rem; }
+    .hero-authors a { color:var(--c1-light); text-decoration:none; font-weight:500; }
+    .hero-authors a:hover { text-decoration:underline; }
+    .hero-affil { font-size:0.85rem; color:rgba(168,162,158,0.6); margin-bottom:2.5rem; }
+    .hero-actions { display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap; }
+    .btn {
+      display:inline-flex; align-items:center; gap:0.5rem;
+      padding:0.7rem 1.5rem; border-radius:12px; font-size:0.9rem;
+      font-weight:600; text-decoration:none; transition:all 0.3s; border:none; cursor:pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--c1), var(--c1-dark));
+      color:#fff; box-shadow:0 4px 20px rgba(13,148,136,0.4);
+    }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(13,148,136,0.5); }
+    .btn-ghost {
+      background:rgba(255,255,255,0.06); color:#fff;
+      border:1px solid rgba(255,255,255,0.12); backdrop-filter:blur(10px);
+    }
+    .btn-ghost:hover { background:rgba(255,255,255,0.12); transform:translateY(-2px); }
+
+    /* ===== STATS BAR ===== */
+    .stats {
+      background: var(--bg-dark); border-top:1px solid rgba(255,255,255,0.04);
+      border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .stats-inner {
+      max-width:1100px; margin:0 auto; padding:2.5rem 2rem;
+      display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; text-align:center;
+    }
+    .stat-val {
+      font-size:2rem; font-weight:800;
+      background: linear-gradient(135deg, var(--c1-light), var(--c2));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .stat-label {
+      font-size:0.75rem; color:var(--text-muted); margin-top:0.25rem;
+      font-weight:600; text-transform:uppercase; letter-spacing:0.06em;
+    }
+
+    /* ===== SECTIONS ===== */
+    .section { padding:5rem 2rem; }
+    .section.light { background:var(--section-light); }
+    .section.alt { background:var(--section-alt); }
+    .section.dark {
+      background: linear-gradient(160deg, var(--bg-dark), #134E4A 60%, var(--bg-card));
+      color: var(--text-light);
+    }
+    .inner { max-width:1000px; margin:0 auto; }
+    .stitle { font-size:2rem; font-weight:800; text-align:center; letter-spacing:-0.02em; margin-bottom:0.75rem; }
+    .stitle .gt {
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .ssub { text-align:center; color:#78716C; max-width:700px; margin:0 auto 3rem; font-size:1.02rem; }
+    .dark .ssub { color:var(--text-muted); }
+
+    /* ===== ABSTRACT ===== */
+    .abstract-card {
+      background:#fff; border-radius:20px; padding:3rem;
+      box-shadow:0 4px 30px rgba(0,0,0,0.05); border:1px solid var(--border-light);
+      font-size:1.02rem; line-height:1.85; color:#57534E;
+    }
+    .abstract-card strong { color:#292524; }
+
+    /* ===== FIGURES ===== */
+    .fig { margin-bottom:3rem; }
+    .fig img {
+      width:100%; border-radius:16px;
+      box-shadow:0 8px 40px rgba(0,0,0,0.08); border:1px solid var(--border-light);
+    }
+    .fig-cap {
+      margin-top:1rem; font-size:0.9rem; color:#78716C;
+      text-align:center; line-height:1.7;
+    }
+    .dark .fig img { box-shadow:0 8px 40px rgba(0,0,0,0.3); border-color:rgba(255,255,255,0.06); }
+    .dark .fig-cap { color:var(--text-muted); }
+
+    /* ===== FEATURE CARDS ===== */
+    .feat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+    .feat-card {
+      background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);
+      border-radius:16px; padding:2rem; transition:all 0.3s; position:relative; overflow:hidden;
+    }
+    .feat-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background: linear-gradient(90deg, var(--c1-light), var(--c2));
+      opacity:0; transition:opacity 0.3s;
+    }
+    .feat-card:hover { background:rgba(255,255,255,0.07); transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.2); }
+    .feat-card:hover::before { opacity:1; }
+    .feat-icon {
+      width:48px; height:48px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.25rem; margin-bottom:1rem;
+    }
+    .feat-icon.teal { background:rgba(13,148,136,0.15); color:var(--c1-light); }
+    .feat-icon.amber { background:rgba(245,158,11,0.15); color:var(--c2); }
+    .feat-icon.cyan { background:rgba(6,182,212,0.15); color:var(--c3); }
+    .feat-icon.green { background:rgba(34,197,94,0.15); color:var(--success); }
+    .feat-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.5rem; color:#fff; }
+    .feat-card p { font-size:0.9rem; color:var(--text-muted); line-height:1.65; }
+
+    /* ===== RESULT TABLES ===== */
+    .res-card {
+      background:#fff; border-radius:16px; overflow:hidden;
+      box-shadow:0 4px 20px rgba(0,0,0,0.05); border:1px solid var(--border-light);
+    }
+    .res-header {
+      padding:1.25rem 1.5rem; font-weight:700; font-size:1rem;
+      border-bottom:1px solid var(--border-light);
+      background: linear-gradient(135deg, rgba(13,148,136,0.04), rgba(245,158,11,0.04));
+    }
+    .res-table { width:100%; border-collapse:collapse; font-size:0.88rem; }
+    .res-table th, .res-table td { padding:0.85rem 1.25rem; text-align:center; }
+    .res-table th {
+      font-weight:600; font-size:0.78rem; text-transform:uppercase;
+      letter-spacing:0.04em; color:#78716C; border-bottom:2px solid var(--border-light);
+      background:#FAFAF9;
+    }
+    .res-table td { border-bottom:1px solid #F5F5F4; }
+    .res-table tr:last-child td { border-bottom:none; }
+    .res-table .ours {
+      background: linear-gradient(135deg, rgba(13,148,136,0.06), rgba(245,158,11,0.04));
+      font-weight:700;
+    }
+    .res-table .ours td:first-child { color:var(--c1-dark); font-weight:700; }
+    .res-table .best { color:var(--c1-dark); font-weight:800; }
+    .res-wrap { display:grid; gap:2.5rem; }
+
+    /* ===== VIDEO ===== */
+    .video-wrap {
+      border-radius:20px; overflow:hidden;
+      box-shadow:0 20px 60px rgba(0,0,0,0.12); border:1px solid var(--border-light);
+    }
+    .video-wrap video { width:100%; display:block; }
+
+    /* ===== BIBTEX ===== */
+    .bib-box {
+      background:var(--bg-card); border-radius:16px; padding:2rem;
+      border:1px solid rgba(255,255,255,0.08); position:relative; overflow-x:auto;
+    }
+    .bib-box pre {
+      font-family:'JetBrains Mono',monospace; font-size:0.85rem;
+      color:var(--text-muted); line-height:1.8; white-space:pre;
+    }
+    .copy-btn {
+      position:absolute; top:1rem; right:1rem;
+      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
+      color:var(--text-muted); padding:0.4rem 0.8rem; border-radius:8px;
+      font-size:0.75rem; cursor:pointer; transition:all 0.2s;
+    }
+    .copy-btn:hover { background:rgba(255,255,255,0.15); color:#fff; }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background:var(--bg-dark); padding:3rem 2rem;
+      border-top:1px solid rgba(255,255,255,0.05); text-align:center;
+    }
+    .footer-links { margin-bottom:1rem; }
+    .footer-links a {
+      color:var(--text-muted); font-size:1.25rem; margin:0 0.75rem;
+      text-decoration:none; transition:color 0.2s;
+    }
+    .footer-links a:hover { color:#fff; }
+    .footer p { font-size:0.8rem; color:rgba(168,162,158,0.4); }
+    .footer a { color:rgba(168,162,158,0.6); }
+
+    /* ===== ANIMATIONS ===== */
+    .fu { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+    .fu.vis { opacity:1; transform:translateY(0); }
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:768px) {
+      .stats-inner, .feat-grid { grid-template-columns:1fr 1fr; }
+      .hero { padding:7rem 1.5rem 4rem; }
+      .nav-links { display:none; }
+      .abstract-card { padding:2rem; }
+    }
+    @media(max-width:480px) {
+      .stats-inner { grid-template-columns:1fr 1fr; }
+      .feat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand"><span>LiteViLNet</span></div>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#deployment">Deployment</a>
+      <a href="https://github.com/Bingtao-Wang/LiteViLNet" target="_blank"><i class="fab fa-github"></i> Code</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> RAL 2026 Submission</div>
+    <h1>
+      <span class="gt">Lightweight Vision-LiDAR Fusion</span><br>
+      for Efficient Road Segmentation
+    </h1>
+    <div class="hero-authors">
+      <a href="https://daojiepeng.github.io/Personal/">Daojie Peng</a><sup>1</sup> &middot;
+      <a href="https://github.com/Bingtao-Wang">Bingtao Wang</a><sup>1</sup> &middot;
+      <a href="#">Fulong Ma</a><sup>1</sup> &middot;
+      <a href="#">Liang Zhang</a><sup>2</sup> &middot;
+      <a href="https://personal.hkust-gz.edu.cn/junma/index.html">Jun Ma</a><sup>1,3</sup>
+    </div>
+    <div class="hero-affil">
+      <sup>1</sup> HKUST(Guangzhou) &middot;
+      <sup>2</sup> Southern University of Science and Technology &middot;
+      <sup>3</sup> HKUST
+    </div>
+    <div class="hero-actions">
+      <a href="./static/paper/LiteViLNet_paper.pdf" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Paper</a>
+      <a href="https://arxiv.org/abs/2605.21007" class="btn btn-ghost" target="_blank"><i class="ai ai-arxiv"></i> arXiv</a>
+      <a href="https://github.com/Bingtao-Wang/LiteViLNet" class="btn btn-ghost" target="_blank"><i class="fab fa-github"></i> Code</a>
+      <a href="#video-section" class="btn btn-ghost"><i class="fas fa-play"></i> Video</a>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats">
+  <div class="stats-inner">
+    <div><div class="stat-val">14.04M</div><div class="stat-label">Parameters</div></div>
+    <div><div class="stat-val">96.36%</div><div class="stat-label">MaxF on KITTI</div></div>
+    <div><div class="stat-val">163.8</div><div class="stat-label">FPS (RTX 4060 Ti)</div></div>
+    <div><div class="stat-val">22.2</div><div class="stat-label">FPS (Jetson Orin NX)</div></div>
+  </div>
+</section>
+
+<!-- ABSTRACT -->
+<section class="section light" id="abstract">
+  <div class="inner fu">
+    <h2 class="stitle">Abstract</h2>
+    <div class="abstract-card">
+      <p>Road segmentation is a fundamental perception task for autonomous driving and intelligent robotic systems, requiring both high accuracy and real-time inference, especially for deployment on resource-constrained edge devices. Existing multi-modal road segmentation methods often rely on heavy transformer-based encoders to achieve state-of-the-art performance, but their enormous computational cost prohibits real-time deployment on embedded platforms.</p>
+      <br>
+      <p>To address this dilemma, we propose <strong>LiteViLNet</strong>, a lightweight multi-modal network that fuses RGB texture information and LiDAR geometric information for efficient road segmentation. Specifically, we design a <strong>dual-stream lightweight encoder</strong> with depth-wise separable convolutions to extract hierarchical features from both modalities with minimal parameters. We further propose a <strong>Multi-Scale Feature Fusion Module (MSFM)</strong> to facilitate cross-modal interaction at different levels, and a <strong>large-kernel-bridge module</strong> to capture long-range dependencies with linear complexity. Extensive experiments on the KITTI Road dataset and real-world applications demonstrate that LiteViLNet achieves a promising balance between accuracy and efficiency. Notably, with only <strong>14.04M parameters</strong>, our model attains a <strong>96.36% MaxF score</strong>, ranking the best among all CNN-based methods and being comparable to larger transformer-based models, and runs at <strong>163.79 FPS</strong> on RTX 4060 Ti (<strong>22.18 FPS</strong> on Jetson Orin NX).</p>
+    </div>
+  </div>
+</section>
+
+<!-- VIDEO -->
+<section class="section" id="video-section">
+  <div class="inner fu">
+    <h2 class="stitle">Video <span class="gt">Demonstration</span></h2>
+    <p class="ssub">LiteViLNet's road segmentation performance on KITTI Road benchmark and real-world robotic deployments across multiple platforms.</p>
+    <div class="video-wrap">
+      <video autoplay muted loop playsinline controls>
+        <source src="./static/videos/LiteViLNet.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- KEY ADVANTAGES -->
+<section class="section dark">
+  <div class="inner fu">
+    <h2 class="stitle" style="color:#fff">Key <span class="gt">Advantages</span></h2>
+    <p class="ssub">A lightweight yet powerful vision-LiDAR fusion network designed for real-time road segmentation on edge devices.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon teal"><i class="fas fa-feather-pointed"></i></div>
+        <h3>Ultra-Lightweight Design</h3>
+        <p>Only 14.04M parameters with a dual-stream MobileNetV3 backbone and depth-wise separable convolutions — an order of magnitude smaller than transformer-based alternatives.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon amber"><i class="fas fa-gauge-high"></i></div>
+        <h3>Real-Time Inference</h3>
+        <p>Achieves 163.79 FPS on RTX 4060 Ti (FP16) and 22.18 FPS on Jetson Orin NX (FP16), enabling real-time road segmentation for embedded deployment.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon cyan"><i class="fas fa-layer-group"></i></div>
+        <h3>Multi-Scale Fusion (MSFM)</h3>
+        <p>Novel Multi-Scale Feature Fusion Module enables bidirectional cross-modal attention and adaptive gated fusion between RGB and LiDAR features at multiple scales.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon green"><i class="fas fa-robot"></i></div>
+        <h3>Multi-Platform Deployment</h3>
+        <p>Successfully deployed on KuaFu Delivery Vehicle, Unitree-B2 quadruped, and Unitree-G1 humanoid — demonstrating cross-platform versatility for autonomous navigation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- METHOD -->
+<section class="section light" id="method">
+  <div class="inner fu">
+    <h2 class="stitle">Method <span class="gt">Overview</span></h2>
+    <p class="ssub">A dual-stream encoder with multi-scale fusion and large-kernel bridge for efficient RGB-LiDAR road segmentation.</p>
+
+    <div class="fig">
+      <img src="./static/images/Overall_Architecture_LiteViLNet.png" alt="Overall Architecture">
+      <p class="fig-cap"><strong>Fig. 1.</strong> Overall Architecture of LiteViLNet. The network consists of a dual-stream lightweight encoder (MobileNetV3 for RGB and depth), Multi-Scale Feature Fusion Modules (MSFM) at each stage, a large-kernel-bridge module, and a decoder with deep supervision producing the segmentation mask.</p>
+    </div>
+
+    <div class="fig">
+      <img src="./static/images/ADI_Pipeline.png" alt="ADI Generation Pipeline">
+      <p class="fig-cap"><strong>Fig. 2.</strong> ADI Generation Pipeline. Raw 3D LiDAR point cloud is projected onto the image plane via intrinsic/extrinsic calibration, then converted into a 2D Altitude Difference Image (ADI) using a 7&times;7 weighted height difference computation, encoding local height differences between ground plane and obstacles.</p>
+    </div>
+
+    <div class="fig" style="max-width:800px; margin:0 auto;">
+      <img src="./static/images/MSFM_Architecture.png" alt="MSFM Architecture">
+      <p class="fig-cap"><strong>Fig. 3.</strong> Architecture of the Multi-Scale Feature Fusion Module (MSFM). It sequentially performs channel compression, intra-modal enhancement (ECA), coordinate attention, bidirectional cross-modal attention, and adaptive gated fusion to integrate complementary RGB texture and LiDAR geometric information at each feature scale.</p>
+    </div>
+  </div>
+</section>
+
+<!-- RESULTS -->
+<section class="section" id="results">
+  <div class="inner fu">
+    <h2 class="stitle">Experimental <span class="gt">Results</span></h2>
+    <p class="ssub">LiteViLNet achieves the best MaxF among all CNN-based methods on KITTI Road, comparable to heavy transformer models, while running significantly faster.</p>
+
+    <div class="res-wrap">
+      <!-- Main comparison -->
+      <div class="res-card">
+        <div class="res-header">KITTI Road Validation &nbsp;&middot;&nbsp; Accuracy vs. Efficiency Comparison</div>
+        <table class="res-table">
+          <thead>
+            <tr><th>Method</th><th>Type</th><th>Params</th><th>MaxF (%) &uarr;</th><th>AP (%) &uarr;</th><th>FPS &uarr;</th></tr>
+          </thead>
+          <tbody>
+            <tr class="ours">
+              <td>LiteViLNet (Ours)</td>
+              <td>CNN</td>
+              <td>14.04M</td>
+              <td class="best">96.36</td>
+              <td class="best">93.72</td>
+              <td class="best">163.79</td>
+            </tr>
+            <tr><td>VLLiNet</td><td>CNN</td><td>—</td><td>96.22</td><td>93.41</td><td>—</td></tr>
+            <tr><td>CMX-L</td><td>CNN</td><td>—</td><td>96.10</td><td>93.20</td><td>—</td></tr>
+            <tr><td>NLSS</td><td>CNN</td><td>—</td><td>95.84</td><td>92.68</td><td>—</td></tr>
+            <tr><td>BEV-Seg (Trans.)</td><td>Transformer</td><td>&gt;100M</td><td>96.50</td><td>—</td><td>~10</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Edge deployment -->
+      <div class="res-card">
+        <div class="res-header">Edge Deployment &nbsp;&middot;&nbsp; Inference Speed Benchmark (FP16, 384&times;1248)</div>
+        <table class="res-table">
+          <thead>
+            <tr><th>Platform</th><th>Precision</th><th>Latency (ms)</th><th>FPS</th><th>GPU Power</th></tr>
+          </thead>
+          <tbody>
+            <tr class="ours">
+              <td>RTX 4060 Ti</td>
+              <td>FP16</td>
+              <td class="best">6.11</td>
+              <td class="best">163.79</td>
+              <td>~160W</td>
+            </tr>
+            <tr class="ours">
+              <td>Jetson Orin NX</td>
+              <td>FP16</td>
+              <td>45.09</td>
+              <td>22.18</td>
+              <td>~25W</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Qualitative results -->
+    <div class="fig" style="margin-top:3rem;">
+      <img src="./static/images/Qualitative_Seg_Results.png" alt="Qualitative Results">
+      <p class="fig-cap"><strong>Fig. 4.</strong> Qualitative Segmentation Results on KITTI Road Validation Set. Each row shows: (a) input RGB image, (b) corresponding ADI from LiDAR depth, (c) LiteViLNet segmentation prediction, and (d) error map with F1-score and IoU. Errors are mainly concentrated on road boundaries.</p>
+    </div>
+  </div>
+</section>
+
+<!-- DEPLOYMENT -->
+<section class="section alt" id="deployment">
+  <div class="inner fu">
+    <h2 class="stitle">Real-World <span class="gt">Deployment</span></h2>
+    <p class="ssub">LiteViLNet is deployed on diverse robotic platforms — from delivery vehicles to quadruped and humanoid robots — for autonomous road perception and navigation.</p>
+
+    <div class="fig">
+      <img src="./static/images/RealWorld_Deployment.png" alt="Real-World Deployment">
+      <p class="fig-cap"><strong>Fig. 5.</strong> Real-world Deployment on Different Robots. Left: KuaFu Delivery Vehicle, Middle: Unitree-B2, Right: Unitree-G1. For each platform, the left column shows the perception pipeline (RGB, depth, segmentation mask, walkable confidence heatmap) and the right column shows the robot navigating autonomously.</p>
+    </div>
+
+    <div class="fig">
+      <img src="./static/images/FirstPerson_Perception_Pipeline.png" alt="Perception Pipeline">
+      <p class="fig-cap"><strong>Fig. 6.</strong> First-person Perception Pipeline on the KuaFu Delivery Vehicle. (a) Raw RGB from Orbbec Gemini 336L, (b) depth map, (c) drivable area segmentation mask, and (d) walkable confidence heatmap with planned trajectory. LiteViLNet provides stable and accurate road perception for lane-centering navigation.</p>
+    </div>
+  </div>
+</section>
+
+<!-- BIBTEX -->
+<section class="section dark" id="bibtex">
+  <div class="inner fu">
+    <h2 class="stitle" style="color:#fff">Citation</h2>
+    <p class="ssub">If you find LiteViLNet useful for your research, please cite our paper.</p>
+    <div class="bib-box">
+      <button class="copy-btn" onclick="copyBib()"><i class="fas fa-copy"></i> Copy</button>
+      <pre id="bib-code">@article{peng2026litevilnet,
+  title={LiteViLNet: Lightweight Vision-LiDAR Fusion Network for Efficient Road Segmentation},
+  author={Peng, Daojie and Wang, Bingtao and Ma, Fulong and Zhang, Liang and Ma, Jun},
+  journal={arXiv preprint arXiv:2605.21007},
+  year={2026}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-links">
+    <a href="./static/paper/LiteViLNet_paper.pdf" title="Paper"><i class="fas fa-file-pdf"></i></a>
+    <a href="https://arxiv.org/abs/2605.21007" target="_blank" title="arXiv"><i class="ai ai-arxiv"></i></a>
+    <a href="https://github.com/Bingtao-Wang/LiteViLNet" target="_blank" title="GitHub"><i class="fab fa-github"></i></a>
+  </div>
+  <p>Website template inspired by <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">Nerfies</a>.</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if(t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    document.querySelector('.nav').style.background =
+      window.scrollY > 50 ? 'rgba(12,10,9,0.95)' : 'rgba(12,10,9,0.8)';
+  });
+
+  function copyBib() {
+    const t = document.getElementById('bib-code').innerText;
+    navigator.clipboard.writeText(t).then(() => {
+      const b = document.querySelector('.copy-btn');
+      b.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      setTimeout(() => b.innerHTML = '<i class="fas fa-copy"></i> Copy', 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
