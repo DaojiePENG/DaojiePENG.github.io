@@ -15,4 +15,17 @@
 > Access with link: https://daojiepeng.github.io/LOVON/
 
 
+## SOL-Nav Project
+
+2026-6-16 00:30:58，add project website page for SOL-Nav.
+
+> Access with link: https://daojiepeng.github.io/SOL-Nav/
+
+
+## LiteViLNet Project
+
+2026-6-16 01:31:58，add project website page for LiteViLNet.
+
+> Access with link: https://daojiepeng.github.io/LiteViLNet/
+
 
