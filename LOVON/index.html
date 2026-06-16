@@ -1,164 +1,280 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <meta charset="utf-8">
-  <meta name="description"
-        content="LOVON: Legged Open-Vocabulary Object Navigator.">
-  <meta name="keywords" content="Robotics, Open-Vocabulary, Vision-Language Model">
+  <meta name="description" content="LOVON: Legged Open-Vocabulary Object Navigator.">
+  <meta name="keywords" content="Robotics, Open-Vocabulary, Vision-Language Model, Object Navigation, Legged Robots, LLM">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>LOVON: Legged Open-Vocabulary Object Navigator</title>
+  <title>LOVON — Legged Open-Vocabulary Object Navigator</title>
 
-  <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
-
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-
+    function gtag() { dataLayer.push(arguments); }
     gtag('js', new Date());
-
     gtag('config', 'G-PYVRSFMDRL');
   </script>
 
-  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro"
-        rel="stylesheet">
-
-  <link rel="stylesheet" href="./static/css/bulma.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-carousel.min.css">
-  <link rel="stylesheet" href="./static/css/bulma-slider.min.css">
-  <link rel="stylesheet" href="./static/css/fontawesome.all.min.css">
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
-  <link rel="stylesheet" href="./static/css/index.css">
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700;800;900&family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
   <link rel="icon" href="./static/images/HKUST-Logo-icon_0.png">
 
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
-  <script defer src="./static/js/fontawesome.all.min.js"></script>
-  <script src="./static/js/bulma-carousel.min.js"></script>
-  <script src="./static/js/bulma-slider.min.js"></script>
-  <script src="./static/js/index.js"></script>
+  <style>
+    :root {
+      --ink: #1B2028;
+      --ink2: #3D4654;
+      --ink3: #7C8594;
+      --ink4: #B8BFCA;
+      --bg: #FDFCFA;
+      --bg2: #F5F2ED;
+      --bg3: #E9E4DB;
+      --accent: #D95030;
+      --accent2: #1B4965;
+      --accent3: #5FA8D3;
+      --accent4: #E8985E;
+      --rule: #DDD8D0;
+    }
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Inter',sans-serif;color:var(--ink);line-height:1.75;background:var(--bg);-webkit-font-smoothing:antialiased}
+    ::selection{background:var(--accent);color:#fff}
+
+    /* ===== NAV ===== */
+    .nav{position:fixed;top:0;left:0;right:0;z-index:100;background:rgba(255,255,255,.88);backdrop-filter:blur(20px);border-bottom:1px solid var(--rule);transition:all .3s}
+    .nav-inner{max-width:1280px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;padding:.8rem 2.5rem}
+    .nav-logo{font-family:'Playfair Display',serif;font-weight:900;font-size:1.3rem;color:var(--ink);letter-spacing:-.02em}
+    .nav-links a{color:var(--ink3);text-decoration:none;font-size:.8rem;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-left:2.5rem;transition:color .2s;position:relative}
+    .nav-links a:hover{color:var(--ink)}
+    .nav-links a::after{content:'';position:absolute;bottom:-4px;left:0;width:0;height:2px;background:var(--accent);transition:width .3s}
+    .nav-links a:hover::after{width:100%}
+
+    /* ===== HERO SPLIT ===== */
+    .hero-split{display:grid;grid-template-columns:1fr 1fr;min-height:100vh;padding-top:60px}
+    .hero-left{display:flex;flex-direction:column;justify-content:center;padding:4rem 3.5rem 4rem 4rem}
+    .hero-right{background:linear-gradient(145deg,var(--bg2),var(--bg3));display:flex;align-items:center;justify-content:center;padding:3rem;position:relative;overflow:hidden}
+    .hero-right img{width:100%;border-radius:0;object-fit:cover}
+    .hero-right::after{content:'';position:absolute;inset:0;background:linear-gradient(135deg,rgba(217,80,48,.05),rgba(27,73,101,.05));pointer-events:none}
+    .hero-tag{display:inline-block;background:var(--accent);color:#fff;font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;padding:.35rem .9rem;border-radius:2px;margin-bottom:1.5rem}
+    .hero-left h1{font-family:'Playfair Display',serif;font-size:clamp(2.2rem,4vw,3.5rem);font-weight:900;line-height:1.1;letter-spacing:-.03em;color:var(--ink);margin-bottom:1.5rem}
+    .hero-left h1 em{font-style:normal;color:var(--accent)}
+    .hero-authors{font-size:.95rem;color:var(--ink2);margin-bottom:.4rem;line-height:1.6}
+    .hero-authors a{color:var(--accent2);text-decoration:none;font-weight:600;border-bottom:1px solid transparent;transition:border-color .2s}
+    .hero-authors a:hover{border-bottom-color:var(--accent2)}
+    .hero-affil{font-size:.8rem;color:var(--ink3);margin-bottom:2rem}
+    .hero-btns{display:flex;gap:.6rem;flex-wrap:wrap}
+    .hbtn{display:inline-flex;align-items:center;gap:.4rem;padding:.6rem 1.3rem;font-size:.82rem;font-weight:700;text-decoration:none;border-radius:3px;transition:all .25s;letter-spacing:.02em}
+    .hbtn-fill{background:var(--ink);color:#fff}
+    .hbtn-fill:hover{background:var(--accent)}
+    .hbtn-outline{background:transparent;color:var(--ink);border:1.5px solid var(--rule)}
+    .hbtn-outline:hover{border-color:var(--ink);background:var(--bg2)}
+
+    /* ===== SHARED ===== */
+    .sec{padding:5rem 2.5rem}
+    .sec-inner{max-width:1100px;margin:0 auto}
+    .sec-num{font-family:'Playfair Display',serif;font-size:5rem;font-weight:900;color:var(--bg3);line-height:1;letter-spacing:-.04em;margin-bottom:-.5rem}
+    .sec-title{font-family:'Playfair Display',serif;font-size:1.8rem;font-weight:800;color:var(--ink);letter-spacing:-.02em;margin-bottom:.5rem}
+    .sec-desc{color:var(--ink2);font-size:.95rem;max-width:600px;margin-bottom:2.5rem}
+    .rule{height:1px;background:var(--rule);margin:0}
+
+    /* ===== ABSTRACT ===== */
+    .abs-text{font-size:1.05rem;line-height:2;color:var(--ink2);max-width:720px}
+    .abs-text strong{color:var(--ink);font-weight:700}
+    .abs-text::first-letter{font-family:'Playfair Display',serif;font-size:3.5rem;font-weight:900;float:left;line-height:.85;margin-right:.5rem;margin-top:.15rem;color:var(--accent)}
+
+    /* ===== VIDEO EMBED ===== */
+    .embed-wrap{position:relative;width:100%;padding-bottom:56.25%;border-radius:8px;overflow:hidden;background:#000;box-shadow:0 12px 40px rgba(0,0,0,.1)}
+    .embed-wrap iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0}
+
+    /* ===== BENTO FEATURES ===== */
+    .bento{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;grid-template-rows:auto auto;gap:1rem}
+    .bento-card{background:var(--bg2);border-radius:10px;padding:2rem 1.5rem;transition:all .3s;border:1px solid transparent}
+    .bento-card:hover{border-color:var(--rule);box-shadow:0 8px 30px rgba(27,32,40,.07)}
+    .bento-card.span2{grid-column:span 2}
+    .bento-num{font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--accent);line-height:1;margin-bottom:.75rem}
+    .bento-card h3{font-size:1rem;font-weight:700;margin-bottom:.5rem;color:var(--ink)}
+    .bento-card p{font-size:.85rem;color:var(--ink3);line-height:1.6}
+
+    /* ===== PIPELINE ===== */
+    .pipe-wrap{background:var(--bg2);border-radius:12px;padding:2.5rem;border:1px solid var(--rule);box-shadow:0 4px 20px rgba(27,32,40,.04)}
+    .pipe-wrap img{width:100%;border-radius:8px}
+
+    /* ===== RESULTS TABLE IMAGE ===== */
+    .results-img{width:100%;border-radius:8px;box-shadow:0 4px 20px rgba(0,0,0,.06);border:1px solid var(--rule)}
+
+    /* ===== HORIZONTAL SCROLL STRIP ===== */
+    .strip-label{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.1em;color:var(--ink3);margin-bottom:1rem}
+    .demo-strip{display:flex;gap:1rem;overflow-x:auto;padding-bottom:1rem;scroll-snap-type:x mandatory;-webkit-overflow-scrolling:touch}
+    .demo-strip::-webkit-scrollbar{height:6px}
+    .demo-strip::-webkit-scrollbar-track{background:var(--bg2);border-radius:3px}
+    .demo-strip::-webkit-scrollbar-thumb{background:var(--rule);border-radius:3px}
+    .demo-strip::-webkit-scrollbar-thumb:hover{background:var(--ink4)}
+    .strip-card{flex:0 0 260px;scroll-snap-type:start;border-radius:8px;overflow:hidden;background:var(--bg2);border:1px solid var(--rule);transition:all .3s}
+    .strip-card:hover{box-shadow:0 8px 24px rgba(27,32,40,.09);transform:translateY(-2px)}
+    .strip-card video{width:100%;aspect-ratio:16/10;object-fit:cover;display:block}
+    .strip-card .strip-cap{padding:.5rem .75rem;font-size:.78rem;font-weight:600;color:var(--ink2)}
+
+    /* ===== SHOWCASE 2-COL ===== */
+    .showcase{display:grid;grid-template-columns:1fr 1fr;gap:2rem}
+    .showcase-item h3{font-size:1.15rem;font-weight:700;margin-bottom:.5rem}
+    .showcase-item p{font-size:.88rem;color:var(--ink3);margin-bottom:1rem}
+    .showcase-vid{border-radius:10px;overflow:hidden;box-shadow:0 4px 20px rgba(27,32,40,.06);border:1px solid var(--rule)}
+    .showcase-vid video{width:100%;display:block}
+
+    /* ===== FEATURED VIDEO ===== */
+    .feat-vid-wrap{border-radius:10px;overflow:hidden;box-shadow:0 8px 30px rgba(27,32,40,.07);border:1px solid var(--rule);max-width:700px;margin:0 auto}
+    .feat-vid-wrap video{width:100%;display:block}
+
+    /* ===== BIBTEX ===== */
+    .bib{background:var(--bg2);border-radius:8px;padding:1.5rem 2rem;border:1px solid var(--rule);position:relative;overflow-x:auto}
+    .bib pre{font-family:'JetBrains Mono',monospace;font-size:.82rem;color:var(--ink3);line-height:1.8;white-space:pre}
+    .bib .cpbtn{position:absolute;top:.75rem;right:.75rem;background:var(--bg);border:1px solid var(--rule);color:var(--ink3);padding:.3rem .7rem;border-radius:4px;font-size:.72rem;font-weight:600;cursor:pointer;transition:all .2s}
+    .bib .cpbtn:hover{background:var(--ink);color:#fff;border-color:var(--ink)}
+
+    /* ===== FOOTER ===== */
+    .ftr{padding:3rem 2.5rem;border-top:1px solid var(--rule);text-align:center}
+    .ftr-icons{margin-bottom:.75rem}
+    .ftr-icons a{color:var(--ink3);font-size:1.2rem;margin:0 .6rem;text-decoration:none;transition:color .2s}
+    .ftr-icons a:hover{color:var(--ink)}
+    .ftr p{font-size:.75rem;color:var(--ink4)}
+    .ftr a{color:var(--ink3)}
+
+    /* ===== SCROLL ANIM ===== */
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.on{opacity:1;transform:translateY(0)}
+
+    /* ===== RESPONSIVE ===== */
+    @media(max-width:900px){
+      .hero-split{grid-template-columns:1fr}
+      .hero-left{padding:6rem 2rem 3rem}
+      .hero-right{min-height:50vh}
+      .bento{grid-template-columns:1fr 1fr}
+      .bento-card.span2{grid-column:span 1}
+      .showcase{grid-template-columns:1fr}
+      .nav-links{display:none}
+    }
+    @media(max-width:500px){
+      .bento{grid-template-columns:1fr}
+      .sec{padding:3.5rem 1.5rem}
+    }
+  </style>
 </head>
 <body>
 
-<nav class="navbar" role="navigation" aria-label="main navigation">
-  <div class="navbar-brand">
-    <a role="button" class="navbar-burger" aria-label="menu" aria-expanded="false">
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-      <span aria-hidden="true"></span>
-    </a>
-  </div>
-  <div class="navbar-menu">
-    <div class="navbar-start" style="flex-grow: 1; justify-content: center;">
-      <a class="navbar-item" href="https://github.com/DaojiePENG">
-      <span class="icon">
-          <i class="fas fa-home"></i>
-      </span>
-      </a>
-
-      <div class="navbar-item has-dropdown is-hoverable">
-        <a class="navbar-link">
-          More Information
-        </a>
-        <div class="navbar-dropdown">
-          
-          <a class="navbar-item" href="https://www.hkust-gz.edu.cn/zh/?variant=zh-cn/">
-            HKUST-GZ
-          </a>
-          <a class="navbar-item" href="https://personal.hkust-gz.edu.cn/junma/people-page.html">
-            People in Our Lab
-          </a>
-        </div>
-      </div>
+<!-- NAV -->
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-logo">LOVON</div>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#experiments">Experiments</a>
+      <a href="https://github.com/DaojiePENG/LOVON" target="_blank"><i class="fab fa-github"></i> Code</a>
     </div>
-
   </div>
 </nav>
 
+<!-- ===== HERO SPLIT ===== -->
+<section class="hero-split">
+  <div class="hero-left">
+    <div class="hero-tag">TMECH 2026</div>
+    <h1>Legged <em>Open-Vocabulary</em> Object Navigator</h1>
+    <div class="hero-authors">
+      <a href="https://daojiepeng.github.io/Personal/">Daojie Peng</a><sup>1*</sup>,
+      <a href="https://andycao1125.github.io/">Jiahang Cao</a><sup>1,2*</sup>,
+      <a href="https://github.com/jonyzhang2023">Qiang Zhang</a><sup>1,2*</sup>,
+      <a href="https://personal.hkust-gz.edu.cn/junma/index.html">Jun Ma</a><sup>1,3</sup>
+    </div>
+    <div class="hero-affil">
+      <sup>1</sup> HKUST(Guangzhou) &ensp; <sup>2</sup> Beijing Innovation Center of Humanoid Robotics &ensp; <sup>3</sup> HKUST
+    </div>
+    <div class="hero-btns">
+      <a href="./static/paper/LOVON_paper.pdf" class="hbtn hbtn-fill"><i class="fas fa-file-pdf"></i> Paper</a>
+      <a href="https://arxiv.org/abs/2507.06747" class="hbtn hbtn-outline" target="_blank"><i class="ai ai-arxiv"></i> arXiv</a>
+      <a href="https://www.bilibili.com/video/BV1xh3ezJEJn" class="hbtn hbtn-outline" target="_blank"><i class="fas fa-video"></i> Bilibili</a>
+      <a href="https://github.com/DaojiePENG/LOVON" class="hbtn hbtn-outline" target="_blank"><i class="fab fa-github"></i> Code</a>
+    </div>
+  </div>
+  <div class="hero-right">
+    <img src="./static/images/teaser.png" alt="LOVON System Overview">
+  </div>
+</section>
 
-<section class="hero">
-  <div class="hero-body">
-    <div class="container is-max-desktop">
-      <div class="columns is-centered">
-        <div class="column has-text-centered">
-          <h1 class="title is-1 publication-title">LOVON: Legged Open-Vocabulary Object Navigator</h1>
-          <div class="is-size-5 publication-authors">
-            <span class="author-block">
-              <a href="https://daojiepeng.github.io/Personal/">Daojie Peng</a><sup>1*</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://andycao1125.github.io/">Jiahang Cao</a><sup>1,2*</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://github.com/jonyzhang2023">Qiang Zhang</a><sup>1,2*</sup>,
-            </span>
-            <span class="author-block">
-              <a href="https://personal.hkust-gz.edu.cn/junma/index.html">Jun Ma</a><sup>1,3</sup>
-            </span>
+<div class="rule"></div>
+
+<!-- ===== 01 ABSTRACT ===== -->
+<section class="sec" id="abstract">
+  <div class="sec-inner reveal">
+    <div class="sec-num">01</div>
+    <div class="sec-title">Abstract</div>
+    <div style="margin-top:1.5rem">
+      <div class="abs-text">
+        Object navigation in open-world environments remains a formidable and pervasive challenge for robotic systems, particularly when it comes to executing long-horizon tasks that require both open-world object detection and high-level task planning. Traditional methods often struggle to integrate these components effectively, and this limits their capability to deal with complex, long-range navigation missions. In this paper, we propose <strong>LOVON</strong>, a novel framework that integrates large language models (LLMs) for hierarchical task planning with open-vocabulary visual detection models, tailored for effective long-range object navigation in dynamic, unstructured environments. To tackle real-world challenges including visual jittering, blind zones, and temporary target loss, we design dedicated solutions such as <strong>Laplacian Variance Filtering</strong> for visual stabilization. We also develop a functional execution logic for the robot that guarantees LOVON's capabilities in autonomous navigation, task adaptation, and robust task completion. Extensive evaluations demonstrate the successful completion of long-sequence tasks involving real-time detection, search, and navigation toward open-vocabulary dynamic targets. Furthermore, real-world experiments across different legged robots (<strong>Unitree Go2, B2, and H1-2</strong>) showcase the compatibility and appealing plug-and-play feature of LOVON.
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ===== 02 VIDEO ===== -->
+<section class="sec" style="background:var(--bg2)">
+  <div class="sec-inner reveal">
+    <div class="sec-num">02</div>
+    <div class="sec-title">Video Demonstration</div>
+    <div class="sec-desc">Watch LOVON navigate toward open-vocabulary targets across multiple robot platforms and environments.</div>
+    <div class="embed-wrap">
+      <iframe src="https://player.bilibili.com/player.html?isOutside=true&aid=114805029476805&bvid=BV1xh3ezJEJn&cid=31913542865&p=1&high_quality=1&danmaku=0" scrolling="no" border="0" frameborder="no" framespacing="0" allowfullscreen="true" style="width:100%;height:100%"></iframe>
+    </div>
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ===== 03 KEY FEATURES (BENTO) ===== -->
+<section class="sec" id="method">
+  <div class="sec-inner reveal">
+    <div class="sec-num">03</div>
+    <div class="sec-title">Core Capabilities</div>
+    <div class="sec-desc">Four pillars of the LOVON framework for open-world legged robot navigation.</div>
+    <div class="bento">
+      <div class="bento-card span2">
+        <div class="bento-num">01</div>
+        <h3>LLM Hierarchical Planning</h3>
+        <p>Large language models decompose complex long-horizon navigation missions into ordered basic instructions with adaptive replanning and execution logic.</p>
+      </div>
+      <div class="bento-card">
+        <div class="bento-num">02</div>
+        <h3>Open-Vocabulary Detection</h3>
+        <p>Detect any object by natural language — no pre-defined categories required.</p>
+      </div>
+      <div class="bento-card">
+        <div class="bento-num">03</div>
+        <h3>Laplacian Filtering</h3>
+        <p>Visual stabilization that eliminates motion blur during dynamic locomotion.</p>
+      </div>
+      <div class="bento-card span2" style="grid-column:span 2">
+        <div class="bento-num">04</div>
+        <h3>Multi-Embodiment Plug-and-Play</h3>
+        <p>Seamlessly deployable on Go2, B2 (quadruped), and H1-2 (humanoid) — same framework, different morphologies. Only 1.5 hours of training time with a compact model size.</p>
+      </div>
+      <div class="bento-card span2" style="background:var(--ink);border-color:transparent">
+        <div style="display:flex;align-items:center;gap:2rem;height:100%;flex-wrap:wrap">
+          <div style="text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--accent4)">SR 1.00</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.45);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem">Most Envs</div>
           </div>
-
-          <div class="is-size-5 publication-authors">
-            <span class="author-block"><sup>1</sup>The Hong Kong University of Science and Technology (Guangzhou)</span>
-            <br>
-            <span class="author-block"><sup>2</sup>Beijing Innovation Center of Humanoid Robotics</span>
-            <br>
-            <span class="author-block"><sup>3</sup>The Hong Kong University of Science and Technology</span>
+          <div style="text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:#fff">1.5h</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.45);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem">Training</div>
           </div>
-
-          <div class="column has-text-centered">
-            <div class="publication-links">
-              <!-- PDF Link. -->
-              <span class="link-block">
-                <a href="./static/paper/LOVON_paper.pdf"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fas fa-file-pdf"></i>
-                  </span>
-                  <span>Paper</span>
-                </a>
-              </span>
-              <span class="link-block">
-                <a href="https://arxiv.org/abs/2507.06747"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="ai ai-arxiv"></i>
-                  </span>
-                  <span>arXiv</span>
-                </a>
-              </span>
-              <!-- Video Link. -->
-              <span class="link-block">
-                <a href="https://www.bilibili.com/video/BV1xh3ezJEJn/?share_source=copy_web&vd_source=49611dfae89f996cc7959e0fb4a4dcd3"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-youtube"></i>
-                  </span>
-                  <span>Video</span>
-                </a>
-              </span>
-              <!-- Code Link. -->
-              <span class="link-block">
-                <a href="https://github.com/DaojiePENG/LOVON"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="fab fa-github"></i>
-                  </span>
-                  <span>Code</span>
-                  </a>
-              </span>
-              <!-- Dataset Link. -->
-              <!-- <span class="link-block">
-                <a href="https://github.com/google/nerfies/releases/tag/0.1"
-                   class="external-link button is-normal is-rounded is-dark">
-                  <span class="icon">
-                      <i class="far fa-images"></i>
-                  </span>
-                  <span>Data</span>
-                  </a> -->
-            </div>
-
+          <div style="text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--accent3)">3</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.45);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem">Platforms</div>
+          </div>
+          <div style="text-align:center">
+            <div style="font-family:'Playfair Display',serif;font-size:2.5rem;font-weight:900;color:var(--accent4)">240x</div>
+            <div style="font-size:.75rem;color:rgba(255,255,255,.45);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:.25rem">Faster Train</div>
           </div>
         </div>
       </div>
@@ -166,429 +282,167 @@
   </div>
 </section>
 
-<section class="hero teaser">
-  <div class="container is-max-desktop">
-    <div class="hero-body">
-      <img id="teaser" src="./static/images/teaser.png" alt="LOVON系统介绍" width="100%">
-      <!-- <embed id="teaser" src="./static/images/teaser.pdf" type="application/pdf" width="100%" height="600px" /> -->
+<div class="rule"></div>
 
-      <!-- <video id="teaser" autoplay muted loop playsinline height="100%">
-        <source src="./static/videos/teaser.mp4"
-                type="video/mp4">
-      </video> -->
-
-      <h2 class="subtitle has-text-centered">
-        <span class="dnerf">LOVON</span>, a novel framework that integrates large language models (LLMs) for hierarchical task planning with open-vocabulary visual detection models, tailored for effective long-range object navigation in dynamic, unstructured environments.
-      </h2>
+<!-- ===== 04 PIPELINE ===== -->
+<section class="sec" style="background:var(--bg2)">
+  <div class="sec-inner reveal">
+    <div class="sec-num">04</div>
+    <div class="sec-title">System Pipeline</div>
+    <div class="sec-desc">LLM task planner decomposes tasks &rarr; detection model processes filtered video &rarr; Language-to-Motion Model generates control vectors.</div>
+    <div class="pipe-wrap">
+      <img src="./static/images/pipeline.png" alt="LOVON Pipeline">
     </div>
   </div>
 </section>
 
+<div class="rule"></div>
 
-<section class="hero is-light is-small">
-  <div class="hero-body">
-    <div class="container">
-      <div id="results-carousel" class="carousel results-carousel">
-        <div class="item item-steve">
-          <video poster="run to the backpack at speed of 0.35 m/s" id="backpack" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/01_backpack.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="move to the person at speed of 0.5 m/s" id="person" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/18_b2_person.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/15_h1_person.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-chair-tp">
-          <video poster="" id="chair-tp" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/03_human_office.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-shiba">
-          <video poster="" id="shiba" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/04_frige.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/07_swing_stair.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/08_bench.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/09_plants.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/10_bike.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/11_car.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/12_ball.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/16_h1_chair.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/20_chair_kick.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="item item-fullbody">
-          <video poster="" id="fullbody" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/25_dog.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
+<!-- ===== 05 RESULTS ===== -->
+<section class="sec" id="results">
+  <div class="sec-inner reveal">
+    <div class="sec-num">05</div>
+    <div class="sec-title">Simulation Results</div>
+    <div class="sec-desc">LOVON achieves SR 1.00 across most environments — outperforming EVT and matching SOTA TrackVLA with 240x less training time (1.5h vs 360h).</div>
+    <img src="./static/images/baseline.png" alt="Results Table" class="results-img">
+  </div>
+</section>
+
+<div class="rule"></div>
+
+<!-- ===== 06 DEMO GALLERY (HORIZONTAL SCROLL) ===== -->
+<section class="sec" style="background:var(--bg2)" id="experiments">
+  <div class="sec-inner reveal">
+    <div class="sec-num">06</div>
+    <div class="sec-title">Demo Gallery</div>
+    <div class="sec-desc">Scroll through real-world navigation demos across diverse targets and robots.</div>
+    <div class="strip-label"><i class="fas fa-arrows-left-right"></i> &ensp;Scroll horizontally</div>
+    <div class="demo-strip">
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/01_backpack.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Backpack</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/18_b2_person.mp4" type="video/mp4"></video><div class="strip-cap">B2 &rarr; Person</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/03_human_office.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Office</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/04_frige.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Fridge</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/08_bench.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Bench</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/10_bike.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Bike</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/11_car.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Car</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/12_ball.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Ball</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/16_h1_chair.mp4" type="video/mp4"></video><div class="strip-cap">H1-2 &rarr; Chair</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/15_h1_person.mp4" type="video/mp4"></video><div class="strip-cap">H1-2 &rarr; Person</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/25_dog.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Dog</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/07_swing_stair.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Stairs</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/09_plants.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Plants</div></div>
+      <div class="strip-card"><video autoplay muted loop playsinline controls><source src="./static/videos/20_chair_kick.mp4" type="video/mp4"></video><div class="strip-cap">Go2 &rarr; Chair Kick</div></div>
     </div>
   </div>
 </section>
 
+<div class="rule"></div>
 
-<section class="section">
-  <div class="container is-max-desktop">
-    <!-- Abstract. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Abstract</h2>
-        <div class="content has-text-justified">
-<!--           <p>
-            We propose <span class="dnerf">LOVON</span>, a novel system that integrates LLMs for hierarchical task planning 
-            with open-vocabulary visual detection and legged robot mobility. 
-          </p> -->
-          <p>
-            Object navigation in open-world environments remains a formidable and pervasive challenge for robotic systems, particularly when it comes to executing long-horizon tasks that require both open-world object detection and high-level task planning. 
-            Traditional methods often struggle to integrate these components effectively, and this limits their capability to deal with complex, long-range navigation missions. 
-            In this paper, we propose LOVON, a novel framework that integrates large language models (LLMs) for hierarchical task planning with open-vocabulary visual detection models, tailored for effective long-range object navigation in dynamic, unstructured environments.
-            To tackle real-world challenges including visual jittering, blind zones, and temporary target loss, we design dedicated solutions such as Laplacian Variance Filtering for visual stabilization. 
-            We also develop a functional execution logic for the robot that guarantees LOVON's capabilities in autonomous navigation, task adaptation, and robust task completion.
-            Extensive evaluations demonstrate the successful completion of long-sequence tasks involving real-time detection, search, and navigation toward open-vocabulary dynamic targets. 
-            Furthermore, real-world experiments across different legged robots (Unitree Go2, B2, and H1-2) showcase the compatibility and appealing plug-and-play feature of LOVON. 
-          </p>
-        </div>
+<!-- ===== 07 CAPABILITIES ===== -->
+<section class="sec">
+  <div class="sec-inner reveal">
+    <div class="sec-num">07</div>
+    <div class="sec-title">Capabilities</div>
+    <div class="sec-desc">Multi-embodiment, open-world environments, long-horizon tasks, and robustness to visual disturbances.</div>
+
+    <!-- Multi-embodiment + Open-world -->
+    <div class="showcase" style="margin-bottom:3rem">
+      <div class="showcase-item">
+        <h3><i class="fas fa-layer-group" style="color:var(--accent);margin-right:.4rem"></i> Multi-Embodiment</h3>
+        <p>LOVON operates across H1-2 humanoid, Go2 and B2 quadrupeds — same framework, seamless deployment.</p>
+        <div class="showcase-vid"><video autoplay controls muted loop playsinline><source src="./static/videos/multi-embodiment.mp4" type="video/mp4"></video></div>
       </div>
-    </div>
-    <!--/ Abstract. -->
-
-    <!-- Paper video. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Video</h2>
-        <div class="publication-video">
-           <iframe width="560" height="315" src="https://www.youtube.com/embed/5gha8RH7HRQ?si=fa318YdwQdApLA4M" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-        </div>
-      </div>
-    </div>
-    <!--/ Paper video. -->
-
-    <!-- Paper Pipeline figures. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">LOVON Pipeline</h2>
-        <div class="content has-text-justified">
-        <p>
-          First, the LLM task planner reconfigures the human’s task into basic instructions, while the detection model processes the video stream using a Laplace filter. 
-          Then, the mission instructions, target object, bounding box, and states are input to the Language-to-Motion Model, which generates the robot's control vector and feedback, progressively completing all tasks.
-        </p>
-        </div>
-        <img src="./static/images/pipeline.png" alt="LOVON Pipeline" width="100%">
-      </div>
-  </div>
-
-    <!--/ Paper Baseline table. -->
-    <div class="columns is-centered has-text-centered">
-      <div class="column is-four-fifths">
-        <h2 class="title is-3">Simulation Results</h2>
-        <div class="content has-text-justified">
-        <p>
-          As shown in the Table, our method, LOVON, outperforms several baseline approaches,
-          achieving a perfect SR of 1.00 across most environments, including ParkingLot, UrbanCity, SnowVillage, Horse, Dog and Sheep series. 
-          Compared to EVT, LOVON demonstrates superior tracking performance, e.g., 500/1.00 vs. 484/0.92 in ParkingLot. 
-          Even when compared to the state-of-the-art TrackVLA, which achieves 1.00 SR but requires 360 hours of training, 
-          LOVON stands out with a small model size and an efficient training time of just 1.5 hours, offering both high accuracy and significant efficiency.
-        </p>
-      </div>
-        <img src="./static/images/baseline.png" alt="LOVON Baseline" width="100%">
-      </div>
-</section>
-
-
-<section class="section">
-  <div class="container is-max-desktop">
-
-    <div class="columns is-centered">
-
-      <!-- Visual Effects. -->
-      <div class="column">
-        <div class="content">
-          <h2 class="title is-3">Multi-Embodiment</h2>
-          <p>
-            LOVON is designed to be a multi-embodiment system, capable of operating on various legged robots.
-            Here we show examples of LOVON running on the H1-2 robot, which is a humanoid robot with a
-            bipedal structure, the Go2 and B2, which are quadruped robots. 
-            The robots are able to navigate through a complex environment, detecting and tracking objects in real-time.
-          </p>
-          <video id="dollyzoom" autoplay controls muted loop playsinline height="100%">
-            <source src="./static/videos/multi-embodiment.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-      </div>
-      <!--/ Visual Effects. -->
-
-      <!-- Matting. -->
-      <div class="column">
-        <h2 class="title is-3">Open-World Object Seeking</h2>
-        <div class="columns is-centered">
-          <div class="column content">
-            <p>
-              LOVON is capable of operating in various environments, including indoor and outdoor settings.
-              Here we show examples of LOVON running in multi-environments including indoors like office, lib, 
-              tea room, stairs, etc.; outdoors like parking area, playground, wild grass, etc.;
-              The robot is able to transverse through the sand and grass, detecting and tracking backpack on 
-              the playground in real-time.
-            </p>
-            <video id="matting-video" autoplay controls muted loop playsinline height="100%">
-              <source src="./static/videos/open-world seeking.mp4"
-                      type="video/mp4">
-            </video>
-          </div>
-
-        </div>
-      </div>
-    </div>
-    <!--/ Matting. -->
-
-    <!-- long-horizon -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Lonng-Horizon Task</h2>
-
-        <!-- Interpolating. -->
-        <!-- <h3 class="title is-4">Recapture the Lost Target</h3> -->
-        <div class="content has-text-justified">
-          <p>
-            LOVON is capable of handling long-horizon tasks, such as navigating to multiple targets in a single task.
-            Here we show an example of LOVON navigating to three different targets in a long-horizon task.
-            The robot is given a task to navigate to the backpack, then to the chair, and finally to the person. <br>
-            Instruction: "You are a robot, you need firstly run to the backpack. After that move to the chair at 0.5 m/s and 
-            then approach the person fastly."
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 autoplay
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/long_horizon_x2.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-
+      <div class="showcase-item">
+        <h3><i class="fas fa-globe" style="color:var(--accent3);margin-right:.4rem"></i> Open-World Seeking</h3>
+        <p>Indoor offices, labs, stairs; outdoor parking, playgrounds, wild grass — detecting targets in real-time.</p>
+        <div class="showcase-vid"><video autoplay controls muted loop playsinline><source src="./static/videos/open-world seeking.mp4" type="video/mp4"></video></div>
       </div>
     </div>
 
-    <!-- Animation. -->
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Robustness</h2>
+    <!-- Long horizon -->
+    <div style="margin-bottom:3rem">
+      <h3 style="font-size:1.15rem;font-weight:700;margin-bottom:.5rem"><i class="fas fa-route" style="color:var(--accent);margin-right:.4rem"></i> Long-Horizon Task</h3>
+      <p style="font-size:.88rem;color:var(--ink3);margin-bottom:1rem">Multi-target navigation: "Run to the backpack, then to the chair at 0.5 m/s, then approach the person fastly."</p>
+      <div class="feat-vid-wrap"><video autoplay controls muted loop playsinline><source src="./static/videos/long_horizon_x2.mp4" type="video/mp4"></video></div>
+    </div>
 
-        <!-- Interpolating. -->
-        <h3 class="title is-4">Recapture the Lost Target</h3>
-        <div class="content has-text-justified">
-          <p>
-            LOVON is robust to visual disturbances such as motion blur, occlusion, and dynamic state changes.
-            Here we show an example of blocking out the umbrella in the scene, which causes the
-            visual effects to be disturbed. LOVON is able to recover from this disturbance
-            and continue approaching the target.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 autoplay
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/umbrella_recapture.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-
-
-        <!-- Re-rendering. -->
-        <h3 class="title is-4">Dynamic Tracking</h3>
-        <div class="content has-text-justified">
-          <p>
-            LOVON can also be used to track dynamic objects in complex unstructured environments.
-            Here we show an example of tracking a person in real-world wild grass. The person is
-            moving around in the scene, and LOVON is able to track the person and render the scene
-            with the person in it. 
-            We also show an example of tracking a person with h1-2 robot in a real-world environment.
-            The robot is able to detect and track the person in real-time, even when the person is moving around. And stay a safe distance from the person.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 autoplay
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/dynamic_tracking_person.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 autoplay
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/15_h1_person.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-        <!--/ Re-rendering. -->
-
+    <!-- Robustness -->
+    <div class="showcase" style="margin-bottom:3rem">
+      <div class="showcase-item">
+        <h3><i class="fas fa-shield-halved" style="color:var(--accent2);margin-right:.4rem"></i> Recapture Lost Target</h3>
+        <p>An umbrella blocks the view — LOVON recovers from the occlusion and continues approaching the target.</p>
+        <div class="showcase-vid"><video autoplay controls muted loop playsinline><source src="./static/videos/umbrella_recapture.mp4" type="video/mp4"></video></div>
+      </div>
+      <div class="showcase-item">
+        <h3><i class="fas fa-person-running" style="color:var(--accent4);margin-right:.4rem"></i> Dynamic Tracking</h3>
+        <p>Tracking a moving person in wild grass — the robot maintains safe distance and real-time detection.</p>
+        <div class="showcase-vid"><video autoplay controls muted loop playsinline><source src="./static/videos/dynamic_tracking_person.mp4" type="video/mp4"></video></div>
       </div>
     </div>
-    <!--/ Animation. -->
 
-    <h3 class="title is-4">Challenging Terrain</h3>
-        <div class="content has-text-justified">
-          <p>
-            LOVON is capable of navigating through challenging terrains such as stairs,
-            uneven surfaces, and gravel ground. Here we show an example of LOVON navigating through a spiral staircase.
-            The robot is able to detect and track the target while navigating through the stairs.
-          </p>
-        </div>
-        <div class="content has-text-centered">
-          <video id="replay-video"
-                 autoplay
-                 controls
-                 muted
-                 preload
-                 playsinline
-                 width="75%">
-            <source src="./static/videos/07_swing_stair.mp4"
-                    type="video/mp4">
-          </video>
-        </div>
-
-
-    <!-- Concurrent Work. -->
-    <!-- <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3">Related Links</h2>
-
-        <div class="content has-text-justified">
-          <p>
-            There's a lot of excellent work that was introduced around the same time as ours.
-          </p>
-          <p>
-            <a href="https://arxiv.org/abs/2104.09125">Progressive Encoding for Neural Optimization</a> introduces an idea similar to our windowed position encoding for coarse-to-fine optimization.
-          </p>
-          <p>
-            <a href="https://www.albertpumarola.com/research/D-NeRF/index.html">D-NeRF</a> and <a href="https://gvv.mpi-inf.mpg.de/projects/nonrigid_nerf/">NR-NeRF</a>
-            both use deformation fields to model non-rigid scenes.
-          </p>
-          <p>
-            Some works model videos with a NeRF by directly modulating the density, such as <a href="https://video-nerf.github.io/">Video-NeRF</a>, <a href="https://www.cs.cornell.edu/~zl548/NSFF/">NSFF</a>, and <a href="https://neural-3d-video.github.io/">DyNeRF</a>
-          </p>
-          <p>
-            There are probably many more by the time you are reading this. Check out <a href="https://dellaert.github.io/NeRF/">Frank Dellart's survey on recent NeRF papers</a>, and <a href="https://github.com/yenchenlin/awesome-NeRF">Yen-Chen Lin's curated list of NeRF papers</a>.
-          </p>
-        </div>
-      </div>
-    </div> -->
-    <!--/ Concurrent Work. -->
-
+    <!-- Challenging terrain -->
+    <div>
+      <h3 style="font-size:1.15rem;font-weight:700;margin-bottom:.5rem"><i class="fas fa-stairs" style="color:var(--accent2);margin-right:.4rem"></i> Challenging Terrain</h3>
+      <p style="font-size:.88rem;color:var(--ink3);margin-bottom:1rem">Navigating spiral staircases and uneven surfaces while maintaining real-time target detection.</p>
+      <div class="feat-vid-wrap"><video autoplay controls muted loop playsinline><source src="./static/videos/07_swing_stair.mp4" type="video/mp4"></video></div>
+    </div>
   </div>
 </section>
 
+<div class="rule"></div>
 
-<section class="section" id="BibTeX">
-  <div class="container is-max-desktop content">
-    <h2 class="title">BibTeX</h2>
-    <pre><code>@article{daojie2025lovon,
+<!-- ===== 08 CITATION ===== -->
+<section class="sec" style="background:var(--bg2)">
+  <div class="sec-inner reveal">
+    <div class="sec-num">08</div>
+    <div class="sec-title">Citation</div>
+    <div class="sec-desc">If you find LOVON useful for your research, please cite our paper.</div>
+    <div class="bib">
+      <button class="cpbtn" onclick="copyBib()"><i class="fas fa-copy"></i> Copy</button>
+      <pre id="bib-code">@article{daojie2025lovon,
   title={LOVON: Legged Open-Vocabulary Object Navigator},
   author={Peng, Daojie and Cao, Jiahang and Zhang, Qiang and Ma, Jun},
-  journal={arxiv},
-  year={2025},
-}</code></pre>
+  journal={arXiv preprint arXiv:2507.06747},
+  year={2025}
+}</pre>
+    </div>
   </div>
 </section>
 
-
-<footer class="footer">
-  <div class="container">
-    <div class="content has-text-centered">
-      <a class="icon-link"
-         href="./static/paper/LOVON_paper.pdf">
-        <i class="fas fa-file-pdf"></i>
-      </a>
-      <a class="icon-link" href="https://github.com/DaojiePENG" class="external-link" disabled>
-        <i class="fab fa-github"></i>
-      </a>
-    </div>
-    <div class="columns is-centered">
-      <div class="column is-8">
-        <div class="content">
-          <!-- <p>
-            This website is licensed under a <a rel="license"
-                                                href="http://creativecommons.org/licenses/by-sa/4.0/">Creative
-            Commons Attribution-ShareAlike 4.0 International License</a>.
-          </p> -->
-          <p>
-            Referring to the <a href="https://github.com/nerfies/nerfies.github.io">source code</a> for the website template.
-          </p>
-        </div>
-      </div>
-    </div>
+<!-- FOOTER -->
+<footer class="ftr">
+  <div class="ftr-icons">
+    <a href="./static/paper/LOVON_paper.pdf"><i class="fas fa-file-pdf"></i></a>
+    <a href="https://arxiv.org/abs/2507.06747" target="_blank"><i class="ai ai-arxiv"></i></a>
+    <a href="https://github.com/DaojiePENG/LOVON" target="_blank"><i class="fab fa-github"></i></a>
+    <a href="https://www.bilibili.com/video/BV1xh3ezJEJn" target="_blank"><i class="fas fa-video"></i></a>
   </div>
+  <p>Designed with care. Template inspired by <a href="https://github.com/nerfies/nerfies.github.io">Nerfies</a>.</p>
 </footer>
+
+<script>
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => { if(e.isIntersecting) e.target.classList.add('on'); });
+  }, { threshold: 0.08 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if(t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
+  function copyBib() {
+    const t = document.getElementById('bib-code').innerText;
+    navigator.clipboard.writeText(t).then(() => {
+      const b = document.querySelector('.cpbtn');
+      b.innerHTML = '<i class="fas fa-check"></i> Copied';
+      setTimeout(() => b.innerHTML = '<i class="fas fa-copy"></i> Copy', 2000);
+    });
+  }
+</script>
 
 </body>
 </html>
