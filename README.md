@@ -1,31 +1,65 @@
 # DaojiePENG.github.io
 
-2025-7-5 12:00:00, initialized this repository.
+Personal academic homepage and project websites for **Daojie Peng** — PhD Student in Robotics and Autonomous Systems at HKUST(GZ).
 
+> **Main Site:** [https://daojiepeng.github.io/Personal/](https://daojiepeng.github.io/Personal/)
+
+---
 
 ## Personal Website
-2025-7-7 16:11:37, initialize personal website of Daojie PENG.
 
-> Access with link: https://daojiepeng.github.io/Personal/
+Academic portfolio including publications, patents, and education background.
 
-## LOVON Project
+| Link | Description |
+|------|-------------|
+| [Personal Homepage](https://daojiepeng.github.io/Personal/) | Bio, publications, patents, and CV |
+| [Online CV](https://daojiepeng.github.io/Personal/cv/) | Curriculum Vitae |
 
-2025-7-5 13:13:13，initialize project website page for LOVON. 
+---
 
-> Access with link: https://daojiepeng.github.io/LOVON/
+## Project Websites
 
+### AttenA+
 
-## SOL-Nav Project
+**Rectifying Action Inequality in Robotic Foundation Models**
 
-2026-6-16 00:30:58，add project website page for SOL-Nav.
+> [Project Page](https://daojiepeng.github.io/AttenA/) · [Paper](https://arxiv.org/abs/2605.13548) · [Code](https://github.com/DaojiePENG/AttenA-Plus)
 
-> Access with link: https://daojiepeng.github.io/SOL-Nav/
+*NeurIPS 2026 (Under Review)*
 
+### LOVON
 
-## LiteViLNet Project
+**Legged Open-Vocabulary Object Navigator**
 
-2026-6-16 01:31:58，add project website page for LiteViLNet.
+> [Project Page](https://daojiepeng.github.io/LOVON/) · [Paper](https://arxiv.org/abs/2507.06747) · [Code](https://github.com/DaojiePENG/LOVON)
 
-> Access with link: https://daojiepeng.github.io/LiteViLNet/
+*TMECH 2026 (Under Review)*
 
+### SOL-Nav
 
+**Structured Observation Language for Efficient and Generalizable Vision-Language Navigation**
+
+> [Project Page](https://daojiepeng.github.io/SOL-Nav/) · [Paper](https://arxiv.org/abs/2603.27577) · [Code](https://github.com/DaojiePENG/sol-nav)
+
+*ECCV 2026 (Under Review)*
+
+### LiteViLNet
+
+**Lightweight Vision-LiDAR Fusion Network for Efficient Road Segmentation**
+
+> [Project Page](https://daojiepeng.github.io/LiteViLNet/) · [Paper](https://arxiv.org/abs/2605.21007) · [Code](https://github.com/Bingtao-Wang/LiteViLNet)
+
+*RAL 2026 (Under Review)*
+
+---
+
+## Changelog
+
+| Date | Event |
+|------|-------|
+| 2025-07-05 | Repository initialized |
+| 2025-07-07 | Personal website launched |
+| 2025-07-05 | LOVON project page added |
+| 2026-06-16 | SOL-Nav project page added |
+| 2026-06-16 | LiteViLNet project page added |
+| 2026-06-18 | AttenA+ project page added; README revamped |
