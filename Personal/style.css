@@ -179,6 +179,11 @@ body {
   object-fit: cover;
   display: block;
 }
+.paper-img-contain {
+  object-fit: contain;
+  padding: 8px;
+  background: #fff;
+}
 .paper-content {
   padding: 18px;
 }
