@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>SSTG-Nav — Reusable Object Navigation</title>
+  <meta name="description" content="SSTG-Nav turns a one-time RGB-D survey into a reusable metric-semantic topology for dependable, repeated object navigation.">
+  <meta name="author" content="Daojie Peng, Bingtao Wang, Jun Ma">
+  <meta name="theme-color" content="#071315">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="SSTG-Nav: Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation">
+  <meta property="og:description" content="Pre-explore once. Ground objects metrically. Navigate repeatedly.">
+  <meta property="og:image" content="https://daojiepeng.github.io/SSTG-Nav/static/images/system-overview.png">
+  <meta property="og:url" content="https://daojiepeng.github.io/SSTG-Nav/">
+  <link rel="canonical" href="https://daojiepeng.github.io/SSTG-Nav/">
+  <link rel="icon" href="static/images/sstg-mark.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&amp;family=Manrope:wght@500;600;700;800&amp;family=Roboto+Mono:wght@400;500&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="static/css/main.css">
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to content</a>
+
+  <header class="site-header" data-header>
+    <div class="nav-shell">
+      <a class="brand" href="#top" aria-label="SSTG-Nav home">
+        <img src="static/images/sstg-mark.svg" alt="" width="38" height="38">
+        <span>SSTG<span class="brand-accent">-Nav</span></span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-label="Open navigation" aria-expanded="false" aria-controls="site-navigation" data-nav-toggle>
+        <span></span><span></span><span></span>
+      </button>
+
+      <nav class="site-nav" id="site-navigation" aria-label="Primary navigation" data-nav>
+        <a href="#overview">Overview</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#demos">Demos</a>
+        <a href="#robot">Robot</a>
+        <a href="#benchmark">Benchmark</a>
+        <a class="nav-paper" href="static/paper/SSTG-Nav.pdf">Paper <span aria-hidden="true">↗</span></a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <div class="hero-grid" aria-hidden="true"></div>
+      <div class="topology-field" aria-hidden="true">
+        <span class="topology-line line-a"></span>
+        <span class="topology-line line-b"></span>
+        <span class="topology-line line-c"></span>
+        <span class="topology-node node-a"></span>
+        <span class="topology-node node-b"></span>
+        <span class="topology-node node-c"></span>
+        <span class="topology-node node-d"></span>
+      </div>
+
+      <div class="page-shell hero-layout">
+        <div class="hero-copy">
+          <div class="eyebrow"><span class="eyebrow-dot"></span> Reusable Object Navigation</div>
+          <h1 id="hero-title"><span>SSTG-Nav:</span> Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation</h1>
+          <p class="hero-lede">Pre-explore once. Ground objects metrically. Navigate repeatedly.</p>
+
+          <div class="authors" aria-label="Authors">
+            <a href="../Personal/">Daojie Peng<sup>1</sup></a>
+            <a href="mailto:wangbt@mail.sdu.edu.cn">Bingtao Wang<sup>2</sup></a>
+            <a href="https://personal.hkust-gz.edu.cn/junma/index.html">Jun Ma<sup>1,†</sup></a>
+          </div>
+          <p class="affiliations"><sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou) &nbsp;·&nbsp; <sup>2</sup> Shandong University &nbsp;·&nbsp; <sup>†</sup> Corresponding author</p>
+
+          <div class="hero-actions">
+            <a class="button button-primary" href="static/paper/SSTG-Nav.pdf">
+              <span class="button-icon" aria-hidden="true">▤</span> Read the paper
+            </a>
+            <a class="button button-secondary" href="https://github.com/DaojiePENG/sstg-nav-bench">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 .8a11.4 11.4 0 0 0-3.6 22.2c.6.1.8-.3.8-.6v-2.2c-3.4.8-4.2-1.5-4.2-1.5-.5-1.4-1.3-1.8-1.3-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.8 1.4 3.5 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.6-1.4-5.6-6.1 0-1.4.5-2.5 1.2-3.4-.1-.3-.5-1.6.1-3.3 0 0 1-.3 3.5 1.3a11.9 11.9 0 0 1 6.4 0c2.4-1.6 3.5-1.3 3.5-1.3.6 1.7.2 3 .1 3.3.8.9 1.2 2 1.2 3.4 0 4.8-2.9 5.8-5.6 6.1.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.4 11.4 0 0 0 12 .8Z"/></svg>
+              View code
+            </a>
+          </div>
+        </div>
+
+        <aside class="hero-metrics" aria-label="Headline results">
+          <div class="metric-card metric-card-wide">
+            <span class="metric-label">Top-3 success</span>
+            <strong>97.5<span>%</span></strong>
+            <small>Fusion-aware recovery</small>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Geometric ceiling</span>
+            <strong>99.4<span>%</span></strong>
+          </div>
+          <div class="metric-card">
+            <span class="metric-label">Evaluation</span>
+            <strong>1,000</strong>
+            <small>episodes · 36 scenes</small>
+          </div>
+        </aside>
+      </div>
+
+      <a class="scroll-cue" href="#overview" aria-label="Continue to overview"><span></span> Explore the project</a>
+    </section>
+
+    <section class="section section-overview" id="overview">
+      <div class="page-shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker">The central idea</p>
+          <h2>Turn one survey into a reusable navigation memory.</h2>
+          <p>Object recognition alone does not tell a robot where it can safely stop. SSTG-Nav bridges that gap by attaching semantic evidence to metric, reachable standoffs and preserving them for future requests.</p>
+        </div>
+
+        <figure class="figure-frame figure-hero reveal" data-figure>
+          <button class="figure-open" type="button" aria-label="Enlarge system overview">Expand</button>
+          <img src="static/images/system-overview.png" alt="SSTG-Nav pipeline from a one-time goal-independent survey through reusable metric-semantic topology to repeated natural-language navigation" loading="eager">
+          <figcaption><span>System overview.</span> A one-time RGB-D survey builds a persistent spatial-semantic topology; repeated language requests retrieve reachable candidates, execute navigation, and verify arrival.</figcaption>
+        </figure>
+
+        <div class="abstract-layout">
+          <article class="abstract-card reveal">
+            <p class="section-kicker">Abstract</p>
+            <p>Service robots operating for months in the same homes, offices, and facilities should become more reliable with experience instead of searching familiar space from scratch for every request. Yet ObjectNav is predominantly formulated as one-shot exploration, leaving a central deployment challenge unresolved: recognizing an object does not identify a reachable place to stop, and one confident map error can terminate the task.</p>
+            <p>We introduce SSTG-Nav, a reusable metric-semantic memory that turns a one-time survey into actionable object goals, consolidates evidence across viewpoints, and retains spatially distinct recovery standoffs. Across 1,000 HM3D-v2 episodes and a ROS 2/Nav2 realization, the results establish pre-exploration as a practical regime for dependable, repeated semantic navigation.</p>
+          </article>
+
+          <div class="idea-stack reveal">
+            <article class="idea-card">
+              <span class="idea-index">01</span>
+              <div><h3>Goal-independent survey</h3><p>Build the topology before any ObjectNav goal is revealed.</p></div>
+            </article>
+            <article class="idea-card">
+              <span class="idea-index">02</span>
+              <div><h3>Actionable semantics</h3><p>Back-project RGB-D evidence into reachable, object-centric standoffs.</p></div>
+            </article>
+            <article class="idea-card">
+              <span class="idea-index">03</span>
+              <div><h3>Recovery by design</h3><p>Keep distinct alternatives, verify arrival, and continue when a candidate fails.</p></div>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-method" id="method">
+      <div class="page-shell">
+        <div class="section-heading section-heading-split reveal">
+          <div>
+            <p class="section-kicker">Method</p>
+            <h2>From pixels to places the robot can reach.</h2>
+          </div>
+          <p>Each detection is geometrically grounded, consolidated across observations, and stored alongside the navigation graph—so a later language query resolves to a physical standoff rather than a camera pose.</p>
+        </div>
+
+        <div class="pipeline" aria-label="SSTG-Nav method stages">
+          <article class="pipeline-card reveal">
+            <span class="pipeline-number">1</span>
+            <div class="pipeline-icon" aria-hidden="true">◎</div>
+            <h3>Survey</h3>
+            <p>Farthest-point exploration samples free space and captures calibrated cardinal RGB-D views.</p>
+          </article>
+          <article class="pipeline-card reveal">
+            <span class="pipeline-number">2</span>
+            <div class="pipeline-icon" aria-hidden="true">⌖</div>
+            <h3>Ground</h3>
+            <p>Depth back-projection converts semantic detections into metric object locations and reachable standoffs.</p>
+          </article>
+          <article class="pipeline-card reveal">
+            <span class="pipeline-number">3</span>
+            <div class="pipeline-icon" aria-hidden="true">⎔</div>
+            <h3>Fuse</h3>
+            <p>Source-aware 3D and reachability checks merge corroborating views without erasing useful alternatives.</p>
+          </article>
+          <article class="pipeline-card reveal">
+            <span class="pipeline-number">4</span>
+            <div class="pipeline-icon" aria-hidden="true">↗</div>
+            <h3>Retrieve &amp; recover</h3>
+            <p>Language retrieval ranks candidates; fresh arrival evidence decides whether to stop or continue.</p>
+          </article>
+        </div>
+
+        <div class="method-figures">
+          <figure class="figure-frame reveal" data-figure>
+            <button class="figure-open" type="button" aria-label="Enlarge RGB-D grounding figure">Expand</button>
+            <img src="static/images/rgbd-grounding.png" alt="RGB-D grounding from visual detection through depth back-projection to a reachable object-centric standoff" loading="lazy">
+            <figcaption><span>Metric grounding.</span> A visual observation becomes an actionable goal while free-space constraints keep the proposed standoff reachable.</figcaption>
+          </figure>
+
+          <div class="memory-card reveal">
+            <div class="memory-topline"><span>Persistent memory</span><span class="live-dot">Reusable</span></div>
+            <div class="memory-graph" aria-hidden="true">
+              <span class="graph-edge e1"></span><span class="graph-edge e2"></span><span class="graph-edge e3"></span><span class="graph-edge e4"></span>
+              <span class="graph-node g1">A</span><span class="graph-node g2">B</span><span class="graph-node g3 goal">⌖</span><span class="graph-node g4">C</span><span class="graph-node g5">D</span>
+            </div>
+            <dl class="memory-stats">
+              <div><dt>6,642</dt><dd>topology nodes</dd></div>
+              <div><dt>21,845</dt><dd>navigable edges</dd></div>
+              <div><dt>1,329</dt><dd>fused candidates</dd></div>
+            </dl>
+            <p>One representation supports multiple object requests without rebuilding the map or revisiting the whole environment.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-results" id="results">
+      <div class="page-shell">
+        <div class="section-heading section-heading-split reveal">
+          <div>
+            <p class="section-kicker">Full validation</p>
+            <h2>Metric grounding closes most of the gap to geometric coverage.</h2>
+          </div>
+          <p>Results use 1,000 episodes across all 36 HM3D ObjectNav-v2 validation scenes. All system variants share the same goal-independent topology protocol.</p>
+        </div>
+
+        <div class="result-summary reveal">
+          <article>
+            <span>Camera node</span>
+            <strong>83.5%</strong>
+            <small>SR · 0.560 SPL</small>
+          </article>
+          <span class="result-arrow" aria-hidden="true">→</span>
+          <article class="highlight">
+            <span>Metric grounded</span>
+            <strong>92.0%</strong>
+            <small>SR · 0.603 SPL</small>
+          </article>
+          <span class="result-arrow" aria-hidden="true">→</span>
+          <article class="highlight warm">
+            <span>Fusion-aware Top-3</span>
+            <strong>97.5%</strong>
+            <small>SR · 0.601 SPL</small>
+          </article>
+        </div>
+
+        <figure class="figure-frame figure-results reveal" data-figure>
+          <button class="figure-open" type="button" aria-label="Enlarge full validation results">Expand</button>
+          <img src="static/images/full-results.png" alt="Bar chart comparing success rate and SPL for geometry oracle, camera-node, raw metric, fused, and Top-3 SSTG-Nav variants" loading="lazy">
+          <figcaption><span>Independent full-validation results.</span> Metric grounding produces the largest single-step gain; structured recovery reaches 97.5% success while retaining competitive path efficiency.</figcaption>
+        </figure>
+
+        <div class="analysis-grid">
+          <figure class="figure-frame reveal" data-figure>
+            <button class="figure-open" type="button" aria-label="Enlarge metric ablation figure">Expand</button>
+            <img src="static/images/metric-ablation.png" alt="Metric ablation results for grounding, fusion, and recovery components" loading="lazy">
+            <figcaption><span>Controlled ablations.</span> Grounding, consolidation, and recovery make distinct contributions.</figcaption>
+          </figure>
+          <figure class="figure-frame reveal" data-figure>
+            <button class="figure-open" type="button" aria-label="Enlarge density and semantics figure">Expand</button>
+            <img src="static/images/density-semantics.png" alt="Topology density, semantic model, and corruption control results" loading="lazy">
+            <figcaption><span>Stress tests.</span> Density, semantic model, and corruption controls reveal where performance originates.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-evidence" id="evidence">
+      <div class="page-shell">
+        <div class="section-heading reveal">
+          <p class="section-kicker">What the topology preserves</p>
+          <h2>Compact enough to reuse. Diverse enough to recover.</h2>
+          <p>Source-aware fusion reduces 20,107 raw candidates to 1,329 fused candidates—a 93.4% reduction—while residual metric standoffs retain spatial diversity for sequential recovery.</p>
+        </div>
+
+        <div class="evidence-layout">
+          <figure class="figure-frame reveal" data-figure>
+            <button class="figure-open" type="button" aria-label="Enlarge topology maps">Expand</button>
+            <img src="static/images/topology-maps.png" alt="Example SSTG-Nav topological maps showing spatial sampling and semantic candidates" loading="lazy">
+            <figcaption><span>Goal-independent topologies.</span> Spatial coverage is constructed without access to downstream ObjectNav goals.</figcaption>
+          </figure>
+          <div class="evidence-copy reveal">
+            <div class="evidence-stat"><strong>93.4%</strong><span>candidate reduction through source-aware fusion</span></div>
+            <div class="evidence-rule"></div>
+            <h3>Why not merge everything?</h3>
+            <p>A fused representative is valuable when independent views corroborate the same physical object. But over-fusion can remove the spatially distinct options needed after a blocked approach or false-positive arrival.</p>
+            <p>Fusion-aware Top-3 therefore begins with the strongest supported representative, then draws recovery options from residual metric standoffs.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-demos" id="demos">
+      <div class="page-shell">
+        <div class="section-heading section-heading-split reveal">
+          <div>
+            <p class="section-kicker">Benchmark trajectories</p>
+            <h2>See why the destination representation matters.</h2>
+          </div>
+          <p>These short Habitat trajectories come directly from the public benchmark outputs. The paired sofa case holds the scene and target category fixed, isolating the effect of a supported fused destination.</p>
+        </div>
+
+        <div class="comparison-label reveal">
+          <span>Same scene</span><span>Same sofa query</span><span>Different destination representation</span>
+        </div>
+
+        <div class="video-comparison">
+          <article class="video-card video-card-failure reveal">
+            <div class="video-wrap">
+              <video muted loop playsinline controls preload="metadata" data-demo-video aria-label="Raw single-candidate sofa navigation failure">
+                <source src="static/videos/sofa-raw-failure.mp4" type="video/mp4">
+                Your browser does not support MP4 video.
+              </video>
+              <span class="video-status status-failure">Failure</span>
+            </div>
+            <div class="video-copy">
+              <div><span class="video-index">A</span><h3>Raw single candidate</h3></div>
+              <p>An unsupported local hypothesis sends the agent to the wrong sofa instance.</p>
+            </div>
+          </article>
+
+          <div class="comparison-arrow reveal" aria-hidden="true"><span>fusion</span>→</div>
+
+          <article class="video-card video-card-success reveal">
+            <div class="video-wrap">
+              <video muted loop playsinline controls preload="metadata" data-demo-video aria-label="Source-aware fused sofa navigation success">
+                <source src="static/videos/sofa-fused-success.mp4" type="video/mp4">
+                Your browser does not support MP4 video.
+              </video>
+              <span class="video-status status-success">Success</span>
+            </div>
+            <div class="video-copy">
+              <div><span class="video-index">B</span><h3>Source-aware fused goal</h3></div>
+              <p>Multi-view support selects a stable metric standoff and reaches the correct sofa.</p>
+            </div>
+          </article>
+        </div>
+
+        <div class="trajectory-heading reveal">
+          <div><p class="section-kicker">Additional episodes</p><h3>Successful navigation across object categories</h3></div>
+          <p>First-person views from the released HM3D evaluation artifacts.</p>
+        </div>
+
+        <div class="trajectory-grid">
+          <article class="trajectory-card reveal">
+            <div class="video-wrap">
+              <video muted loop playsinline controls preload="metadata" data-demo-video aria-label="Successful chair navigation trajectory">
+                <source src="static/videos/chair-success.mp4" type="video/mp4">
+                Your browser does not support MP4 video.
+              </video>
+              <span class="video-status status-success">Success</span>
+            </div>
+            <div class="trajectory-meta"><span>Chair</span><small>HM3D full validation · 7.4 s</small></div>
+          </article>
+          <article class="trajectory-card reveal">
+            <div class="video-wrap">
+              <video muted loop playsinline controls preload="metadata" data-demo-video aria-label="Successful bed navigation trajectory">
+                <source src="static/videos/bed-success.mp4" type="video/mp4">
+                Your browser does not support MP4 video.
+              </video>
+              <span class="video-status status-success">Success</span>
+            </div>
+            <div class="trajectory-meta"><span>Bed</span><small>HM3D full validation · 3.3 s</small></div>
+          </article>
+          <article class="trajectory-card reveal">
+            <div class="video-wrap">
+              <video muted loop playsinline controls preload="metadata" data-demo-video aria-label="Successful toilet navigation trajectory">
+                <source src="static/videos/toilet-success.mp4" type="video/mp4">
+                Your browser does not support MP4 video.
+              </video>
+              <span class="video-status status-success">Success</span>
+            </div>
+            <div class="trajectory-meta"><span>Toilet</span><small>Wide-FoV RGB-D audit · 3.8 s</small></div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-robot" id="robot">
+      <div class="page-shell">
+        <div class="section-heading section-heading-split reveal">
+          <div>
+            <p class="section-kicker">Physical deployment</p>
+            <h2>The same memory closes the loop on a real robot.</h2>
+          </div>
+          <p>A ROS 2/Nav2 realization connects live RGB-D observations, semantic retrieval, metric candidate selection, navigation execution, and arrival verification.</p>
+        </div>
+
+        <figure class="figure-frame figure-robot reveal" data-figure>
+          <button class="figure-open" type="button" aria-label="Enlarge real-robot query loop">Expand</button>
+          <img src="static/images/robot-query-loop.png" alt="Four-step real-robot loop showing RGB-D alignment, semantic topology, language retrieval, and Nav2 arrival" loading="lazy">
+          <figcaption><span>Reusable query-to-execution loop.</span> A natural-language request retrieves a grounded goal from the existing topology; Nav2 executes it and fresh RGB-D evidence verifies arrival.</figcaption>
+        </figure>
+
+        <figure class="figure-frame figure-cases reveal" data-figure>
+          <button class="figure-open" type="button" aria-label="Enlarge audited qualitative cases">Expand</button>
+          <img src="static/images/audited-cases.png" alt="Audited SSTG-Nav cases for field of view and depth, 3D fusion, arrival recovery, and physical-system operation" loading="lazy">
+          <figcaption><span>Audited cases.</span> Representative evidence spans sensing, 3D fusion, recovery, and the physical system.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section section-benchmark" id="benchmark">
+      <div class="page-shell">
+        <div class="benchmark-panel reveal">
+          <div class="benchmark-copy">
+            <p class="section-kicker">Open benchmark</p>
+            <h2>Reproduce the reusable ObjectNav evaluation.</h2>
+            <p>The public SSTG-Nav implementation covers topology construction, calibrated RGB-D grounding, source-aware fusion, retrieval, sequential recovery, evaluation metrics, and validation utilities for Habitat and HM3D.</p>
+            <div class="benchmark-tags" aria-label="Repository contents">
+              <span>Habitat / HM3D</span><span>RGB-D grounding</span><span>3D fusion</span><span>Top-3 recovery</span><span>SR · SPL · DTG</span>
+            </div>
+            <p class="release-note">The complete robot-deployment and project-specific integration stack is not publicly released due to confidentiality obligations associated with the Huawei collaboration.</p>
+          </div>
+          <div class="repo-card">
+            <div class="repo-card-head">
+              <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 .8a11.4 11.4 0 0 0-3.6 22.2c.6.1.8-.3.8-.6v-2.2c-3.4.8-4.2-1.5-4.2-1.5-.5-1.4-1.3-1.8-1.3-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.8 1.4 3.5 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.6-1.4-5.6-6.1 0-1.4.5-2.5 1.2-3.4-.1-.3-.5-1.6.1-3.3 0 0 1-.3 3.5 1.3a11.9 11.9 0 0 1 6.4 0c2.4-1.6 3.5-1.3 3.5-1.3.6 1.7.2 3 .1 3.3.8.9 1.2 2 1.2 3.4 0 4.8-2.9 5.8-5.6 6.1.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.4 11.4 0 0 0 12 .8Z"/></svg>
+              <span>Public repository</span>
+            </div>
+            <h3>DaojiePENG/<br>sstg-nav-bench</h3>
+            <code>git clone https://github.com/<br>DaojiePENG/sstg-nav-bench.git</code>
+            <a class="button button-primary" href="https://github.com/DaojiePENG/sstg-nav-bench">Explore the code <span aria-hidden="true">↗</span></a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-citation" id="citation">
+      <div class="page-shell citation-layout">
+        <div class="citation-heading reveal">
+          <p class="section-kicker">Citation</p>
+          <h2>Found SSTG-Nav useful?</h2>
+          <p>Please cite the paper and link to the public benchmark.</p>
+        </div>
+        <div class="bibtex-card reveal">
+          <div class="bibtex-head"><span>BibTeX</span><button type="button" data-copy-citation>Copy citation</button></div>
+          <pre id="bibtex"><code>@misc{peng2027sstgnav,
+  title  = {SSTG-Nav: Metric-Grounded Spatial-Semantic
+            Topological Graphs for Reusable Object Navigation},
+  author = {Peng, Daojie and Wang, Bingtao and Ma, Jun},
+  year   = {2027},
+  note   = {Preprint},
+  url    = {https://daojiepeng.github.io/SSTG-Nav}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-shell footer-layout">
+      <div class="footer-brand"><img src="static/images/sstg-mark.svg" alt="" width="32" height="32"><span>SSTG-Nav</span></div>
+      <p>Metric-grounded spatial-semantic topologies for dependable, reusable navigation.</p>
+      <div class="footer-links"><a href="static/paper/SSTG-Nav.pdf">Paper</a><a href="https://github.com/DaojiePENG/sstg-nav-bench">Code</a><a href="mailto:dpeng108@connect.hkust-gz.edu.cn">Contact</a></div>
+    </div>
+  </footer>
+
+  <dialog class="lightbox" data-lightbox aria-label="Expanded figure">
+    <button class="lightbox-close" type="button" aria-label="Close expanded figure" data-lightbox-close>×</button>
+    <div class="lightbox-content">
+      <img src="static/images/system-overview.png" alt="">
+      <p></p>
+    </div>
+  </dialog>
+
+  <script src="static/js/main.js"></script>
+</body>
+</html>

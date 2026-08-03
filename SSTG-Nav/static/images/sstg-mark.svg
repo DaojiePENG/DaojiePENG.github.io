@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-labelledby="title desc">
+  <title id="title">SSTG-Nav mark</title>
+  <desc id="desc">A spatial topology with a highlighted navigation goal.</desc>
+  <defs>
+    <linearGradient id="edge" x1="8" y1="52" x2="56" y2="10" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#24c7a3"/>
+      <stop offset="1" stop-color="#65b8ff"/>
+    </linearGradient>
+  </defs>
+  <rect width="64" height="64" rx="16" fill="#0b1c1e"/>
+  <path d="M13 43 25 19l15 11 12-17M13 43l19 7 8-20m-15-11 27-6" fill="none" stroke="url(#edge)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+  <circle cx="13" cy="43" r="5" fill="#24c7a3" stroke="#d8fff5" stroke-width="2"/>
+  <circle cx="25" cy="19" r="4" fill="#132d30" stroke="#65b8ff" stroke-width="3"/>
+  <circle cx="32" cy="50" r="4" fill="#132d30" stroke="#65b8ff" stroke-width="3"/>
+  <circle cx="40" cy="30" r="4" fill="#132d30" stroke="#65b8ff" stroke-width="3"/>
+  <path d="M52 7a7 7 0 0 0-7 7c0 5.4 7 12 7 12s7-6.6 7-12a7 7 0 0 0-7-7Z" fill="#ffb86b" stroke="#fff4df" stroke-width="2"/>
+  <circle cx="52" cy="14" r="2.5" fill="#713e0b"/>
+</svg>
