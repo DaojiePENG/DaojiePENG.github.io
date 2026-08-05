@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="CloudEdgeVLA is a latency-tolerant cloud-edge Vision-Language-Action model that keeps robot control responsive under variable network delay.">
+  <meta name="author" content="Daojie Peng, Fulong Ma, Bingtao Wang, Sheng Wang, Jun Ma">
+  <meta name="theme-color" content="#101b1d">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="CloudEdgeVLA | Latency-Tolerant Cloud-Edge Robot Control">
+  <meta property="og:description" content="Cloud reasoning, edge reflexes, and a robot control loop that never waits for the network.">
+  <meta property="og:url" content="https://daojiepeng.github.io/CloudEdgeVLA/">
+  <meta property="og:image" content="https://daojiepeng.github.io/CloudEdgeVLA/static/images/qualitative-rollouts.webp">
+  <meta name="twitter:card" content="summary_large_image">
+  <link rel="canonical" href="https://daojiepeng.github.io/CloudEdgeVLA/">
+  <link rel="icon" type="image/png" href="./static/images/hkust-logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@500;600&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="./static/css/index.css">
+  <title>CloudEdgeVLA | Latency-Tolerant Cloud-Edge VLA</title>
+</head>
+<body>
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+
+  <header class="site-header" data-header>
+    <div class="nav-shell">
+      <a class="brand" href="#top" aria-label="CloudEdgeVLA home">
+        <span class="brand-mark" aria-hidden="true"><i data-lucide="cloud"></i></span>
+        <span>CloudEdge<span>VLA</span></span>
+      </a>
+
+      <button class="nav-toggle" type="button" aria-expanded="false" aria-controls="site-navigation" aria-label="Open navigation" data-nav-toggle>
+        <i data-lucide="menu" aria-hidden="true"></i>
+      </button>
+
+      <nav class="site-nav" id="site-navigation" aria-label="Primary navigation" data-nav>
+        <a href="#problem">Problem</a>
+        <a href="#method">Method</a>
+        <a href="#results">Results</a>
+        <a href="#robot">Real Robot</a>
+        <a href="#citation">Citation</a>
+      </nav>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="hero" id="top" aria-labelledby="hero-title">
+      <img class="hero-backdrop" src="./static/images/qualitative-rollouts.webp" alt="CloudEdgeVLA robot rollouts in simulation and on a real Franka robot" width="4029" height="2206">
+      <div class="hero-scrim" aria-hidden="true"></div>
+      <div class="hero-content page-shell">
+        <p class="eyebrow hero-eyebrow"><span class="status-dot" aria-hidden="true"></span> AAAI 2027</p>
+        <h1 id="hero-title">CloudEdgeVLA</h1>
+        <p class="hero-lead">Cloud reasoning. Edge reflexes. No waiting.</p>
+        <p class="hero-title-long">Latency-Tolerant Cloud-Edge Collaborative Vision-Language-Action Models via Emergent Representational Specialization</p>
+
+        <p class="authors">
+          <a href="../Personal/">Daojie Peng<sup>1</sup></a>
+          <span aria-hidden="true">·</span>
+          <a href="https://scholar.google.com/citations?user=uS8x8TkAAAAJ&amp;hl=en">Fulong Ma<sup>1</sup></a>
+          <span aria-hidden="true">·</span>
+          <a href="https://github.com/Bingtao-Wang">Bingtao Wang<sup>2</sup></a>
+          <span aria-hidden="true">·</span>
+          <a href="mailto:swangei@connect.ust.hk">Sheng Wang<sup>3</sup></a>
+          <span aria-hidden="true">·</span>
+          <a href="https://personal.hkust-gz.edu.cn/junma/index.html">Jun Ma<sup>1,†</sup></a>
+        </p>
+        <p class="affiliations"><sup>1</sup>HKUST(GZ) &nbsp; <sup>2</sup>Shandong University &nbsp; <sup>3</sup>RoboScience &nbsp; <sup>†</sup>Corresponding author</p>
+
+        <div class="hero-actions">
+          <a class="button button-primary" href="./static/paper/CloudEdgeVLA.pdf">
+            <i data-lucide="file-text" aria-hidden="true"></i>
+            Paper
+          </a>
+          <a class="button button-secondary" href="#method">
+            <i data-lucide="network" aria-hidden="true"></i>
+            Explore the method
+          </a>
+        </div>
+
+        <div class="hero-metrics" aria-label="Headline results">
+          <div class="hero-metric">
+            <strong>90.8%</strong>
+            <span>normalized delay AUC</span>
+          </div>
+          <div class="hero-metric">
+            <strong>76.5%</strong>
+            <span>success retained under a 40-step window</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section abstract-section" id="abstract" aria-labelledby="abstract-title">
+      <div class="page-shell abstract-layout">
+        <div class="section-heading sticky-heading">
+          <p class="eyebrow">Abstract</p>
+          <h2 id="abstract-title">Latency tolerance as a learned interface.</h2>
+        </div>
+        <div class="abstract-copy">
+          <p class="lead-copy">Deploying billion-parameter VLA policies on mobile robots creates a systems conflict: semantic reasoning benefits from cloud GPUs, while closed-loop control must respond locally despite delay and jitter.</p>
+          <p>CloudEdgeVLA separates information by temporal role. A cloud VLA turns delayed observations into slowly varying task features, while a lightweight edge head grounds the latest available feature with current local vision. Paired-frame dual-path training teaches both fresh and delayed cloud features to predict the current action, encouraging temporal specialization without requiring delay metadata at inference.</p>
+          <div class="contribution-grid" aria-label="Key contributions">
+            <article class="contribution">
+              <span>01</span>
+              <h3>Non-blocking control</h3>
+              <p>The edge always acts with the newest feature it has; it never waits for a particular cloud response.</p>
+            </article>
+            <article class="contribution">
+              <span>02</span>
+              <h3>Paired-frame training</h3>
+              <p>Fresh and randomly delayed cloud frames share the same current action target.</p>
+            </article>
+            <article class="contribution">
+              <span>03</span>
+              <h3>Emergent specialization</h3>
+              <p>The cloud preserves task context while the edge supplies state-sensitive corrections.</p>
+            </article>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section problem-section" id="problem" aria-labelledby="problem-title">
+      <div class="page-shell">
+        <div class="section-heading section-heading-wide">
+          <p class="eyebrow">The deployment gap</p>
+          <h2 id="problem-title">A fast robot cannot wait for a slow round trip.</h2>
+          <p>Action chunks grow stale, and synchronized fast-slow systems still assume bounded timing. CloudEdgeVLA makes cloud updates independent from the edge control clock.</p>
+        </div>
+
+        <figure class="paper-figure figure-light">
+          <button class="figure-zoom" type="button" data-zoom="./static/images/concept-comparison.webp" aria-label="Open conceptual comparison figure">
+            <i data-lucide="maximize-2" aria-hidden="true"></i>
+          </button>
+          <img src="./static/images/concept-comparison.webp" alt="Comparison of action chunking, synchronized fast-slow control, and asynchronous CloudEdgeVLA" width="3265" height="989" loading="lazy" decoding="async">
+          <figcaption><strong>Three dual-system paradigms.</strong> CloudEdgeVLA is the only design shown here whose edge execution is independent of the cloud update clock.</figcaption>
+        </figure>
+      </div>
+    </section>
+
+    <section class="section method-section" id="method" aria-labelledby="method-title">
+      <div class="page-shell">
+        <div class="section-heading section-heading-wide">
+          <p class="eyebrow">Architecture</p>
+          <h2 id="method-title">Slow semantics meet current state.</h2>
+          <p>A single learned interface separates latency-insensitive planning from latency-sensitive control, allowing both sides to scale on their own cadence.</p>
+        </div>
+
+        <figure class="paper-figure architecture-figure">
+          <button class="figure-zoom" type="button" data-zoom="./static/images/system-architecture.webp" aria-label="Open deployment and training architecture figure">
+            <i data-lucide="maximize-2" aria-hidden="true"></i>
+          </button>
+          <img src="./static/images/system-architecture.webp" alt="CloudEdgeVLA asynchronous deployment architecture and paired-frame dual-path training pipeline" width="3079" height="1231" loading="lazy" decoding="async">
+          <figcaption><strong>Deployment and training.</strong> The edge never blocks on a cloud response. During training, the fresh and stale cloud paths share the same current edge feature z<sub>t</sub> and current action target a<sub>t</sub>.</figcaption>
+        </figure>
+
+        <div class="method-steps">
+          <article class="method-step">
+            <div class="step-icon cloud-icon" aria-hidden="true"><i data-lucide="cloud-cog"></i></div>
+            <p class="step-number">Cloud · System 2</p>
+            <h3>Encode what to do</h3>
+            <p>The 7B VLA backbone processes a delayed observation and language instruction into reusable planning features.</p>
+            <code>h<sub>t-k</sub> = f<sub>θ</sub>(o<sub>t-k</sub>, ℓ)</code>
+          </article>
+          <article class="method-step">
+            <div class="step-icon edge-icon" aria-hidden="true"><i data-lucide="scan-eye"></i></div>
+            <p class="step-number">Edge · System 1</p>
+            <h3>See what is true now</h3>
+            <p>A frozen lightweight SigLIP encoder observes the current frame locally, with no network delay in its signal.</p>
+            <code>z<sub>t</sub> = v<sub>ψ</sub>(o<sub>t</sub>)</code>
+          </article>
+          <article class="method-step">
+            <div class="step-icon act-icon" aria-hidden="true"><i data-lucide="waypoints"></i></div>
+            <p class="step-number">Action · Closed loop</p>
+            <h3>Ground and act</h3>
+            <p>The edge action head fuses old task context with current visual evidence and executes immediately.</p>
+            <code>â<sub>t</sub> = g<sub>φ</sub>(h<sub>t-k</sub>, z<sub>t</sub>)</code>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section training-section" aria-labelledby="training-title">
+      <div class="page-shell training-layout">
+        <div class="training-copy">
+          <p class="eyebrow eyebrow-light">Paired-frame dual-path training</p>
+          <h2 id="training-title">Teach the feature to survive age.</h2>
+          <p>For each current frame, training samples a delayed frame from the same episode. Both cloud features are fused with the same current edge vision and supervised toward the same current action.</p>
+          <div class="formula" aria-label="Dual path loss equation">
+            <span>ℒ = (1 − λ) ‖â<sub>fresh</sub> − a<sub>t</sub>‖<sub>1</sub></span>
+            <span>+ λ ‖â<sub>stale</sub> − a<sub>t</sub>‖<sub>1</sub></span>
+          </div>
+          <p class="training-note">No explicit invariance loss. No delay value is required at inference.</p>
+        </div>
+
+        <div class="training-flow" aria-label="Fresh and stale training paths">
+          <article class="flow-path fresh-path">
+            <span class="flow-tag">Fresh path</span>
+            <strong>Current cloud frame</strong>
+            <span>o<sub>t</sub> → h<sub>fresh</sub></span>
+            <i data-lucide="arrow-down" aria-hidden="true"></i>
+            <span>current edge vision z<sub>t</sub></span>
+            <i data-lucide="arrow-down" aria-hidden="true"></i>
+            <strong>â<sub>fresh</sub> → a<sub>t</sub></strong>
+          </article>
+          <article class="flow-path stale-path">
+            <span class="flow-tag">Stale path</span>
+            <strong>Randomly delayed frame</strong>
+            <span>o<sub>t-d</sub> → h<sub>stale</sub></span>
+            <i data-lucide="arrow-down" aria-hidden="true"></i>
+            <span>current edge vision z<sub>t</sub></span>
+            <i data-lucide="arrow-down" aria-hidden="true"></i>
+            <strong>â<sub>stale</sub> → a<sub>t</sub></strong>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section results-section" id="results" aria-labelledby="results-title">
+      <div class="page-shell">
+        <div class="section-heading section-heading-wide">
+          <p class="eyebrow">LIBERO results</p>
+          <h2 id="results-title">The performance gap opens with delay.</h2>
+          <p>Explore success rates across four LIBERO suites. The <em>d</em><sub>max</sub> = 0 point is the synchronous reference; each non-zero setting samples observation age uniformly from 1 to <em>d</em><sub>max</sub>. CloudEdgeVLA values average three seeds.</p>
+        </div>
+
+        <div class="latency-lab">
+          <div class="lab-controls">
+            <div class="suite-control" role="group" aria-label="LIBERO suite">
+              <button type="button" class="suite-button is-active" data-suite="average" aria-pressed="true">Average</button>
+              <button type="button" class="suite-button" data-suite="spatial" aria-pressed="false">Spatial</button>
+              <button type="button" class="suite-button" data-suite="object" aria-pressed="false">Object</button>
+              <button type="button" class="suite-button" data-suite="goal" aria-pressed="false">Goal</button>
+              <button type="button" class="suite-button" data-suite="long" aria-pressed="false">Long</button>
+            </div>
+
+            <div class="delay-control">
+              <div class="delay-label-row">
+                <label for="delay-slider">Uniform delay window</label>
+                <output for="delay-slider" data-delay-output><em>d</em><sub>max</sub> = 40 steps</output>
+              </div>
+              <input id="delay-slider" type="range" min="0" max="3" step="1" value="3" aria-valuetext="40 steps">
+              <div class="range-ticks" aria-hidden="true"><span>0</span><span>10</span><span>20</span><span>40</span></div>
+            </div>
+          </div>
+
+          <div class="lab-chart" aria-label="Method success rate comparison" aria-live="polite">
+            <div class="chart-scale" aria-hidden="true"><span>0</span><span>25</span><span>50</span><span>75</span><span>100%</span></div>
+            <div class="chart-row cloudedge" data-method="cloudedge">
+              <span class="method-name">CloudEdgeVLA</span>
+              <div class="bar-track"><span class="bar-fill"></span></div>
+              <strong class="bar-value">73.5%</strong>
+            </div>
+            <div class="chart-row vlash" data-method="vlash">
+              <span class="method-name">VLASH</span>
+              <div class="bar-track"><span class="bar-fill"></span></div>
+              <strong class="bar-value">1.7%</strong>
+            </div>
+            <div class="chart-row univla" data-method="univla">
+              <span class="method-name">UniVLA</span>
+              <div class="bar-track"><span class="bar-fill"></span></div>
+              <strong class="bar-value">0.9%</strong>
+            </div>
+            <div class="chart-row oft" data-method="oft">
+              <span class="method-name">OpenVLA-OFT</span>
+              <div class="bar-track"><span class="bar-fill"></span></div>
+              <strong class="bar-value">0.0%</strong>
+            </div>
+            <div class="chart-row openvla" data-method="openvla">
+              <span class="method-name">OpenVLA</span>
+              <div class="bar-track"><span class="bar-fill"></span></div>
+              <strong class="bar-value">0.0%</strong>
+            </div>
+          </div>
+
+          <div class="lab-summary">
+            <p data-result-summary><strong>+71.8 points</strong> over the best baseline at 40 steps, averaged across all suites.</p>
+            <span class="window-status is-beyond" data-window-status>Beyond the training window</span>
+          </div>
+        </div>
+
+        <div class="result-metrics" aria-label="Delay robustness summary">
+          <article>
+            <strong>90.8%</strong>
+            <span>Normalized delay AUC</span>
+            <small>VLASH: 32.4%</small>
+          </article>
+          <article>
+            <strong>73.5%</strong>
+            <span>Mean success at 40 steps</span>
+            <small>Best baseline: 1.7%</small>
+          </article>
+          <article>
+            <strong>63.8–78.0%</strong>
+            <span>Suite-level success at 40 steps</span>
+            <small>Across Spatial, Object, Goal, and Long</small>
+          </article>
+        </div>
+
+        <figure class="paper-figure result-figure">
+          <button class="figure-zoom" type="button" data-zoom="./static/images/delay-robustness.webp" aria-label="Open delay robustness figure">
+            <i data-lucide="maximize-2" aria-hidden="true"></i>
+          </button>
+          <img src="./static/images/delay-robustness.webp" alt="Delay sweep, normalized delay AUC, and retention score for CloudEdgeVLA and baseline methods" width="2112" height="1029" loading="lazy" decoding="async">
+          <figcaption><strong>Closed-loop delay sweep.</strong> CloudEdgeVLA remains strong beyond the 20-step training window and averages 73.5% success at 40 steps.</figcaption>
+        </figure>
+
+        <details class="results-details">
+          <summary>View suite-level results</summary>
+          <div class="table-scroll">
+            <table>
+              <caption>LIBERO task success (%) under uniformly sampled observation delay.</caption>
+              <thead>
+                <tr>
+                  <th scope="col">Method</th>
+                  <th scope="col">Delay</th>
+                  <th scope="col">Spatial</th>
+                  <th scope="col">Object</th>
+                  <th scope="col">Goal</th>
+                  <th scope="col">Long</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row" rowspan="4">OpenVLA</th><td>0</td><td>84.6</td><td>71.2</td><td>77.0</td><td>56.2</td></tr>
+                <tr><td>10</td><td>6.8</td><td>1.2</td><td>2.2</td><td>5.2</td></tr>
+                <tr><td>20</td><td>0.2</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                <tr><td>40</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                <tr><th scope="row" rowspan="4">OpenVLA-OFT</th><td>0</td><td>98.4</td><td>98.6</td><td>97.2</td><td>93.4</td></tr>
+                <tr><td>10</td><td>10.6</td><td>3.6</td><td>26.2</td><td>8.4</td></tr>
+                <tr><td>20</td><td>0.0</td><td>0.0</td><td>4.0</td><td>1.4</td></tr>
+                <tr><td>40</td><td>0.0</td><td>0.0</td><td>0.0</td><td>0.0</td></tr>
+                <tr><th scope="row" rowspan="4">UniVLA</th><td>0</td><td>96.0</td><td>96.6</td><td>94.6</td><td>93.2</td></tr>
+                <tr><td>10</td><td>27.4</td><td>34.8</td><td>48.2</td><td>35.0</td></tr>
+                <tr><td>20</td><td>0.4</td><td>2.6</td><td>21.8</td><td>2.2</td></tr>
+                <tr><td>40</td><td>0.0</td><td>0.0</td><td>3.0</td><td>0.5</td></tr>
+                <tr><th scope="row" rowspan="4">VLASH</th><td>0</td><td>97.3</td><td>99.6</td><td>96.7</td><td>93.5</td></tr>
+                <tr><td>10</td><td>60.0</td><td>62.8</td><td>56.8</td><td>45.6</td></tr>
+                <tr><td>20</td><td>5.0</td><td>8.2</td><td>28.2</td><td>9.2</td></tr>
+                <tr><td>40</td><td>0.0</td><td>0.4</td><td>6.4</td><td>0.0</td></tr>
+                <tr class="ours-row"><th scope="row" rowspan="4">CloudEdgeVLA</th><td>0</td><td>97.9</td><td>97.8</td><td>96.5</td><td>91.7</td></tr>
+                <tr class="ours-row"><td>10</td><td>93.6</td><td>94.4</td><td>92.9</td><td>83.2</td></tr>
+                <tr class="ours-row"><td>20</td><td>89.6</td><td>92.1</td><td>90.9</td><td>78.1</td></tr>
+                <tr class="ours-row"><td>40</td><td>76.4</td><td>75.6</td><td>78.0</td><td>63.8</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <p class="table-note">CloudEdgeVLA values are means over seeds 7, 8, and 9. Standard deviations are reported in the paper.</p>
+        </details>
+      </div>
+    </section>
+
+    <section class="section mechanism-section" aria-labelledby="mechanism-title">
+      <div class="page-shell mechanism-layout">
+        <div class="mechanism-copy">
+          <p class="eyebrow">Why it works</p>
+          <h2 id="mechanism-title">Robustness appears on both sides of the interface.</h2>
+          <p>Under a 20-step delay, the learned cloud representation changes less, and the edge head transfers less residual feature drift into the executed action.</p>
+          <dl class="mechanism-stats">
+            <div><dt>59.2%</dt><dd>less backbone drift</dd></div>
+            <div><dt>72.7%</dt><dd>less staleness transfer</dd></div>
+          </dl>
+        </div>
+        <div class="mechanism-figures">
+          <figure class="paper-figure consistency-figure">
+            <button class="figure-zoom" type="button" data-zoom="./static/images/backbone-staleness.webp" aria-label="Open backbone staleness figure">
+              <i data-lucide="maximize-2" aria-hidden="true"></i>
+            </button>
+            <img src="./static/images/backbone-staleness.webp" alt="Backbone hidden-state cosine distance under increasing image delay" width="1479" height="903" loading="lazy" decoding="async">
+            <figcaption><strong>Backbone staleness.</strong> At 20 steps, CloudEdgeVLA reduces hidden-state drift by 59.2%.</figcaption>
+          </figure>
+          <figure class="paper-figure consistency-figure">
+            <button class="figure-zoom" type="button" data-zoom="./static/images/head-transfer.webp" aria-label="Open head staleness-transfer figure">
+              <i data-lucide="maximize-2" aria-hidden="true"></i>
+            </button>
+            <img src="./static/images/head-transfer.webp" alt="Action head staleness-transfer gain under increasing image delay" width="1483" height="903" loading="lazy" decoding="async">
+            <figcaption><strong>Head transfer.</strong> At 20 steps, the action head transfers 72.7% less residual feature drift into actions.</figcaption>
+          </figure>
+        </div>
+      </div>
+    </section>
+
+    <section class="section robot-section" id="robot" aria-labelledby="robot-title">
+      <div class="page-shell">
+        <div class="section-heading section-heading-wide robot-heading">
+          <p class="eyebrow eyebrow-light">Real-world deployment</p>
+          <h2 id="robot-title">The edge loop keeps moving with 1,000 ms added RTT.</h2>
+          <p>A Franka robot places a toy bear into a box in static and dynamic-target settings. The cloud 7B backbone runs on an RTX 4090; edge vision, action head, and control run on an RTX 5080 workstation.</p>
+        </div>
+
+        <div class="robot-results">
+          <figure class="rollout-figure">
+            <button class="figure-zoom figure-zoom-dark" type="button" data-zoom="./static/images/qualitative-rollouts.webp" aria-label="Open simulation and real-robot rollout figure">
+              <i data-lucide="maximize-2" aria-hidden="true"></i>
+            </button>
+            <img src="./static/images/qualitative-rollouts.webp" alt="Simulation comparison and CloudEdgeVLA real-robot rollout sequence" width="4029" height="2206" loading="lazy" decoding="async">
+            <figcaption>Simulation comparison above; static and dynamically displaced real-robot targets below.</figcaption>
+          </figure>
+
+          <div class="robot-table-wrap">
+            <table class="robot-table">
+              <caption>Static / dynamic success over 10 trials</caption>
+              <thead>
+                <tr><th scope="col">Added RTT</th><th scope="col">VLASH</th><th scope="col">CloudEdgeVLA</th></tr>
+              </thead>
+              <tbody>
+                <tr><th scope="row">0 ms</th><td>100 / 90</td><td><strong>100 / 90</strong></td></tr>
+                <tr><th scope="row">400 ms</th><td>60 / 30</td><td><strong>90 / 90</strong></td></tr>
+                <tr><th scope="row">1,000 ms</th><td>0 / 0</td><td><strong>80 / 70</strong></td></tr>
+              </tbody>
+            </table>
+            <p>Each cell reports static / dynamic success over 10 trials per variant; added RTT is emulated on top of the native serving pipeline.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section citation-section" id="citation" aria-labelledby="citation-title">
+      <div class="page-shell citation-layout">
+        <div class="citation-copy">
+          <p class="eyebrow">Citation</p>
+          <h2 id="citation-title">Build on CloudEdgeVLA.</h2>
+          <p>Please cite the paper if this work supports your research.</p>
+          <a class="text-link" href="./static/paper/CloudEdgeVLA.pdf">Read the camera-ready paper <i data-lucide="arrow-up-right" aria-hidden="true"></i></a>
+        </div>
+        <div class="bibtex-block">
+          <button class="copy-button" type="button" data-copy-bibtex aria-label="Copy BibTeX citation">
+            <i data-lucide="copy" aria-hidden="true"></i>
+            <span>Copy</span>
+          </button>
+          <pre id="bibtex"><code>@inproceedings{peng2027cloudedgevla,
+  title     = {Latency-Tolerant Cloud-Edge Collaborative
+               Vision-Language-Action Models via Emergent
+               Representational Specialization},
+  author    = {Peng, Daojie and Ma, Fulong and Wang, Bingtao
+               and Wang, Sheng and Ma, Jun},
+  booktitle = {Proceedings of the AAAI Conference on
+               Artificial Intelligence},
+  year      = {2027}
+}</code></pre>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <div class="page-shell footer-layout">
+      <a class="brand footer-brand" href="#top">
+        <span class="brand-mark" aria-hidden="true"><i data-lucide="cloud"></i></span>
+        <span>CloudEdge<span>VLA</span></span>
+      </a>
+      <p>Research project page · <span data-year>2026</span></p>
+      <p>HKUST(GZ) · Shandong University · RoboScience</p>
+    </div>
+  </footer>
+
+  <dialog class="image-dialog" data-image-dialog aria-label="Expanded research figure">
+    <button class="dialog-close" type="button" data-dialog-close aria-label="Close expanded figure">
+      <i data-lucide="x" aria-hidden="true"></i>
+    </button>
+    <img alt="Expanded research figure" data-dialog-image>
+  </dialog>
+
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js" defer></script>
+  <script src="./static/js/index.js" defer></script>
+</body>
+</html>

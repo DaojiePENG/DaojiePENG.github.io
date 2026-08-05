@@ -19,6 +19,14 @@ Academic portfolio including publications, patents, and education background.
 
 ## Project Websites
 
+### CloudEdgeVLA
+
+**Latency-Tolerant Cloud-Edge Collaborative Vision-Language-Action Models**
+
+> [Project Page](https://daojiepeng.github.io/CloudEdgeVLA/) · [Paper](https://daojiepeng.github.io/CloudEdgeVLA/static/paper/CloudEdgeVLA.pdf)
+
+*AAAI 2027*
+
 ### AttenA+
 
 **Rectifying Action Inequality in Robotic Foundation Models**
@@ -63,3 +71,4 @@ Academic portfolio including publications, patents, and education background.
 | 2026-06-16 | SOL-Nav project page added |
 | 2026-06-16 | LiteViLNet project page added |
 | 2026-06-18 | AttenA+ project page added; README revamped |
+| 2026-08-05 | CloudEdgeVLA project page added |
