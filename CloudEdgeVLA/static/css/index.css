@@ -1186,6 +1186,13 @@ tbody th {
   color: var(--muted);
 }
 
+.citation-links {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 18px;
+}
+
 .text-link {
   display: inline-flex;
   align-items: center;

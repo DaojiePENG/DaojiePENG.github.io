@@ -5,7 +5,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Daojie Peng | CV</title>
   <link rel="icon" href="../assets/logos/PDJ.png" type="image/x-icon">
-  <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
   <style>
     @page {
@@ -311,6 +310,11 @@
       .download-pdf-btn { display: none !important; }
       .cv-wrap { padding: 0; }
       html, body { height: 100%; overflow: visible; }
+      .page-break { page-break-before: auto !important; break-before: auto !important; }
+      .cv-section { margin-bottom: 10px !important; }
+      .paper-card-small,
+      .patent-card-small { margin-bottom: 10px !important; }
+      .cv-desc { font-size: 11px !important; line-height: 1.4 !important; }
     }
   </style>
 </head>
@@ -398,10 +402,19 @@
     <div class="pub-section-title">📚 Selected Research & Publications</div>
 
     <div class="paper-card-small">
+      <img src="../assets/figures/CloudEdgeVLA.webp" class="paper-thumb" alt="CloudEdgeVLA deployment and paired-frame training architecture">
+      <div class="paper-detail">
+        <div class="paper-conf">AAAI 2027 UR | First Author | <a href="https://arxiv.org/abs/2608.00569" target="_blank">arXiv</a> | <a href="https://daojiepeng.github.io/CloudEdgeVLA/" target="_blank">Project</a></div>
+        <div class="paper-title-full">Latency-Tolerant Cloud-Edge Collaborative Vision-Language-Action Models via Emergent Representational Specialization</div>
+        <div class="paper-abs">Developed a non-blocking cloud-edge VLA architecture that decouples slow semantic reasoning from responsive local control. Paired-frame training preserves strong manipulation performance under severe variable latency in LIBERO and real-robot experiments.</div>
+      </div>
+    </div>
+
+    <div class="paper-card-small">
       <img src="../assets/figures/SSTG-Nav.png" class="paper-thumb">
       <div class="paper-detail">
-        <div class="paper-conf">AAAI 2027 | First Author | <a href="https://github.com/DaojiePENG/sstg-nav-bench" target="_blank">Code</a> | <a href="https://daojiepeng.github.io/SSTG-Nav/" target="_blank">Project</a></div>
-        <div class="paper-title-full">Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation</div>
+        <div class="paper-conf">AAAI 2027 UR | First Author | <a href="https://arxiv.org/abs/2608.00527" target="_blank">arXiv</a> | <a href="https://github.com/DaojiePENG/sstg-nav-bench" target="_blank">Code</a> | <a href="https://daojiepeng.github.io/SSTG-Nav/" target="_blank">Project</a></div>
+        <div class="paper-title-full">SSTG-Nav: Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation</div>
         <div class="paper-abs">Proposed a metric-grounded spatial-semantic topological graph framework for reusable object navigation. Achieved robust and generalizable navigation by integrating spatial-semantic structure into topological representations.</div>
       </div>
     </div>

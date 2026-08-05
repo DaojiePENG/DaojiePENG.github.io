@@ -21,11 +21,19 @@ Academic portfolio including publications, patents, and education background.
 
 ### CloudEdgeVLA
 
-**Latency-Tolerant Cloud-Edge Collaborative Vision-Language-Action Models**
+**Latency-Tolerant Cloud-Edge Collaborative Vision-Language-Action Models via Emergent Representational Specialization**
 
-> [Project Page](https://daojiepeng.github.io/CloudEdgeVLA/) · [Paper](https://daojiepeng.github.io/CloudEdgeVLA/static/paper/CloudEdgeVLA.pdf)
+> [Project Page](https://daojiepeng.github.io/CloudEdgeVLA/) · [Paper](https://arxiv.org/abs/2608.00569)
 
-*AAAI 2027*
+*AAAI 2027 (Under Review)*
+
+### SSTG-Nav
+
+**SSTG-Nav: Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation**
+
+> [Project Page](https://daojiepeng.github.io/SSTG-Nav/) · [Paper](https://arxiv.org/abs/2608.00527) · [Code](https://github.com/DaojiePENG/sstg-nav-bench)
+
+*AAAI 2027 (Under Review)*
 
 ### AttenA+
 
@@ -72,3 +80,4 @@ Academic portfolio including publications, patents, and education background.
 | 2026-06-16 | LiteViLNet project page added |
 | 2026-06-18 | AttenA+ project page added; README revamped |
 | 2026-08-05 | CloudEdgeVLA project page added |
+| 2026-08-05 | CloudEdgeVLA and SSTG-Nav arXiv metadata added to project, homepage, and CV pages |
