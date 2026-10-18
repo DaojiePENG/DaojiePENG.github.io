@@ -1,0 +1,37 @@
+{
+  "schema": "sstg-goat-project-media-v1",
+  "recording_type": "Frozen semantic-candidate prefix action re-execution using the original official controller; no fresh semantic inference",
+  "scene": "4ok3usBNeis",
+  "episode_id": "9",
+  "frames": 223,
+  "paid_actions": 222,
+  "reference_matches": true,
+  "success_distance_m": 0.25,
+  "presentation_evidence": "sstg-nav-bench/assets/demos/goat/4ok3usBNeis-episode9/render_evidence.json",
+  "assets": [
+    {
+      "source": "sstg-nav-bench/assets/demos/goat/4ok3usBNeis-episode9/goat_sstg_demo.mp4",
+      "path": "static/videos/goat/4ok3usBNeis-episode9/goat_sstg_demo.mp4",
+      "sha256": "170a63e0a4b87166a17a31b84ed6858cbb89fba1c4dc96ffb775a3176e315139",
+      "bytes": 10976727
+    },
+    {
+      "source": "sstg-nav-bench/assets/demos/goat/4ok3usBNeis-episode9/goat_first_person.mp4",
+      "path": "static/videos/goat/4ok3usBNeis-episode9/goat_first_person.mp4",
+      "sha256": "5624bd17d5125e3c33f19b6d0a93e3ae9bd5a959f8c82c12efc3dfae926c4ee9",
+      "bytes": 15813318
+    },
+    {
+      "source": "sstg-nav-bench/assets/demos/goat/4ok3usBNeis-episode9/poster.png",
+      "path": "static/videos/goat/4ok3usBNeis-episode9/poster.png",
+      "sha256": "dd88c216ba39df9e85fe5b657aebdc84dbfbd3f9469288db00afd984217e4a27",
+      "bytes": 428607
+    },
+    {
+      "source": "SSTGNavPaperAAAI/figures/generated/fig_goat_multimodal_demo.png",
+      "path": "static/images/goat-multimodal-demo.png",
+      "sha256": "8664c9ada25b1d6280a2bcd95eb7f562b5adff536006c29c4925f1ba479b7990",
+      "bytes": 2916893
+    }
+  ]
+}

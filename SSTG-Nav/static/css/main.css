@@ -2130,6 +2130,10 @@ sup {
   object-fit: contain;
 }
 
+.goat-demo-card .multion-demo-media {
+  aspect-ratio: 8 / 5;
+}
+
 .multion-demo-copy {
   padding: 21px 23px 23px;
 }

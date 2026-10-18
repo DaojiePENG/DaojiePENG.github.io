@@ -291,10 +291,43 @@
       <div class="page-shell">
         <div class="section-heading section-heading-split reveal">
           <div>
-            <p class="section-kicker">Online navigation in simulation</p>
-            <h2>Watch observations become navigation memory.</h2>
+            <p class="section-kicker">Navigation in simulation</p>
+            <h2>See the same memory serve successive requests.</h2>
           </div>
-          <p>In MultiON, SSTG-Nav builds its spatial-semantic memory as it moves. Retained landmarks connect object observations to supporting viewpoints and observed routes, keeping useful evidence available as the requested goal changes.</p>
+          <p>GOAT-Bench demonstrates category, description, and photograph queries over a shared survey. MultiON shows the complementary online setting, where observations collected along the way become memory for later goals.</p>
+        </div>
+
+        <div class="trajectory-heading reveal">
+          <div><p class="section-kicker">GOAT-Bench · Multimodal survey reuse</p><h3>Different ways to ask. One spatial memory.</h3></div>
+          <p>A continuous six-goal episode connects the current query, its survey evidence, and the executed approach.</p>
+        </div>
+
+        <figure class="figure-frame multion-demo-figure reveal" data-figure>
+          <button class="figure-open" type="button" aria-label="Enlarge GOAT-Bench multimodal navigation example">Expand</button>
+          <img src="static/images/goat-multimodal-demo.png" alt="Actual description, photograph, and category queries with their survey evidence, arrival views, and executed GOAT-Bench routes" loading="lazy">
+          <figcaption><span>Multimodal reuse.</span> Description, image, and category goals resolve against the same surveyed spatial memory. The photograph goal is followed by a bed-category request that succeeds from the existing arrival pose.</figcaption>
+        </figure>
+
+        <article class="multion-demo-card goat-demo-card reveal">
+          <div class="multion-demo-media">
+            <video muted loop playsinline controls preload="metadata" poster="static/videos/goat/4ok3usBNeis-episode9/poster.png" data-demo-video aria-label="GOAT-Bench: six successive description, photograph, and category goals with actual RGB views, query evidence, and executed routes">
+              <source src="static/videos/goat/4ok3usBNeis-episode9/goat_sstg_demo.mp4" type="video/mp4">
+              Your browser does not support MP4 video.
+            </video>
+          </div>
+          <div class="multion-demo-copy">
+            <p class="multion-demo-kicker">GOAT-Bench · Seen · Continuous six-goal episode</p>
+            <h3>Description → Image → Category → Image → Image → Description</h3>
+            <div class="multion-demo-stats"><span>6 / 6 goals</span><span>222 actions</span><span>3 query modalities</span></div>
+            <a class="multion-demo-link" href="static/videos/goat/4ok3usBNeis-episode9/goat_first_person.mp4">First-person recording <span aria-hidden="true">↗</span></a>
+          </div>
+        </article>
+
+        <p class="multion-demo-note reveal">Actual simulator actions re-execute the frozen semantic candidate plans with the benchmark's navmesh-assisted controller. Each action contributes one frame at 8 fps. The complete episode result matches the archived evaluation; this qualitative recording uses the strict 0.25 m success condition.</p>
+
+        <div class="trajectory-heading multion-legacy-heading reveal">
+          <div><p class="section-kicker">MultiON · Online memory</p><h3>Watch observations become navigation memory.</h3></div>
+          <p>Landmarks retained from earlier observations remain available when the next object becomes the current goal.</p>
         </div>
 
         <figure class="figure-frame multion-demo-figure reveal" data-figure>
