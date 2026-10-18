@@ -2097,3 +2097,116 @@ sup {
     transform: none;
   }
 }
+
+/* Online MultiON recordings retain the complete RGB and observed-map view. */
+.multion-demo-figure {
+  margin-bottom: 25px;
+}
+
+.multion-demo-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 23px;
+}
+
+.multion-demo-card {
+  min-width: 0;
+  overflow: hidden;
+  border: 1px solid rgba(36, 199, 163, 0.23);
+  border-radius: var(--radius-md);
+  background: rgba(13, 32, 34, 0.78);
+  box-shadow: var(--shadow);
+}
+
+.multion-demo-media {
+  aspect-ratio: 20 / 13;
+  background: #040c0d;
+}
+
+.multion-demo-media video {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.multion-demo-copy {
+  padding: 21px 23px 23px;
+}
+
+.multion-demo-kicker {
+  margin: 0 0 8px;
+  color: var(--ink-muted);
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.63rem;
+  letter-spacing: 0.055em;
+  text-transform: uppercase;
+}
+
+.multion-demo-copy h3 {
+  margin: 0;
+  font-family: "Manrope", sans-serif;
+  font-size: clamp(1.08rem, 2.4vw, 1.4rem);
+  letter-spacing: -0.025em;
+}
+
+.multion-demo-stats {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 9px 19px;
+  margin-top: 12px;
+  color: var(--ink-muted);
+  font-family: "Roboto Mono", monospace;
+  font-size: 0.68rem;
+}
+
+.multion-demo-stats span:first-child {
+  color: var(--teal-bright);
+}
+
+.multion-demo-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 9px;
+  margin-top: 17px;
+  color: var(--teal-bright);
+  font-size: 0.78rem;
+  text-underline-offset: 4px;
+}
+
+.multion-demo-link:hover {
+  text-decoration: underline;
+}
+
+.multion-demo-note {
+  max-width: 880px;
+  margin: 18px 0 0;
+  color: var(--ink-muted);
+  font-size: 0.78rem;
+  line-height: 1.65;
+}
+
+.multion-legacy-heading {
+  padding-top: 43px;
+  border-top: 1px solid var(--line);
+}
+
+.multion-legacy-heading > p {
+  max-width: 390px;
+}
+
+@media (max-width: 880px) {
+  .multion-demo-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .multion-demo-copy {
+    padding: 18px;
+  }
+
+  .multion-legacy-heading {
+    padding-top: 32px;
+  }
+}

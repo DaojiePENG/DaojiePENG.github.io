@@ -291,10 +291,55 @@
       <div class="page-shell">
         <div class="section-heading section-heading-split reveal">
           <div>
-            <p class="section-kicker">Benchmark trajectories</p>
-            <h2>See why the destination representation matters.</h2>
+            <p class="section-kicker">Online navigation in simulation</p>
+            <h2>Watch observations become navigation memory.</h2>
           </div>
-          <p>These short Habitat trajectories come directly from the public benchmark outputs. The paired sofa case holds the scene and target category fixed, isolating the effect of a supported fused destination.</p>
+          <p>In MultiON, SSTG-Nav builds its spatial-semantic memory as it moves. Retained landmarks connect object observations to supporting viewpoints and observed routes, keeping useful evidence available as the requested goal changes.</p>
+        </div>
+
+        <figure class="figure-frame multion-demo-figure reveal" data-figure>
+          <button class="figure-open" type="button" aria-label="Enlarge online MultiON navigation diagram">Expand</button>
+          <img src="static/images/multion-online-demo.png" alt="Recorded MultiON observations and policy-observed map illustrate landmark memory, geometric routing, and ordered object navigation" loading="lazy">
+          <figcaption><span>From observation to action.</span> RGB-D observations support landmark memory and routes through explored free space. The map shows the policy's observed representation, alongside recorded views from an online MultiON episode.</figcaption>
+        </figure>
+
+        <div class="multion-demo-grid">
+          <article class="multion-demo-card reveal">
+            <div class="multion-demo-media">
+              <video muted loop playsinline controls preload="metadata" poster="static/videos/multion/YVUC4YcDtcY-episode86/poster.png" data-demo-video aria-label="MultiON episode 86: pink, blue, and cyan goals, with RGB observations and the policy-observed map">
+                <source src="static/videos/multion/YVUC4YcDtcY-episode86/multion_sstg_demo.mp4" type="video/mp4">
+                Your browser does not support MP4 video.
+              </video>
+            </div>
+            <div class="multion-demo-copy">
+              <p class="multion-demo-kicker">MultiON · Case 01</p>
+              <h3>Pink → Blue → Cyan</h3>
+              <div class="multion-demo-stats"><span>3 / 3 goals</span><span>119 actions</span></div>
+              <a class="multion-demo-link" href="static/videos/multion/YVUC4YcDtcY-episode86/multion_first_person.mp4">First-person recording <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+
+          <article class="multion-demo-card reveal">
+            <div class="multion-demo-media">
+              <video muted loop playsinline controls preload="metadata" poster="static/videos/multion/ARNzJeq3xxb-episode37/poster.png" data-demo-video aria-label="MultiON episode 37: red, pink, and cyan goals, with RGB observations and the policy-observed map">
+                <source src="static/videos/multion/ARNzJeq3xxb-episode37/multion_sstg_demo.mp4" type="video/mp4">
+                Your browser does not support MP4 video.
+              </video>
+            </div>
+            <div class="multion-demo-copy">
+              <p class="multion-demo-kicker">MultiON · Case 02</p>
+              <h3>Red → Pink → Cyan</h3>
+              <div class="multion-demo-stats"><span>3 / 3 goals</span><span>153 actions</span></div>
+              <a class="multion-demo-link" href="static/videos/multion/ARNzJeq3xxb-episode37/multion_first_person.mp4">First-person recording <span aria-hidden="true">↗</span></a>
+            </div>
+          </article>
+        </div>
+
+        <p class="multion-demo-note reveal">Two qualitative examples from the frozen online policy. Each recording pairs the first-person view with the policy-observed map, played at 8 frames per second with one frame per action and a final observation.</p>
+
+        <div class="trajectory-heading multion-legacy-heading reveal">
+          <div><p class="section-kicker">HM3D mechanism examples</p><h3>See why the destination representation matters.</h3></div>
+          <p>These separate HM3D trajectories illustrate grounding and fusion. The paired sofa case holds the scene and target category fixed.</p>
         </div>
 
         <div class="comparison-label reveal">

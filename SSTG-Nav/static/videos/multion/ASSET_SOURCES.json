@@ -1,0 +1,55 @@
+{
+  "description": "Recorded MultiON demonstrations; detailed run receipts and source manifests accompany the benchmark assets.",
+  "source_url": "https://github.com/DaojiePENG/sstg-nav-bench/tree/master/assets/demos/multion",
+  "files": [
+    {
+      "path": "static/videos/multion/ARNzJeq3xxb-episode37/multion_first_person.mp4",
+      "source_repository": "sstg-nav-bench",
+      "source_path": "assets/demos/multion/ARNzJeq3xxb-episode37/multion_first_person.mp4",
+      "sha256": "ecb2950c24c4d259b50654bd191df175cd9a12ad9da2233021fd0e57ebdee477",
+      "bytes": 3344029
+    },
+    {
+      "path": "static/videos/multion/ARNzJeq3xxb-episode37/multion_sstg_demo.mp4",
+      "source_repository": "sstg-nav-bench",
+      "source_path": "assets/demos/multion/ARNzJeq3xxb-episode37/multion_sstg_demo.mp4",
+      "sha256": "eb902444b5de49bf932dc0a4fc971e60c36a55a105ab405f31d4296dabf659d3",
+      "bytes": 7228337
+    },
+    {
+      "path": "static/videos/multion/ARNzJeq3xxb-episode37/poster.png",
+      "source_repository": "sstg-nav-bench",
+      "source_path": "assets/demos/multion/ARNzJeq3xxb-episode37/poster.png",
+      "sha256": "66416293fc81eb45fbb4d49d10e031be5914404abda2cd1c793b34c6723868fd",
+      "bytes": 143215
+    },
+    {
+      "path": "static/videos/multion/YVUC4YcDtcY-episode86/multion_first_person.mp4",
+      "source_repository": "sstg-nav-bench",
+      "source_path": "assets/demos/multion/YVUC4YcDtcY-episode86/multion_first_person.mp4",
+      "sha256": "f516d8975fa26ea0fa5ba46fb1b539842808b6d5fd749fc628627fe78954fa76",
+      "bytes": 2805703
+    },
+    {
+      "path": "static/videos/multion/YVUC4YcDtcY-episode86/multion_sstg_demo.mp4",
+      "source_repository": "sstg-nav-bench",
+      "source_path": "assets/demos/multion/YVUC4YcDtcY-episode86/multion_sstg_demo.mp4",
+      "sha256": "65ab8083b42c3bd231f7623de7141923c4cadc502d5d1104d0b70c588ccb42bc",
+      "bytes": 6047362
+    },
+    {
+      "path": "static/videos/multion/YVUC4YcDtcY-episode86/poster.png",
+      "source_repository": "sstg-nav-bench",
+      "source_path": "assets/demos/multion/YVUC4YcDtcY-episode86/poster.png",
+      "sha256": "c8e8e615cd92c2bd2199118b5f6ba86c4cad2e30f484a9b397f234c2820e8851",
+      "bytes": 152168
+    },
+    {
+      "path": "static/images/multion-online-demo.png",
+      "source_repository": "SSTGNavPaperAAAI",
+      "source_path": "figures/generated/fig_multion_online_demo.png",
+      "sha256": "c14d907818764ec0aec60b1c652243532d16bc1b1df72fff560ae81a282c6b16",
+      "bytes": 714146
+    }
+  ]
+}
