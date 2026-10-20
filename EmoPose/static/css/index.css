@@ -335,6 +335,33 @@
     }
     .fig-cap strong { color: var(--text); }
 
+    /* compact figure — keeps state-machine / diagram cards from dominating */
+    .fig-card.fig-narrow {
+      max-width: 620px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .fig-card.fig-mid {
+      max-width: 920px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+
+    /* Pose Studio detail pair */
+    .pstudio-row {
+      display: grid;
+      grid-template-columns: .62fr 1.38fr;
+      gap: 1.15rem;
+      align-items: start;
+    }
+    .pstudio-row .fig-card { margin-bottom: 1.25rem; }
+    .pstudio-row .fig-card img {
+      aspect-ratio: auto;
+    }
+    @media (max-width: 980px) {
+      .pstudio-row { grid-template-columns: 1fr; }
+    }
+
     dialog.fig-dialog {
       border: 1px solid var(--line2);
       border-radius: 12px;

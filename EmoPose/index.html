@@ -296,7 +296,7 @@
       </div>
     </div>
 
-    <div class="fig-card">
+    <div class="fig-card fig-narrow">
       <img src="./static/images/Gesture_Sequencer_State_Machine.png" alt="Queue-aware gesture sequencer state machine" data-lightbox>
       <div class="fig-cap">
         <strong>Figure 3:</strong> Robot-side queue-aware gesture sequencer. IDLE awaits the first command;
@@ -304,6 +304,69 @@
         leads to HOLDING, while a queued successor passes through an explicit cubic BLENDING transition of at most
         0.3 s. After 2 s without a new command, a non-neutral endpoint is blended to neutral over 1 s. The dashed
         interruption path clears pending commands and restarts blending from the latest published pose.
+      </div>
+    </div>
+
+    <!-- ===================== POSE STUDIO ===================== -->
+    <h3 id="pose-studio" style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin:2.1rem 0 .25rem">
+      Pose Studio — authoring the library the sequencer plays
+    </h3>
+    <p class="sec-desc" style="margin-bottom:1.15rem">
+      Every keyframe the runtime resolves is authored in <strong>Pose Studio</strong>, the browser-based
+      design-time editor behind the robot-owned library <em>L</em>. It embeds MuJoCo directly in the editing
+      surface, so a 14-DoF keyframe is inspected on the G1 model as soon as it is written. Poses auto-save to
+      <code>config/g1_poses.json</code> and are picked up by the motion library and the VLM class–variant guide
+      without manual registration — authoring a new social gesture therefore costs no change to the control
+      interface or to the sequencer of Figure&nbsp;3.
+    </p>
+
+    <div class="fig-card">
+      <video class="overview-demo-video" controls loop preload="metadata" playsinline
+             poster="./static/images/Pose_Studio_Demo_Poster.png">
+        <source src="./static/videos/overview/02_pose_studio_authoring_demo.mp4" type="video/mp4">
+      </video>
+      <div class="fig-cap">
+        <strong>Pose Studio Demo:</strong> The design-time authoring loop in the browser editor. A gesture is
+        selected from the library and its reference keyframe is loaded into the embedded MuJoCo viewport; the
+        ordered keyframe sequence is then played back on the G1 model so the trajectory can be inspected before it
+        is committed. The run starts from <em>heart_both</em>, then switches to <em>open_arms</em> and
+        <em>face_wave</em> to repeat the same loop across gesture classes, while the live joint readouts show the
+        14-DoF record being exercised. Every edit auto-saves to <code>config/g1_poses.json</code>, so the runtime
+        library and the VLM guide stay synchronized with no manual registration step.
+      </div>
+    </div>
+
+    <div class="fig-card">
+      <img src="./static/images/Pose_Studio_Authoring_Interface.png" alt="Pose Studio browser-based keyframe authoring interface with embedded MuJoCo" data-lightbox>
+      <div class="fig-cap">
+        <strong>Pose Studio:</strong> The design-time authoring interface for the robot-owned motion library.
+        Left: the searchable gesture library of all 29 authored variants plus user-created actions, each with its
+        semantic class, keyframe count, and designated reference frame. Center: the embedded MuJoCo viewport
+        rendering the live G1 29-DoF model with readouts and camera presets. Right: the pose inspector — metadata,
+        class assignment, control gains, and the seven arm joints per side that make up the 14-DoF record. The
+        shown pose is the reference keyframe of <em>open_arms</em> (welcoming, 11 keyframes).
+      </div>
+    </div>
+
+    <div class="pstudio-row">
+      <div class="fig-card">
+        <img src="./static/images/Pose_Studio_Gesture_Library.png" alt="Pose Studio gesture library panel with semantic class tags and keyframe metadata" data-lightbox>
+        <div class="fig-cap">
+          <strong>Gesture library:</strong> class tags, keyframe counts, and reference-frame markers for each
+          authored variant. "New Action" starts an empty keyframe sequence, and the class filter feeds the same
+          class–variant vocabulary the VLM plans against.
+        </div>
+      </div>
+      <div class="fig-card">
+        <img src="./static/images/Pose_Studio_MuJoCo_Keyframe_Authoring.png" alt="Embedded MuJoCo preview and keyframe timeline with interpolation tools" data-lightbox>
+        <div class="fig-cap">
+          <strong>Keyframe trajectory authoring:</strong> the embedded MuJoCo preview shows the loaded
+          <em>open_arms</em> keyframe on the G1 model, while the timeline below carries the ordered keyframe
+          sequence (Start frame locked to idle, REF marker on the reference frame). The interpolation tool inserts
+          smoothstep / cubic / linear frames between two selected keyframes, with automatic frame-count estimation
+          from the maximum per-joint step — the same smoothing path used to prepare large-amplitude gestures before
+          the sequencer plays them back.
+        </div>
       </div>
     </div>
   </div>
