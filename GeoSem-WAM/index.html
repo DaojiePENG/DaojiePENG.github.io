@@ -1,0 +1,749 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="GeoSem-WAM: Geometry- and Semantic-Aware World Action Models. arXiv 2026 / CoRL 2026.">
+  <meta name="keywords" content="World Action Model, Embodied Intelligence, Structured World Modeling, Vision-Language-Action, Geometry, Semantic Segmentation">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>GeoSem-WAM — Geometry- and Semantic-Aware World Action Models</title>
+
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PYVRSFMDRL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+    gtag('config', 'G-PYVRSFMDRL');
+  </script>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/jpswalsh/academicons@1/css/academicons.min.css">
+  <link rel="icon" href="../Personal/assets/figures/daojie.png">
+
+  <style>
+    :root {
+      --c1: #2563EB;      /* blue   — geometry */
+      --c1-light: #60A5FA;
+      --c1-dark: #1D4ED8;
+      --c2: #EA580C;      /* orange — semantics */
+      --c2-light: #FB923C;
+      --c3: #F59E0B;
+      --success: #10B981;
+      --bg-dark: #0B1220;
+      --bg-card: #131C2E;
+      --text-light: #F8FAFC;
+      --text-muted: #94A3B8;
+      --section-light: #F8FAFC;
+      --section-alt: #EFF6FF;
+      --border-light: #E2E8F0;
+    }
+    * { margin:0; padding:0; box-sizing:border-box; }
+    body {
+      font-family: 'Inter', -apple-system, sans-serif;
+      color: #1E293B; line-height: 1.7;
+      overflow-x: hidden; -webkit-font-smoothing: antialiased;
+    }
+
+    .nav {
+      position: fixed; top:0; left:0; right:0; z-index:1000;
+      background: rgba(11,18,32,0.8); backdrop-filter: blur(24px);
+      border-bottom: 1px solid rgba(255,255,255,0.05); transition: background 0.3s;
+    }
+    .nav-inner {
+      max-width: 1200px; margin: 0 auto;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0.75rem 2rem;
+    }
+    .nav-brand { font-weight: 800; font-size: 1.1rem; }
+    .nav-brand span {
+      background: linear-gradient(135deg, var(--c1-light), var(--c2-light));
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+    }
+    .nav-links a {
+      color: var(--text-muted); text-decoration: none; font-size: 0.875rem;
+      font-weight: 500; margin-left: 2rem; transition: color 0.2s;
+    }
+    .nav-links a:hover { color: #fff; }
+
+    .hero {
+      background: linear-gradient(160deg, #0B1220 0%, #1E3A8A 34%, #9A3412 66%, #131C2E 100%);
+      padding: 8rem 2rem 5rem; text-align: center; position: relative; overflow: hidden;
+    }
+    .hero::before {
+      content:''; position: absolute; inset:0;
+      background: radial-gradient(ellipse 70% 50% at 26% 26%, rgba(37,99,235,0.22), transparent),
+                  radial-gradient(ellipse 50% 40% at 74% 72%, rgba(234,88,12,0.18), transparent);
+    }
+    .hero::after {
+      content:''; position:absolute; bottom:0; left:0; right:0; height:120px;
+      background: linear-gradient(to bottom, transparent, #0B1220);
+    }
+    .hero-content { position:relative; z-index:1; max-width:1020px; margin:0 auto; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 0.5rem;
+      background: rgba(37,99,235,0.18); border: 1px solid rgba(96,165,250,0.28);
+      padding: 0.4rem 1rem; border-radius: 100px; font-size: 0.8rem;
+      color: var(--c1-light); font-weight: 500; margin-bottom: 1.5rem;
+    }
+    .hero-badge .dot {
+      width:6px; height:6px; border-radius:50%;
+      background: var(--c3); animation: blink 2s infinite;
+    }
+    @keyframes blink { 0%,100%{opacity:1} 50%{opacity:0.3} }
+    .hero h1 {
+      font-size: clamp(1.85rem,4vw,2.95rem); font-weight:800; color:#fff;
+      line-height:1.22; letter-spacing:-0.03em; margin-bottom:1.5rem;
+    }
+    .hero h1 .gt {
+      background: linear-gradient(135deg, var(--c1-light), var(--c2-light), #FDBA74);
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .hero-authors { font-size:0.98rem; color:var(--text-muted); margin-bottom:0.5rem; line-height:1.9; }
+    .hero-authors a { color:var(--c1-light); text-decoration:none; font-weight:500; }
+    .hero-authors a:hover { text-decoration:underline; }
+    .hero-affil { font-size:0.85rem; color:rgba(148,163,184,0.72); margin-bottom:0.6rem; }
+    .hero-note { font-size:0.78rem; color:rgba(148,163,184,0.55); margin-bottom:2.4rem; }
+    .hero-actions { display:flex; gap:0.75rem; justify-content:center; flex-wrap:wrap; }
+    .btn {
+      display:inline-flex; align-items:center; gap:0.5rem;
+      padding:0.7rem 1.5rem; border-radius:12px; font-size:0.9rem;
+      font-weight:600; text-decoration:none; transition:all 0.3s; border:none; cursor:pointer;
+    }
+    .btn-primary {
+      background: linear-gradient(135deg, var(--c1), var(--c1-dark));
+      color:#fff; box-shadow:0 4px 20px rgba(37,99,235,0.4);
+    }
+    .btn-primary:hover { transform:translateY(-2px); box-shadow:0 8px 30px rgba(37,99,235,0.5); }
+    .btn-ghost {
+      background:rgba(255,255,255,0.06); color:#fff;
+      border:1px solid rgba(255,255,255,0.12); backdrop-filter:blur(10px);
+    }
+    .btn-ghost:hover { background:rgba(255,255,255,0.12); transform:translateY(-2px); }
+
+    .stats {
+      background: var(--bg-dark); border-top:1px solid rgba(255,255,255,0.04);
+      border-bottom:1px solid rgba(255,255,255,0.04);
+    }
+    .stats-inner {
+      max-width:1100px; margin:0 auto; padding:2.5rem 2rem;
+      display:grid; grid-template-columns:repeat(4,1fr); gap:2rem; text-align:center;
+    }
+    .stat-val {
+      font-size:2rem; font-weight:800;
+      background: linear-gradient(135deg, var(--c1-light), var(--c2-light));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .stat-label {
+      font-size:0.75rem; color:var(--text-muted); margin-top:0.25rem;
+      font-weight:600; text-transform:uppercase; letter-spacing:0.06em;
+    }
+
+    .section { padding:5rem 2rem; }
+    .section.light { background:var(--section-light); }
+    .section.alt { background:var(--section-alt); }
+    .section.dark {
+      background: linear-gradient(160deg, var(--bg-dark), #1E293B 55%, var(--bg-card));
+      color: var(--text-light);
+    }
+    .inner { max-width:1000px; margin:0 auto; }
+    .stitle { font-size:2rem; font-weight:800; text-align:center; letter-spacing:-0.02em; margin-bottom:0.75rem; }
+    .stitle .gt {
+      background: linear-gradient(135deg, var(--c1), var(--c2));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+    }
+    .ssub { text-align:center; color:#64748B; max-width:760px; margin:0 auto 3rem; font-size:1.02rem; }
+    .dark .ssub { color:var(--text-muted); }
+
+    .abstract-card {
+      background:#fff; border-radius:20px; padding:3rem;
+      box-shadow:0 4px 30px rgba(0,0,0,0.05); border:1px solid var(--border-light);
+      font-size:1.02rem; line-height:1.85; color:#475569;
+    }
+    .abstract-card strong { color:#1E293B; }
+
+    .fig { margin-bottom:3rem; }
+    .fig img {
+      width:100%; border-radius:16px;
+      box-shadow:0 8px 40px rgba(0,0,0,0.08); border:1px solid var(--border-light);
+      background:#fff;
+    }
+    .fig-cap {
+      margin-top:1rem; font-size:0.9rem; color:#64748B;
+      text-align:center; line-height:1.7;
+    }
+    .dark .fig img { box-shadow:0 8px 40px rgba(0,0,0,0.3); border-color:rgba(255,255,255,0.06); }
+    .dark .fig-cap { color:var(--text-muted); }
+    .fig-row {
+      display:grid; grid-template-columns:1fr 1fr; gap:2rem; align-items:start;
+    }
+    .fig-row .fig { margin-bottom:0; }
+    @media(max-width:820px) { .fig-row { grid-template-columns:1fr; } }
+
+    .feat-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.5rem; }
+    .feat-card {
+      background:rgba(255,255,255,0.04); border:1px solid rgba(255,255,255,0.07);
+      border-radius:16px; padding:2rem; transition:all 0.3s; position:relative; overflow:hidden;
+    }
+    .feat-card::before {
+      content:''; position:absolute; top:0; left:0; right:0; height:3px;
+      background: linear-gradient(90deg, var(--c1-light), var(--c2-light));
+      opacity:0; transition:opacity 0.3s;
+    }
+    .feat-card:hover { background:rgba(255,255,255,0.07); transform:translateY(-4px); box-shadow:0 12px 40px rgba(0,0,0,0.2); }
+    .feat-card:hover::before { opacity:1; }
+    .feat-icon {
+      width:48px; height:48px; border-radius:12px;
+      display:flex; align-items:center; justify-content:center;
+      font-size:1.25rem; margin-bottom:1rem;
+    }
+    .feat-icon.blue   { background:rgba(37,99,235,0.22);  color:var(--c1-light); }
+    .feat-icon.orange { background:rgba(234,88,12,0.22);  color:var(--c2-light); }
+    .feat-icon.amber  { background:rgba(245,158,11,0.20); color:var(--c3); }
+    .feat-icon.green  { background:rgba(16,185,129,0.18); color:var(--success); }
+    .feat-card h3 { font-size:1.1rem; font-weight:700; margin-bottom:0.5rem; color:#fff; }
+    .feat-card p { font-size:0.9rem; color:var(--text-muted); line-height:1.65; }
+
+    .res-card {
+      background:#fff; border-radius:16px; overflow:hidden;
+      box-shadow:0 4px 20px rgba(0,0,0,0.05); border:1px solid var(--border-light);
+    }
+    .res-header {
+      padding:1.25rem 1.5rem; font-weight:700; font-size:1rem;
+      border-bottom:1px solid var(--border-light);
+      background: linear-gradient(135deg, rgba(37,99,235,0.06), rgba(234,88,12,0.05));
+    }
+    .res-table { width:100%; border-collapse:collapse; font-size:0.88rem; }
+    .res-table th, .res-table td { padding:0.75rem 1rem; text-align:center; }
+    .res-table th {
+      font-weight:600; font-size:0.76rem; text-transform:uppercase;
+      letter-spacing:0.04em; color:#64748B; border-bottom:2px solid var(--border-light);
+      background:#F8FAFC;
+    }
+    .res-table td { border-bottom:1px solid #F1F5F9; }
+    .res-table tr:last-child td { border-bottom:none; }
+    .res-table .ours {
+      background: linear-gradient(135deg, rgba(37,99,235,0.09), rgba(234,88,12,0.07));
+      font-weight:700;
+    }
+    .res-table .ours td:first-child { color:var(--c1-dark); font-weight:700; }
+    .res-table .best { color:var(--c1-dark); font-weight:800; }
+    .res-table .gain { color:var(--c2); font-weight:800; }
+    .res-table .cat td {
+      background:#F1F5F9; font-size:0.72rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:0.08em; color:#64748B;
+    }
+    .res-wrap { display:grid; gap:2.5rem; }
+    .res-note {
+      font-size:0.82rem; color:#94A3B8; margin-top:0.85rem; line-height:1.6;
+      padding:0 1.5rem 1.25rem;
+    }
+    .tbl-scroll { overflow-x:auto; }
+
+    .video-list { display:grid; gap:1.75rem; }
+    .video-card {
+      background:#fff; border-radius:16px; overflow:hidden;
+      box-shadow:0 8px 30px rgba(0,0,0,0.08); border:1px solid var(--border-light);
+    }
+    .video-card video {
+      width:100%; display:block; background:#000;
+      aspect-ratio: 16/3; object-fit: cover;
+    }
+    .video-card .vc-body {
+      padding:1.1rem 1.35rem;
+      display:flex; align-items:baseline; gap:0.9rem; flex-wrap:wrap;
+    }
+    .video-card h4 { font-size:0.98rem; font-weight:700; color:#1E293B; }
+    .video-card p { font-size:0.87rem; color:#64748B; line-height:1.6; flex:1; min-width:260px; }
+    .vc-tag {
+      font-size:0.72rem; font-weight:700; padding:0.22rem 0.65rem;
+      border-radius:100px; white-space:nowrap;
+    }
+    .vc-tag.core { background:rgba(37,99,235,0.12); color:var(--c1-dark); }
+    .vc-tag.gen  { background:rgba(234,88,12,0.12); color:var(--c2); }
+
+    .loss-grid { display:grid; grid-template-columns:1fr 1fr; gap:1.25rem; margin-top:1.5rem; }
+    .loss-item {
+      background:#fff; border:1px solid var(--border-light); border-radius:12px;
+      padding:1.15rem 1.25rem;
+    }
+    .loss-item code {
+      font-family:'JetBrains Mono',monospace; font-size:0.95rem; font-weight:600;
+    }
+    .loss-item .lg-b { color:var(--c1-dark); }
+    .loss-item .lg-o { color:var(--c2); }
+    .loss-item .lg-n { color:#475569; }
+    .loss-item p { font-size:0.83rem; color:#64748B; margin-top:0.35rem; line-height:1.55; }
+    @media(max-width:640px) { .loss-grid { grid-template-columns:1fr; } }
+
+    .bib-box {
+      background:var(--bg-card); border-radius:16px; padding:2rem;
+      border:1px solid rgba(255,255,255,0.08); position:relative; overflow-x:auto;
+    }
+    .bib-box pre {
+      font-family:'JetBrains Mono',monospace; font-size:0.82rem;
+      color:var(--text-muted); line-height:1.8; white-space:pre;
+    }
+    .copy-btn {
+      position:absolute; top:1rem; right:1rem;
+      background:rgba(255,255,255,0.08); border:1px solid rgba(255,255,255,0.12);
+      color:var(--text-muted); padding:0.4rem 0.8rem; border-radius:8px;
+      font-size:0.75rem; cursor:pointer; transition:all 0.2s;
+    }
+    .copy-btn:hover { background:rgba(255,255,255,0.15); color:#fff; }
+
+    .footer {
+      background:var(--bg-dark); padding:3rem 2rem;
+      border-top:1px solid rgba(255,255,255,0.05); text-align:center;
+    }
+    .footer-links { margin-bottom:1rem; }
+    .footer-links a {
+      color:var(--text-muted); font-size:1.25rem; margin:0 0.75rem;
+      text-decoration:none; transition:color 0.2s;
+    }
+    .footer-links a:hover { color:#fff; }
+    .footer p { font-size:0.8rem; color:rgba(148,163,184,0.4); }
+    .footer a { color:rgba(148,163,184,0.6); }
+
+    .fu { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease, transform 0.7s ease; }
+    .fu.vis { opacity:1; transform:translateY(0); }
+
+    @media(max-width:768px) {
+      .stats-inner, .feat-grid { grid-template-columns:1fr 1fr; }
+      .hero { padding:7rem 1.5rem 4rem; }
+      .nav-links { display:none; }
+      .abstract-card { padding:2rem; }
+    }
+    @media(max-width:480px) {
+      .stats-inner { grid-template-columns:1fr 1fr; }
+      .feat-grid { grid-template-columns:1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav class="nav">
+  <div class="nav-inner">
+    <div class="nav-brand"><span>GeoSem-WAM</span></div>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#method">Method</a>
+      <a href="#demos">Demos</a>
+      <a href="#results">Results</a>
+      <a href="https://arxiv.org/abs/2606.03188" target="_blank"><i class="ai ai-arxiv"></i> Paper</a>
+    </div>
+  </div>
+</nav>
+
+<section class="hero">
+  <div class="hero-content">
+    <div class="hero-badge"><span class="dot"></span> CoRL 2026 &middot; Under Review</div>
+    <h1>
+      <span class="gt">Geometry- and Semantic-Aware</span><br>
+      World Action Models
+    </h1>
+    <div class="hero-authors">
+      <a href="#">Fulong Ma</a><sup>1*</sup> &middot;
+      <a href="https://daojiepeng.github.io/Personal/">Daojie PENG</a><sup>1*</sup> &middot;
+      Wenjun Yue<sup>4</sup> &middot; Jiahang Cao<sup>2</sup> &middot;
+      Bintao Wang<sup>5</sup> &middot; Qiang Zhang<sup>1,3,6</sup> &middot;
+      <a href="https://personal.hkust-gz.edu.cn/junma/index.html">Jun Ma</a><sup>1&dagger;</sup>
+    </div>
+    <div class="hero-affil">
+      <sup>1</sup> HKUST(Guangzhou) &middot;
+      <sup>2</sup> HKU &middot;
+      <sup>3</sup> USTC &middot;
+      <sup>4</sup> OC &middot;
+      <sup>5</sup> SDU &middot;
+      <sup>6</sup> X-Humanoid
+    </div>
+    <div class="hero-note">
+      <sup>*</sup> Equal contribution &nbsp;&middot;&nbsp; <sup>&dagger;</sup> Corresponding author
+    </div>
+    <div class="hero-actions">
+      <a href="./static/paper/GeoSem-WAM_arXiv2606.03188.pdf" class="btn btn-primary"><i class="fas fa-file-pdf"></i> Paper</a>
+      <a href="https://arxiv.org/abs/2606.03188" class="btn btn-ghost" target="_blank"><i class="ai ai-arxiv"></i> arXiv</a>
+    </div>
+  </div>
+</section>
+
+<section class="stats">
+  <div class="stats-inner">
+    <div><div class="stat-val">98.55%</div><div class="stat-label">LIBERO Avg. Success Rate</div></div>
+    <div><div class="stat-val">92.52%</div><div class="stat-label">RoboTwin 2.0 Avg. (SOTA)</div></div>
+    <div><div class="stat-val">95.4%</div><div class="stat-label">Real-World Franka Avg.</div></div>
+    <div><div class="stat-val">+6.6%</div><div class="stat-label">Gain over Fast-WAM Baseline</div></div>
+  </div>
+</section>
+
+<section class="section light" id="abstract">
+  <div class="inner fu">
+    <h2 class="stitle">Abstract</h2>
+    <div class="abstract-card">
+      <p>Recent World Action Models (WAMs) have demonstrated impressive capabilities in embodied decision-making. However, whether their effectiveness stems from <strong>explicit future imagination during inference</strong> or <strong>representation learning induced by predictive training</strong> remains an open question. Emerging evidence suggests the primary advantage lies in learning robust latent representations rather than generating future observations at test time.</p>
+      <br>
+      <p>Nevertheless, existing WAMs mainly rely on RGB-based future prediction, which provides limited structural and spatial understanding of complex environments. To address this, we propose a <strong>structured world modeling framework</strong> that enhances latent representations through geometric and semantic supervision. Alongside future RGB prediction, our model introduces two auxiliary prediction branches for future geometry and semantic representations, enabling it to jointly capture scene dynamics, spatial geometry, and semantic context within a unified latent space.</p>
+      <br>
+      <p>Crucially, our approach preserves <strong>efficient inference</strong> by avoiding explicit future rollout or video generation at test time. Extensive experiments show that incorporating structured world supervision consistently improves action prediction accuracy, scene understanding, and robustness under challenging embodied scenarios — particularly under occlusions, object interactions, and complex environmental dynamics.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section dark">
+  <div class="inner fu">
+    <h2 class="stitle" style="color:#fff">Key <span class="gt">Contributions</span></h2>
+    <p class="ssub">Structured geometric and semantic supervision, applied only during training — zero cost at deployment.</p>
+    <div class="feat-grid">
+      <div class="feat-card">
+        <div class="feat-icon blue"><i class="fas fa-lightbulb"></i></div>
+        <h3>Why World Models Work</h3>
+        <p>We clarify that the primary benefit of predictive world modeling comes from training-phase representation learning — dynamics-aware latent features via predictive supervision — rather than test-time imagination or rollout.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon orange"><i class="fas fa-layer-group"></i></div>
+        <h3>Structured World Supervision</h3>
+        <p>Future RGB, geometry, and semantic prediction are integrated into a unified framework, explicitly encouraging spatial geometry, 3D structural consistency, and object-level semantics beyond RGB-only supervision.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon amber"><i class="fas fa-project-diagram"></i></div>
+        <h3>DPT Dense Prediction Heads</h3>
+        <p>DPT-style auxiliary branches with 3D reassemble and 3D fusion modules aggregate multi-stage video tokens into dense geometry and semantic predictions, supervising the latent space at multiple resolutions.</p>
+      </div>
+      <div class="feat-card">
+        <div class="feat-icon green"><i class="fas fa-bolt"></i></div>
+        <h3>Efficient Inference Preserved</h3>
+        <p>Geometry and semantic heads are discarded at deployment. The model processes only the first observation's latent tokens in a single forward pass — no future rollout, no video generation.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section light" id="method">
+  <div class="inner fu">
+    <h2 class="stitle">Method <span class="gt">Overview</span></h2>
+    <p class="ssub">A Mixture-of-Transformers backbone with shared attention: a video DiT for world modeling and an action DiT for policy execution, both guided by dense structured supervision.</p>
+
+    <div class="fig">
+      <img src="./static/images/Overview_Architecture.png" alt="GeoSem-WAM architecture overview">
+      <p class="fig-cap"><strong>Fig. 1.</strong> Architecture overview. The full diagram shows the training phase; the dashed box marks the inference stage. A video DiT predicts future latents supervised by RGB, geometry, and semantics through DPT heads, while an action DiT generates action chunks conditioned on the world representation via shared attention and KV cache.</p>
+    </div>
+
+    <div class="fig-row">
+      <div class="fig">
+        <img src="./static/images/DPT_Auxiliary_Head.png" alt="DPT auxiliary head">
+        <p class="fig-cap"><strong>Fig. 2.</strong> DPT auxiliary head. Multi-stage video tokens are reassembled into image-like multi-resolution features, progressively fused and upsampled through 3D fusion modules, then decoded by geometry and semantic heads. Both branches are discarded at inference.</p>
+      </div>
+      <div>
+        <h3 style="font-size:1.15rem; font-weight:800; letter-spacing:-0.01em; margin-bottom:0.35rem;">Unified Training Objective</h3>
+        <p style="font-size:0.92rem; color:#64748B; line-height:1.7;">
+          Four objectives are optimized jointly. Geometry and semantics act purely as <strong style="color:#1E293B">training-time
+          dense supervision</strong> on the video latents — neither annotation is ever used as a model input at
+          train or test time, mirroring how humans reason internally about structure and meaning.
+        </p>
+        <div class="loss-grid">
+          <div class="loss-item">
+            <code><span class="lg-n">&#8466;</span><sub class="lg-n">rgb</sub></code>
+            <p>Flow-matching loss on future video latents — standard RGB future prediction.</p>
+          </div>
+          <div class="loss-item">
+            <code><span class="lg-b">&#8466;</span><sub class="lg-b">geo</sub></code>
+            <p>L&#8321; reconstruction of future geometry from the geometry head.</p>
+          </div>
+          <div class="loss-item">
+            <code><span class="lg-o">&#8466;</span><sub class="lg-o">sem</sub></code>
+            <p>Pixel-wise cross-entropy on dense semantic logits from the semantic head.</p>
+          </div>
+          <div class="loss-item">
+            <code><span class="lg-n">&#8466;</span><sub class="lg-n">act</sub></code>
+            <p>Flow-matching loss on the action chunk, conditioned on the world representation.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="fig" style="margin-top:3.5rem;">
+      <img src="./static/images/MultiModal_Supervision.png" alt="Multi-modal RGB / depth / semantic supervision signals">
+      <p class="fig-cap"><strong>Fig. 3.</strong> Multi-modal structured supervision signals across domains. For every training frame the model receives dense future geometry (depth) and semantic supervision alongside RGB — collected on a real Franka Emika Panda and rendered in simulation on LIBERO and RoboTwin. These annotations supervise training only and are never fed to the policy.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section alt" id="demos">
+  <div class="inner fu">
+    <h2 class="stitle">Environments &amp; Demonstrations</h2>
+    <p class="ssub">Multi-modal observations across simulation benchmarks, plus tri-view teleoperation recordings from the real Franka platform.</p>
+
+    <div class="fig">
+      <img src="./static/images/Sim_Environments.png" alt="Simulation environments and multi-modal observations">
+      <p class="fig-cap"><strong>Fig. 4.</strong> Simulation environments and multi-modal observations. (I) LIBERO suites — Goal, Object, Spatial, and LIBERO-10 — each shown with external and wrist RGB alongside depth and semantic views. (II) RoboTwin 2.0 dual-arm tasks under clean and domain-randomized settings.</p>
+    </div>
+
+    <div class="video-list">
+      <div class="video-card">
+        <video controls preload="metadata" playsinline>
+          <source src="./static/videos/01_easy_pick.mp4" type="video/mp4">
+        </video>
+        <div class="vc-body">
+          <span class="vc-tag core">Core Task I</span>
+          <h4>Easy-Pick</h4>
+          <p>Single-object pick-and-place. Three synchronized views: wrist fisheye and two RealSense cameras.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls preload="metadata" playsinline>
+          <source src="./static/videos/02_multi_pick.mp4" type="video/mp4">
+        </video>
+        <div class="vc-body">
+          <span class="vc-tag core">Core Task II</span>
+          <h4>Multi-Pick</h4>
+          <p>Object retrieval amid multiple distractors, requiring object-level semantic discrimination.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls preload="metadata" playsinline>
+          <source src="./static/videos/03_multi_goal.mp4" type="video/mp4">
+        </video>
+        <div class="vc-body">
+          <span class="vc-tag core">Core Task III</span>
+          <h4>Multi-Goal</h4>
+          <p>Multi-object placement into distinct target containers — spatial reasoning over several goals.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls preload="metadata" playsinline>
+          <source src="./static/videos/04_pick_pour.mp4" type="video/mp4">
+        </video>
+        <div class="vc-body">
+          <span class="vc-tag core">Core Task IV</span>
+          <h4>Pick-Pour</h4>
+          <p>Cross-bowl apple pouring — long-horizon pick, place, and pour coordination.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls preload="metadata" playsinline>
+          <source src="./static/videos/05_bg_general.mp4" type="video/mp4">
+        </video>
+        <div class="vc-body">
+          <span class="vc-tag gen">Generalization</span>
+          <h4>Background Variation</h4>
+          <p>Easy-Pick under a patterned mat background, testing robustness to visual distraction.</p>
+        </div>
+      </div>
+      <div class="video-card">
+        <video controls preload="metadata" playsinline>
+          <source src="./static/videos/06_height_gen.mp4" type="video/mp4">
+        </video>
+        <div class="vc-body">
+          <span class="vc-tag gen">Generalization</span>
+          <h4>Height Variation</h4>
+          <p>Easy-Pick on an elevated platform with a 4&nbsp;cm height offset — geometric generalization.</p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="results">
+  <div class="inner fu">
+    <h2 class="stitle">Experimental <span class="gt">Results</span></h2>
+    <p class="ssub">State-of-the-art on both simulation benchmarks without any embodied pre-training, plus consistent real-world gains over the Fast-WAM baseline.</p>
+
+    <div class="res-wrap">
+      <div class="res-card">
+        <div class="res-header">LIBERO &nbsp;&middot;&nbsp; Success Rate (%) &nbsp;&middot;&nbsp; 50 trials per task</div>
+        <div class="tbl-scroll">
+          <table class="res-table">
+            <thead>
+              <tr><th>Method</th><th>Paradigm</th><th>Spatial</th><th>Object</th><th>Goal</th><th>Long</th><th>Average</th></tr>
+            </thead>
+            <tbody>
+              <tr class="cat"><td colspan="7">VLA Policies</td></tr>
+              <tr><td>OpenVLA</td><td>VLA</td><td>84.7</td><td>88.4</td><td>79.2</td><td>53.7</td><td>76.50</td></tr>
+              <tr><td>VLA-Cache</td><td>VLA</td><td>83.8</td><td>85.8</td><td>76.4</td><td>52.8</td><td>74.70</td></tr>
+              <tr><td>FlashVLA</td><td>VLA</td><td>84.2</td><td>86.4</td><td>75.4</td><td>51.4</td><td>74.35</td></tr>
+              <tr><td>SP-VLA</td><td>VLA</td><td>75.4</td><td>85.6</td><td>84.4</td><td>54.2</td><td>74.90</td></tr>
+              <tr><td>WorldVLA</td><td>VLA</td><td>85.6</td><td>89.0</td><td>82.6</td><td>59.0</td><td>79.05</td></tr>
+              <tr><td>NORA-Long</td><td>VLA</td><td>92.2</td><td>95.4</td><td>89.4</td><td>74.6</td><td>87.90</td></tr>
+              <tr><td>SmolVLA</td><td>VLA</td><td>93.0</td><td>94.0</td><td>91.0</td><td>77.0</td><td>88.75</td></tr>
+              <tr><td>CogACT</td><td>VLA</td><td>97.2</td><td>98.0</td><td>90.2</td><td>88.8</td><td>93.55</td></tr>
+              <tr><td>&pi;<sub>0</sub> + FAST</td><td>VLA</td><td>96.4</td><td>96.8</td><td>88.6</td><td>60.2</td><td>85.50</td></tr>
+              <tr><td>&pi;<sub>0</sub></td><td>VLA</td><td>96.8</td><td>98.8</td><td>95.8</td><td>85.2</td><td>94.15</td></tr>
+              <tr><td>&pi;<sub>0.5</sub></td><td>VLA</td><td>98.8</td><td>98.2</td><td>98.0</td><td>92.4</td><td>96.85</td></tr>
+              <tr><td>UniVLA</td><td>VLA</td><td>96.5</td><td>96.8</td><td>95.6</td><td>92.0</td><td>95.23</td></tr>
+              <tr><td>VLA-ADP</td><td>VLA</td><td>99.0</td><td>98.2</td><td>96.8</td><td>91.2</td><td>96.30</td></tr>
+              <tr><td>OpenVLA-OFT</td><td>VLA</td><td>97.6</td><td>98.4</td><td>97.9</td><td>94.5</td><td>97.10</td></tr>
+              <tr class="cat"><td colspan="7">World Action Models</td></tr>
+              <tr><td>Motus</td><td>WAM</td><td>96.8</td><td>99.8</td><td>96.6</td><td>97.6</td><td>97.70</td></tr>
+              <tr><td>LingBot-VA</td><td>WAM</td><td>98.5</td><td>99.6</td><td>97.2</td><td>98.5</td><td>98.50</td></tr>
+              <tr><td>Fast-WAM</td><td>WAM</td><td>97.2</td><td>100.0</td><td>97.0</td><td>95.2</td><td>97.60</td></tr>
+              <tr class="ours">
+                <td>GeoSem-WAM</td><td>WAM</td>
+                <td class="best">99.0</td><td class="best">100.0</td><td class="best">98.2</td>
+                <td>97.0</td><td class="best">98.55</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="res-note">Improving the Fast-WAM average from 97.60% to 98.55% validates that explicit geometry and semantic supervision for future prediction helps beyond RGB-only world modeling.</p>
+      </div>
+
+      <div class="res-card">
+        <div class="res-header">RoboTwin 2.0 &nbsp;&middot;&nbsp; Success Rate (%) &nbsp;&middot;&nbsp; 50 dual-arm tasks</div>
+        <div class="tbl-scroll">
+          <table class="res-table">
+            <thead>
+              <tr><th>Method</th><th>Paradigm</th><th>Embodied PT</th><th>Clean</th><th>Random</th><th>Average</th></tr>
+            </thead>
+            <tbody>
+              <tr class="cat"><td colspan="6">VLA Policies</td></tr>
+              <tr><td>&pi;<sub>0</sub></td><td>VLA</td><td>&#10003;</td><td>65.92</td><td>58.40</td><td>62.20</td></tr>
+              <tr><td>&pi;<sub>0.5</sub></td><td>VLA</td><td>&#10003;</td><td>82.74</td><td>76.76</td><td>79.75</td></tr>
+              <tr><td>X-VLA</td><td>VLA</td><td>&#10003;</td><td>72.90</td><td>72.80</td><td>72.85</td></tr>
+              <tr class="cat"><td colspan="6">World Action Models</td></tr>
+              <tr><td>UWM</td><td>WAM</td><td>&#10003;</td><td>81.70</td><td>78.60</td><td>80.15</td></tr>
+              <tr><td>GigaWorld-Policy</td><td>WAM</td><td>&#10003;</td><td>87.00</td><td>85.00</td><td>86.00</td></tr>
+              <tr><td>Motus</td><td>WAM</td><td>&#10003;</td><td>88.66</td><td>87.02</td><td>87.80</td></tr>
+              <tr><td>X-WAM</td><td>WAM</td><td>&#10003;</td><td>89.80</td><td>90.70</td><td>90.25</td></tr>
+              <tr><td>LingBot-VA</td><td>WAM</td><td>&#10003;</td><td>92.90</td><td>91.50</td><td>92.20</td></tr>
+              <tr><td>Fast-WAM</td><td>WAM</td><td>&#10007;</td><td>91.88</td><td>91.78</td><td>91.80</td></tr>
+              <tr class="ours">
+                <td>GeoSem-WAM</td><td>WAM</td><td>&#10007;</td>
+                <td class="best">92.94</td><td class="best">92.14</td><td class="best">92.52</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <p class="res-note">A new state of the art of 92.52% average — surpassing LingBot-VA (92.20%) and the Fast-WAM base model (+0.8%) while requiring <strong>no embodied pre-training</strong> (&#10007;). Per-task breakdowns are reported in the paper.</p>
+      </div>
+
+      <div class="fig" style="margin:0.5rem 0;">
+        <img src="./static/images/Semantic_Geo_Probe.png" alt="Token embedding clustering and frozen depth probing">
+        <p class="fig-cap"><strong>Fig. 5.</strong> Representation analysis. (a)&ndash;(b) Middle-layer video DiT token embeddings colored by semantic class: GeoSem-WAM forms markedly clearer class clusters than the baseline. (c) Frozen-backbone depth probing on LIBERO — columns are RGB, Fast-WAM depth, GeoSem-WAM depth, and ground truth. GeoSem-WAM recovers substantially sharper geometry from its latent tokens.</p>
+      </div>
+
+      <div class="res-card">
+        <div class="res-header">Ablation &nbsp;&middot;&nbsp; Structured World Supervision on LIBERO</div>
+        <table class="res-table">
+          <thead>
+            <tr><th>Configuration</th><th>RGB</th><th>Geometry</th><th>Semantic</th><th>Average SR (%)</th><th>&Delta;SR (%)</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>RGB-only WAM</td><td>&#10003;</td><td>&#10007;</td><td>&#10007;</td><td>97.6</td><td>&mdash;</td></tr>
+            <tr><td>+ Geometry-aware</td><td>&#10003;</td><td>&#10003;</td><td>&#10007;</td><td>98.2</td><td class="gain">+0.61</td></tr>
+            <tr><td>+ Semantic-aware</td><td>&#10003;</td><td>&#10007;</td><td>&#10003;</td><td>98.1</td><td class="gain">+0.51</td></tr>
+            <tr class="ours">
+              <td>+ Geometry- and Semantic-Aware</td><td>&#10003;</td><td>&#10003;</td><td>&#10003;</td>
+              <td class="best">98.6</td><td class="gain">+1.02</td>
+            </tr>
+          </tbody>
+        </table>
+        <p class="res-note">Each branch helps on its own; together they are complementary. Geometry supports spatial motion perception during execution, while semantics supports task-level logical reasoning — jointly the foundation for accurate grasping.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section dark" id="realworld">
+  <div class="inner fu">
+    <h2 class="stitle" style="color:#fff">Real-World <span class="gt">Franka Experiments</span></h2>
+    <p class="ssub">Four manipulation tasks of escalating difficulty on a Franka Emika Panda, plus background and height generalization. 50 human teleoperation trajectories per task; 50 evaluation trials per setting.</p>
+
+    <div class="fig">
+      <img src="./static/images/RealWorld_Overview.png" alt="Real-world manipulation experiments overview">
+      <p class="fig-cap"><strong>Fig. 6.</strong> Real-world manipulation overview. (I) Four core tasks — Easy-Pick, Multi-Pick, Multi-Goal, and Pick-Pour — each shown with RGB, depth, and semantic observations. (II) Background generalization tests (Easy-Pick-B1/B2) on different mat patterns. (III) Height generalization: standard setup (Easy-Pick-D) versus a 4&nbsp;cm elevated platform.</p>
+    </div>
+
+    <div class="res-card" style="margin-bottom:3rem;">
+      <div class="res-header">Real Franka Emika Panda &nbsp;&middot;&nbsp; Success Rate (%) &nbsp;&middot;&nbsp; 50 trials per setting</div>
+      <div class="tbl-scroll">
+        <table class="res-table">
+          <thead>
+            <tr>
+              <th>Model</th><th>Easy-Pick</th><th>Easy-Pick-B1</th><th>Easy-Pick-B2</th>
+              <th>Easy-Pick-D</th><th>Multi-Pick</th><th>Multi-Goal</th><th>Pick-Pour</th><th>Average</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Fast-WAM</td><td>100</td><td>86</td><td>86</td><td>80</td><td>92</td><td>90</td><td>88</td><td>88.9</td></tr>
+            <tr class="ours">
+              <td>GeoSem-WAM</td>
+              <td>100</td><td class="best">96</td><td class="best">94</td><td class="best">92</td>
+              <td class="best">98</td><td class="best">96</td><td class="best">92</td><td class="best">95.4</td>
+            </tr>
+            <tr>
+              <td>Improvement</td>
+              <td>0</td>
+              <td class="gain">+10</td><td class="gain">+8</td><td class="gain">+12</td>
+              <td class="gain">+6</td><td class="gain">+6</td><td class="gain">+4</td><td class="gain">+6.6</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <p class="res-note">The largest gains appear exactly where structured priors should matter most: background and height generalization (+10%, +8%, +12%) and multi-step spatial tasks (+6%, +6%, +4%). Simple single-object pick-and-place stays perfect for both methods, confirming the geometric-semantic priors do not degrade basic capability.</p>
+    </div>
+
+    <div class="fig">
+      <img src="./static/images/RealWorld_Episodes.png" alt="Example episodes of real-world experiments">
+      <p class="fig-cap"><strong>Fig. 7.</strong> Example episodes on the Franka platform. (a) Third-view RGB with the corresponding depth and semantic streams. (b) First-view (wrist fisheye) RGB with depth and semantics — the three modalities the training objective supervises jointly.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section light" id="bibtex">
+  <div class="inner fu">
+    <h2 class="stitle">Citation</h2>
+    <p class="ssub">If you find GeoSem-WAM useful for your research, please cite our paper.</p>
+    <div class="bib-box" style="background:#0F172A;">
+      <button class="copy-btn" onclick="copyBib()"><i class="fas fa-copy"></i> Copy</button>
+      <pre id="bib-code">@misc{ma2026geosemwamgeometrysemanticawareworld,
+  title         = {GeoSem-WAM: Geometry- and Semantic-Aware World Action Models},
+  author        = {Fulong Ma and Daojie Peng and Wenjun Yue and Jiahang Cao and Bintao Wang and Qiang Zhang and Jun Ma},
+  year          = {2026},
+  eprint        = {2606.03188},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  url           = {https://arxiv.org/abs/2606.03188}
+}</pre>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-links">
+    <a href="./static/paper/GeoSem-WAM_arXiv2606.03188.pdf" title="Paper"><i class="fas fa-file-pdf"></i></a>
+    <a href="https://arxiv.org/abs/2606.03188" target="_blank" title="arXiv"><i class="ai ai-arxiv"></i></a>
+    <a href="https://daojiepeng.github.io/Personal/" title="Authors"><i class="fas fa-user"></i></a>
+  </div>
+  <p>Website template inspired by <a href="https://github.com/nerfies/nerfies.github.io" target="_blank">Nerfies</a>.</p>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(es => {
+    es.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.fu').forEach(el => obs.observe(el));
+
+  document.querySelectorAll('a[href^="#"]').forEach(a => {
+    a.addEventListener('click', e => {
+      e.preventDefault();
+      const t = document.querySelector(a.getAttribute('href'));
+      if(t) t.scrollIntoView({ behavior:'smooth', block:'start' });
+    });
+  });
+
+  window.addEventListener('scroll', () => {
+    document.querySelector('.nav').style.background =
+      window.scrollY > 50 ? 'rgba(11,18,32,0.95)' : 'rgba(11,18,32,0.8)';
+  });
+
+  function copyBib() {
+    const t = document.getElementById('bib-code').innerText;
+    navigator.clipboard.writeText(t).then(() => {
+      const b = document.querySelector('.copy-btn');
+      b.innerHTML = '<i class="fas fa-check"></i> Copied!';
+      setTimeout(() => b.innerHTML = '<i class="fas fa-copy"></i> Copy', 2000);
+    });
+  }
+</script>
+
+</body>
+</html>
