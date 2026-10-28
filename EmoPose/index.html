@@ -1,0 +1,794 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EmoPose: Vision-Language Model Guided Emotion-Aware Gesture Generation for Humanoid Robots</title>
+  <link rel="icon" href="../Personal/assets/logos/PDJ.png" type="image/x-icon">
+  <meta name="description" content="EmoPose — a vision-language model guided, emotion-aware gesture generation framework for humanoid robots. Executable semantic interface, robot-owned motion library, and five-level intensity modulation. Unitree G1.">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;600;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/academicons/1.9.4/css/academicons.min.css">
+  <link rel="stylesheet" href="./static/css/index.css">
+</head>
+<body>
+
+<!-- ===================== NAV ===================== -->
+<nav>
+  <div class="nav-in">
+    <a class="nav-logo" href="#" style="text-decoration:none">Emo<span>Pose</span></a>
+    <div class="nav-links">
+      <a href="#abstract">Abstract</a>
+      <a href="#method">Method</a>
+      <a href="#results">Results</a>
+      <a href="#demos">Demos</a>
+      <a href="#labtour">Lab Tour</a>
+      <a href="#cite">Cite</a>
+    </div>
+  </div>
+</nav>
+
+<!-- ===================== HERO ===================== -->
+<header class="hero-wrap">
+  <div class="hero-video-bg" aria-hidden="true">
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/real/26_real_welcoming_face_wave.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/sim/26_welcoming_face_wave.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/real/03_real_agreeing_thumbs_up.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/sim/03_agreeing_thumbs_up.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/real/13_real_emphasizing_clap.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/sim/13_emphasizing_clap.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/real/07_real_comforting_hug.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/sim/07_comforting_hug.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/real/20_real_pointing_point_up_right.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/sim/20_pointing_point_up_right.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/real/25_real_rejecting_x_ray.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/sim/25_rejecting_x_ray.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/real/28_real_welcoming_shake_hand.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/sim/28_welcoming_shake_hand.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/real/10_real_doubting_head_stroke.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/sim/10_doubting_head_stroke.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/real/14_real_emphasizing_hands_up.mp4" type="video/mp4"></video>
+    <video autoplay muted loop playsinline preload="metadata"><source src="./static/videos/sim/14_emphasizing_hands_up.mp4" type="video/mp4"></video>
+  </div>
+  <div class="hero-overlay" aria-hidden="true"></div>
+
+  <div class="hero">
+    <div class="hero-badge"><i class="fas fa-robot"></i> arXiv 2026 &nbsp;·&nbsp; Unitree G1 &nbsp;·&nbsp; cs.RO</div>
+    <h1>EmoPose: Vision-Language Model Guided <span>Emotion-Aware Gesture Generation</span> for Humanoid Robots</h1>
+    <p class="hero-sub">
+      An executable semantic interface between a vision-language model and a robot-owned motion library —
+      language selects the communicative intent, deterministic robot-side software owns every 14-DoF joint target.
+    </p>
+    <p class="hero-auth">
+      <a href="https://daojiepeng.github.io/Personal/">Daojie Peng</a>,
+      Bingtao Wang,
+      <a href="https://scholar.google.com/citations?user=uS8x8TkAAAAJ&hl=zh-CN&authuser=1">Fulong Ma</a>,
+      Wenjun Yue,
+      Liang Zhang,
+      <a href="https://personal.hkust-gz.edu.cn/junma/people-page.html">Jun Ma</a><sup>†</sup>
+      <br>
+      <span style="font-size:.84rem;color:var(--text4)">
+        HKUST(GZ) &nbsp;·&nbsp; Shandong University &nbsp;·&nbsp; RoboScience &nbsp;&nbsp;|&nbsp;&nbsp; <sup>†</sup>Corresponding author
+      </span>
+    </p>
+    <div class="hero-btns">
+      <a class="hbtn hbtn-fill" href="./static/paper/EmoPose_paper.pdf"><i class="fas fa-file-pdf"></i> Paper</a>
+      <a class="hbtn hbtn-out" href="https://arxiv.org/abs/2609.23414"><i class="ai ai-arxiv"></i> arXiv</a>
+      <a class="hbtn hbtn-out" href="https://github.com/DaojiePENG/EmoPose"><i class="fab fa-github"></i> Code</a>
+      <a class="hbtn hbtn-out" href="#labtour"><i class="fas fa-route"></i> Lab Tour</a>
+    </div>
+
+    <div class="hero-stats">
+      <div class="hstat">
+        <div class="hstat-val">76.50<span style="font-size:.95rem"> ± 0.54%</span></div>
+        <div class="hstat-lbl">EmoPose-Bench Overall</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">+4.42</div>
+        <div class="hstat-lbl">vs Direct-Label GPT-5.5</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">29/29</div>
+        <div class="hstat-lbl">G1 Library Variants</div>
+      </div>
+      <div class="hstat">
+        <div class="hstat-val">160/160</div>
+        <div class="hstat-lbl">MuJoCo Trials Completed</div>
+      </div>
+    </div>
+  </div>
+</header>
+
+<!-- ===================== ABSTRACT ===================== -->
+<section class="sec fade-up" id="abstract">
+  <div class="sec-label">Abstract</div>
+  <h2 class="sec-title">Language chooses the gesture. The robot owns the motion.</h2>
+  <div class="abstract-panel">
+    <p>
+      Socially competent humanoid robots must communicate affect and intent through gesture as well as speech,
+      yet open-ended interaction must become motion that is both expressive and executable on a specific body.
+      This demands semantic flexibility for contextual social intent while preserving deterministic,
+      embodiment-aware robot control. We present <strong>EmoPose</strong>, a vision-language model (VLM)-guided
+      framework that bridges this gap through an <strong>executable semantic interface</strong>. Given language,
+      dialogue history, and optional visual context, the VLM selects an ordered gesture plan containing a
+      communicative class, library variant, intensity, and speech anchor. A scalable robot-owned motion library
+      defines the available expressive vocabulary and the source of 14-DoF joint targets. Pose Studio supports
+      automatic trajectory generation, MuJoCo preview, and automatic synchronization of new library entries with
+      the VLM guide; deterministic robot-side modules validate plans, construct trajectories, schedule gestures,
+      and manage queueing and interruption. This division lets the interaction repertoire grow for new social
+      contexts without changing the control interface or delegating raw joint commands to the foundation model.
+      On <strong>the EmoPose-Bench</strong>, structured GPT-5.5 planning reaches
+      <strong>98.25 ± 0.52%</strong> on the Easy tier and <strong>76.50 ± 0.54%</strong> overall, exceeding
+      same-model direct-label prompting. Further tests validate dialogue-context use and ordered multi-action
+      composition. The system completes the nominal MuJoCo suite and realizes all 29 authored variants on the
+      physical Unitree G1. A four-stop laboratory tour demonstrates expressive narration with interruption,
+      camera-grounded dialogue, and navigation.
+    </p>
+  </div>
+</section>
+
+<!-- ===================== FIGURE 1 ===================== -->
+<section class="sec fade-up" style="padding-top:0">
+  <div class="fig-card">
+    <img src="./static/images/Synchronized_Speed_Gesture_Execution_Demo.png" alt="Two-gesture execution with library trajectories and lexical release timeline" data-lightbox>
+    <div class="fig-cap">
+      <strong>Figure 1:</strong> Two-gesture execution generated by EmoPose. The upper row overlays the library
+      trajectories for <em>face wave</em> and <em>open arms</em>; the lower timeline shows their planned lexical
+      releases relative to synthesized audio. The 0.5-s and 2.6-s release times are computed by Eq. (10).
+    </div>
+  </div>
+</section>
+
+<!-- ===================== METHOD ===================== -->
+<section class="band">
+  <div class="sec fade-up" id="method">
+    <div class="sec-label">Method</div>
+    <h2 class="sec-title">An executable semantic interface, not a joint-command oracle</h2>
+    <p class="sec-desc">
+      The VLM never emits joint values. It emits a semantic record; deterministic robot-side modules resolve that
+      record against a live motion library and publish 14-DoF targets at 50 Hz. The control interface is therefore
+      stable while the expressive vocabulary grows.
+    </p>
+
+    <div class="flow">
+      <div class="flow-step">
+        <small>01</small>
+        <i class="fas fa-brain" style="color:var(--teal)"></i>
+        <h3>VLM Semantic Planner</h3>
+        <p>
+          Given utterance <em>x</em>, optional dialogue history <em>h</em>, and a live class-variant guide
+          regenerated from the library, the VLM returns a verbal reply and an ordered plan of records
+          <code>z = (class, variant, intensity, trigger, confidence)</code>. Bare or fenced JSON is accepted;
+          numeric fields are clamped; unknown classes map to neutral; decoding failures invoke a logged
+          keyword fallback.
+        </p>
+      </div>
+      <div class="flow-step">
+        <small>02</small>
+        <i class="fas fa-database" style="color:var(--coral)"></i>
+        <h3>Robot-Owned Library + Pose Studio</h3>
+        <p>
+          <code>L = {(n, c, Q, d, m)}</code> holds 29 motion sequences plus two built-in neutral poses —
+          unique name, semantic class, <em>K</em> = 3–14 fourteen-DoF keyframes over the seven joints of each arm,
+          duration (<code>clip(0.3(K−1), 1, 5)</code> s by default), and motion type. Pose Studio generates and
+          smooths trajectories, previews in MuJoCo, and synchronizes every new entry with the resolver and the
+          VLM guide.
+        </p>
+      </div>
+      <div class="flow-step">
+        <small>03</small>
+        <i class="fas fa-sliders-h" style="color:var(--amber)"></i>
+        <h3>Resolve · Intensity · Trajectory</h3>
+        <p>
+          Exact-name lookup when the variant is loaded, class-default primitive on a name miss, neutral on an
+          empty class. The command-source invariant <code>q_cmd = G(resolved, intensity, q_last)</code> keeps
+          every joint target owned by local software. Five-level intensity scales interior excursion about the
+          first keyframe with <code>a<sub>i</sub> ∈ {0.4, 0.6, 1.0, 1.3, 1.6}</code> and hard-limit projection
+          δ = 0.02 rad. Each keyframe segment is subdivided into <em>M</em> = 5 smoothstep increments
+          <code>s(u) = 3u² − 2u³</code>, then linearly resampled at 50 Hz, starting from the latest published pose.
+        </p>
+      </div>
+      <div class="flow-step">
+        <small>04</small>
+        <i class="fas fa-wave-square" style="color:var(--blue)"></i>
+        <h3>Lexical-Anchor Speech Scheduling</h3>
+        <p>
+          For synthesized audio of duration <code>T<sub>a</sub></code>, the first occurrence of trigger
+          <code>t<sub>k</sub></code> in the reply <em>r</em> schedules the center of that phrase at
+          <code>τ<sub>k</sub> = (pos(t<sub>k</sub>; r) + |t<sub>k</sub>|/2) / max(|r|, 1) · T<sub>a</sub></code>
+          (Eq. 10). Missing anchors interpolate between neighboring matches; with no trigger match,
+          <em>M<sub>g</sub></em> gestures release at <code>T<sub>a</sub>(k+1/2)/M<sub>g</sub></code>, and a
+          single gesture releases immediately.
+        </p>
+      </div>
+      <div class="flow-step">
+        <small>05</small>
+        <i class="fas fa-layer-group" style="color:var(--violet)"></i>
+        <h3>Queue-Aware Sequencer</h3>
+        <p>
+          One active trajectory plus a FIFO queue across <strong>IDLE · EXECUTING · HOLDING · BLENDING</strong>.
+          EXECUTING publishes 14-DoF targets at 50 Hz to MuJoCo or the physical G1. An empty queue leads to
+          HOLDING; a queued successor passes through an explicit cubic blend of at most 0.3 s. After 2 s idle, a
+          non-neutral endpoint blends to neutral over 1 s. Interruption clears pending commands and restarts a
+          0.3 s blend from the latest published pose.
+        </p>
+      </div>
+      <div class="flow-step">
+        <small>06</small>
+        <i class="fas fa-robot" style="color:var(--green)"></i>
+        <h3>Dual Execution &amp; Navigation Mode</h3>
+        <p>
+          The same specification drives trajectory generation, language guidance, resolution, MuJoCo, and
+          physical publication to the Unitree G1. The stack further composes gesture with navigation in the
+          four-stop laboratory tour: onboard odometry drives the route, EmoPose schedules narration gestures,
+          visitors can interrupt, and a VLM answers camera-grounded questions.
+        </p>
+      </div>
+    </div>
+
+    <!-- semantic record contract -->
+    <div class="tbl-wrap">
+      <div class="tbl-title"><i class="fas fa-file-contract"></i> Semantic-to-Motion Runtime Contract</div>
+      <table class="contract-tbl">
+        <thead>
+          <tr><th>Field</th><th>Accepts</th><th>Runtime behaviour</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td>Class</td>
+            <td>8 labels — pointing, emphasizing, rejecting, agreeing, doubting, welcoming, comforting, neutral</td>
+            <td>Invalid labels deterministically map to <em>neutral</em></td>
+          </tr>
+          <tr>
+            <td>Variant</td>
+            <td>Any loaded library name</td>
+            <td>Global lookup; class-default primitive on a miss (neutral if the class is empty). Keeping both class and variant makes class–variant agreement auditable</td>
+          </tr>
+          <tr>
+            <td>Intensity</td>
+            <td>Integer 1–5</td>
+            <td>Clamped, then applied via Eq. (7) as <code>a<sub>i</sub> ∈ {0.4, 0.6, 1.0, 1.3, 1.6}</code> about the first keyframe, hard-limit projection δ = 0.02 rad</td>
+          </tr>
+          <tr>
+            <td>Trigger</td>
+            <td>Lexical phrase, or missing</td>
+            <td>Matched trigger schedules release at Eq. (10); missing anchors interpolate between neighboring matches</td>
+          </tr>
+          <tr>
+            <td>Confidence</td>
+            <td>Scalar 0–1</td>
+            <td>Clamped and logged only</td>
+          </tr>
+          <tr>
+            <td>Joint values</td>
+            <td><em>absent from the record</em></td>
+            <td>Always sourced from <em>L</em> — command-source invariant, Eq. (5)</td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="tbl-note">Table I. The VLM record never carries joint values; every 14-DoF target is sourced from the robot-owned library.</p>
+    </div>
+
+    <!-- intensity strip -->
+    <h3 style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin:1.6rem 0 .25rem">Five-level intensity modulation</h3>
+    <p class="sec-desc" style="margin-bottom:0">
+      Intensity scales only the interior excursion about the first keyframe. Level 3 reproduces the library exactly;
+      the endpoint is projected back inside the hard joint limits.
+    </p>
+    <div class="intensity-strip">
+      <div class="int-chip"><div class="lvl">Level 1</div><div class="gain">×0.4</div><div class="what">Subtle</div></div>
+      <div class="int-chip"><div class="lvl">Level 2</div><div class="gain">×0.6</div><div class="what">Reduced</div></div>
+      <div class="int-chip"><div class="lvl">Level 3</div><div class="gain">×1.0</div><div class="what">Library exact</div></div>
+      <div class="int-chip"><div class="lvl">Level 4</div><div class="gain">×1.3</div><div class="what">Elevated</div></div>
+      <div class="int-chip"><div class="lvl">Level 5</div><div class="gain">×1.6</div><div class="what">Full</div></div>
+    </div>
+
+    <!-- architecture + sequencer -->
+    <div class="fig-card">
+      <img src="./static/images/Emopose_System_Architecture.png" alt="EmoPose system architecture and semantic-to-motion control boundary" data-lightbox>
+      <div class="fig-cap">
+        <strong>Figure 2:</strong> Architecture and semantic-to-motion control boundary of EmoPose. Pose Studio
+        builds the extensible robot-owned library <em>L</em>, currently with 29 motion variants and support for
+        user-defined additions. The library provides legal class–variant metadata to the VLM and 14-DoF keyframes
+        to deterministic robot-side validation, resolution, modulation, speech alignment, sequencing, and safety.
+        The runtime accepts ASR-transcribed voice, text/UI, dialogue history, and camera context, and produces TTS
+        replies, MuJoCo and physical-G1 gestures, and navigation.
+      </div>
+    </div>
+
+    <div class="fig-card fig-narrow">
+      <img src="./static/images/Gesture_Sequencer_State_Machine.png" alt="Queue-aware gesture sequencer state machine" data-lightbox>
+      <div class="fig-cap">
+        <strong>Figure 3:</strong> Robot-side queue-aware gesture sequencer. IDLE awaits the first command;
+        EXECUTING publishes 14-DoF targets at 50 Hz to MuJoCo or the physical G1; completion with an empty queue
+        leads to HOLDING, while a queued successor passes through an explicit cubic BLENDING transition of at most
+        0.3 s. After 2 s without a new command, a non-neutral endpoint is blended to neutral over 1 s. The dashed
+        interruption path clears pending commands and restarts blending from the latest published pose.
+      </div>
+    </div>
+
+    <!-- ===================== POSE STUDIO ===================== -->
+    <h3 id="pose-studio" style="font-family:'Space Grotesk',sans-serif;font-size:1.05rem;margin:2.1rem 0 .25rem">
+      Pose Studio — authoring the library the sequencer plays
+    </h3>
+    <p class="sec-desc" style="margin-bottom:1.15rem">
+      Every keyframe the runtime resolves is authored in <strong>Pose Studio</strong>, the browser-based
+      design-time editor behind the robot-owned library <em>L</em>. It embeds MuJoCo directly in the editing
+      surface, so a 14-DoF keyframe is inspected on the G1 model as soon as it is written. Poses auto-save to
+      <code>config/g1_poses.json</code> and are picked up by the motion library and the VLM class–variant guide
+      without manual registration — authoring a new social gesture therefore costs no change to the control
+      interface or to the sequencer of Figure&nbsp;3.
+    </p>
+
+    <div class="fig-card">
+      <video class="overview-demo-video" controls loop preload="metadata" playsinline
+             poster="./static/images/Pose_Studio_Demo_Poster.png">
+        <source src="./static/videos/overview/02_pose_studio_authoring_demo.mp4" type="video/mp4">
+      </video>
+      <div class="fig-cap">
+        <strong>Pose Studio Demo:</strong> The design-time authoring loop in the browser editor. A gesture is
+        selected from the library and its reference keyframe is loaded into the embedded MuJoCo viewport; the
+        ordered keyframe sequence is then played back on the G1 model so the trajectory can be inspected before it
+        is committed. The run starts from <em>heart_both</em>, then switches to <em>open_arms</em> and
+        <em>face_wave</em> to repeat the same loop across gesture classes, while the live joint readouts show the
+        14-DoF record being exercised. Every edit auto-saves to <code>config/g1_poses.json</code>, so the runtime
+        library and the VLM guide stay synchronized with no manual registration step.
+      </div>
+    </div>
+
+    <div class="fig-card">
+      <img src="./static/images/Pose_Studio_Authoring_Interface.png" alt="Pose Studio browser-based keyframe authoring interface with embedded MuJoCo" data-lightbox>
+      <div class="fig-cap">
+        <strong>Pose Studio:</strong> The design-time authoring interface for the robot-owned motion library.
+        Left: the searchable gesture library of all 29 authored variants plus user-created actions, each with its
+        semantic class, keyframe count, and designated reference frame. Center: the embedded MuJoCo viewport
+        rendering the live G1 29-DoF model with readouts and camera presets. Right: the pose inspector — metadata,
+        class assignment, control gains, and the seven arm joints per side that make up the 14-DoF record. The
+        shown pose is the reference keyframe of <em>open_arms</em> (welcoming, 11 keyframes).
+      </div>
+    </div>
+
+    <div class="pstudio-row">
+      <div class="fig-card">
+        <img src="./static/images/Pose_Studio_Gesture_Library.png" alt="Pose Studio gesture library panel with semantic class tags and keyframe metadata" data-lightbox>
+        <div class="fig-cap">
+          <strong>Gesture library:</strong> class tags, keyframe counts, and reference-frame markers for each
+          authored variant. "New Action" starts an empty keyframe sequence, and the class filter feeds the same
+          class–variant vocabulary the VLM plans against.
+        </div>
+      </div>
+      <div class="fig-card">
+        <img src="./static/images/Pose_Studio_MuJoCo_Keyframe_Authoring.png" alt="Embedded MuJoCo preview and keyframe timeline with interpolation tools" data-lightbox>
+        <div class="fig-cap">
+          <strong>Keyframe trajectory authoring:</strong> the embedded MuJoCo preview shows the loaded
+          <em>open_arms</em> keyframe on the G1 model, while the timeline below carries the ordered keyframe
+          sequence (Start frame locked to idle, REF marker on the reference frame). The interpolation tool inserts
+          smoothstep / cubic / linear frames between two selected keyframes, with automatic frame-count estimation
+          from the maximum per-joint step — the same smoothing path used to prepare large-amplitude gestures before
+          the sequencer plays them back.
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== TAXONOMY ===================== -->
+<section class="sec fade-up" id="taxonomy">
+  <div class="sec-label">Gesture Vocabulary</div>
+  <h2 class="sec-title">8 communicative classes · 29 authored motion variants</h2>
+  <p class="sec-desc">
+    A compact, library-grounded expressive vocabulary: each class carries a conversational function, and each
+    variant is a named, keyframed 14-DoF motion with its own default duration and motion type. Two built-in
+    neutral poses complete the repertoire.
+  </p>
+  <div class="taxonomy-grid">
+    <div class="tax-card">
+      <div class="tax-head"><span class="tax-dot"></span><h3>Pointing <span class="tax-count">4</span></h3></div>
+      <p>Deictic reference: anchors attention to objects, directions, or concepts in the conversation.</p>
+      <div class="tax-variants"><span>Point left</span><span>Point right</span><span>Point up-right</span><span>Right hand up</span></div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-head"><span class="tax-dot"></span><h3>Emphasizing <span class="tax-count">4</span></h3></div>
+      <p>Beat/accent: adds force to important or high-salience phrases in the spoken reply.</p>
+      <div class="tax-variants"><span>Beat down</span><span>Clap</span><span>Hands up</span><span>Open palms up</span></div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-head"><span class="tax-dot"></span><h3>Rejecting <span class="tax-count">4</span></h3></div>
+      <p>Conversational stance: communicates refusal, disagreement, or warning.</p>
+      <div class="tax-variants"><span>Cross reject</span><span>Push away</span><span>Reject push</span><span>X-ray</span></div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-head"><span class="tax-dot"></span><h3>Agreeing <span class="tax-count">3</span></h3></div>
+      <p>Conversational stance: signals approval, confirmation, and shared positive intent.</p>
+      <div class="tax-variants"><span>High five</span><span>Nod + fists</span><span>Thumbs up</span></div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-head"><span class="tax-dot"></span><h3>Doubting <span class="tax-count">3</span></h3></div>
+      <p>Conversational stance: expresses uncertainty, hesitation, and cautious skepticism.</p>
+      <div class="tax-variants"><span>Chin stroke</span><span>Head stroke</span><span>Shrug</span></div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-head"><span class="tax-dot"></span><h3>Welcoming <span class="tax-count">4</span></h3></div>
+      <p>Social rapport: expresses invitation, greeting, and social warmth.</p>
+      <div class="tax-variants"><span>Face wave</span><span>Open arms</span><span>Shake hand</span><span>Wave high</span></div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-head"><span class="tax-dot"></span><h3>Comforting <span class="tax-count">5</span></h3></div>
+      <p>Social rapport: supports empathy, reassurance, and emotional care.</p>
+      <div class="tax-variants"><span>Hand-head</span><span>Hand to heart</span><span>Heart (both)</span><span>Hug</span><span>Offering</span></div>
+    </div>
+    <div class="tax-card">
+      <div class="tax-head"><span class="tax-dot"></span><h3>Neutral <span class="tax-count">2</span></h3></div>
+      <p>Neutral baseline: calm recovery poses and non-expressive transitions.</p>
+      <div class="tax-variants"><span>Release</span><span>Release lower</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== RESULTS ===================== -->
+<section class="band">
+  <div class="sec fade-up" id="results">
+    <div class="sec-label">Results</div>
+    <h2 class="sec-title">EmoPose-Bench: semantic planning under increasing abstraction</h2>
+    <p class="sec-desc">
+      480 human-assisted English utterances (20 per class per tier over 8 classes × 3 tiers). Easy is direct cue
+      matching, Medium is paraphrase robustness, Hard is pragmatic reasoning. GPT-5.5 entries are mean ± sample SD
+      over five passes; other entries are deterministic. First planned class is scored as top-1.
+    </p>
+
+    <!-- Table II -->
+    <div class="tbl-wrap">
+      <div class="tbl-title"><i class="fas fa-table"></i> Table II — Semantic benchmark and composite interface ablation</div>
+      <table id="tbl-bench">
+        <thead>
+          <tr>
+            <th>Method</th>
+            <th>Easy</th>
+            <th>Medium</th>
+            <th>Hard</th>
+            <th>Overall</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ours">
+            <td>Ordered planning (ours)</td>
+            <td class="bar" style="--val:.9825"><b>98.25 ± 0.52</b></td>
+            <td class="bar" style="--val:.7050"><b>70.50 ± 0.81</b></td>
+            <td class="bar" style="--val:.6075"><b>60.75 ± 0.81</b></td>
+            <td class="bar best" style="--val:.7650"><b>76.50 ± 0.54</b></td>
+          </tr>
+          <tr>
+            <td>Direct-label GPT-5.5</td>
+            <td class="bar" style="--val:.9500"><b>95.00 ± 0.63</b></td>
+            <td class="bar" style="--val:.6713"><b>67.13 ± 2.24</b></td>
+            <td class="bar" style="--val:.5413"><b>54.13 ± 1.14</b></td>
+            <td class="bar" style="--val:.7208"><b>72.08 ± 0.74</b></td>
+          </tr>
+          <tr class="gain-row">
+            <td>Full-direct gain</td>
+            <td>+3.25</td>
+            <td>+3.37</td>
+            <td>+6.62</td>
+            <td class="best">+4.42</td>
+          </tr>
+          <tr>
+            <td>Sentence-BERT, Easy centroids</td>
+            <td class="bar" style="--val:.9750"><b>97.50</b></td>
+            <td class="bar" style="--val:.5875"><b>58.75</b></td>
+            <td class="bar" style="--val:.5250"><b>52.50</b></td>
+            <td class="bar" style="--val:.6958"><b>69.58</b></td>
+          </tr>
+          <tr>
+            <td>Keyword rules</td>
+            <td class="bar" style="--val:.6250"><b>62.50</b></td>
+            <td class="bar" style="--val:.1688"><b>16.88</b></td>
+            <td class="bar" style="--val:.1125"><b>11.25</b></td>
+            <td class="bar" style="--val:.3021"><b>30.21</b></td>
+          </tr>
+          <tr>
+            <td>TF-IDF descriptions</td>
+            <td class="bar" style="--val:.2688"><b>26.88</b></td>
+            <td class="bar" style="--val:.2250"><b>22.50</b></td>
+            <td class="bar" style="--val:.2313"><b>23.13</b></td>
+            <td class="bar" style="--val:.2417"><b>24.17</b></td>
+          </tr>
+          <tr>
+            <td>Jaccard descriptions</td>
+            <td class="bar" style="--val:.2125"><b>21.25</b></td>
+            <td class="bar" style="--val:.1750"><b>17.50</b></td>
+            <td class="bar" style="--val:.1813"><b>18.13</b></td>
+            <td class="bar" style="--val:.1896"><b>18.96</b></td>
+          </tr>
+          <tr>
+            <td>Uniform chance</td>
+            <td class="bar" style="--val:.1250"><b>12.50</b></td>
+            <td class="bar" style="--val:.1250"><b>12.50</b></td>
+            <td class="bar" style="--val:.1250"><b>12.50</b></td>
+            <td class="bar" style="--val:.1250"><b>12.50</b></td>
+          </tr>
+        </tbody>
+      </table>
+      <p class="tbl-note">Top-1 intent accuracy (%). Bars are drawn to scale against 100%. The structured interface gap widens as the tier moves from direct cue matching toward pragmatic reasoning.</p>
+    </div>
+
+    <!-- Table III -->
+    <div class="tbl-wrap">
+      <div class="tbl-title"><i class="fas fa-comments"></i> Table III — Dialogue-history ablation &amp; ordered multi-action planning</div>
+      <table>
+        <thead>
+          <tr><th>Condition or metric</th><th>Score (%)</th></tr>
+        </thead>
+        <tbody>
+          <tr class="ours"><td>Full planner (with history)</td><td>96.69 ± 0.36</td></tr>
+          <tr><td>Ablation (history removed)</td><td>95.00 ± 1.06</td></tr>
+          <tr class="gain-row"><td>Absolute gain from history</td><td>+1.69 ± 0.98</td></tr>
+          <tr><td>No-overlap audit, full / ablated</td><td>96.68 ± 0.36 / 94.98 ± 1.06</td></tr>
+          <tr><td>Primary class</td><td>97.75 ± 0.68</td></tr>
+          <tr class="ours"><td>Ordered exact</td><td>91.50 ± 0.71</td></tr>
+          <tr><td>Mean step class / class-multiset F1</td><td>95.49 ± 0.31 / 97.94 ± 0.28</td></tr>
+          <tr><td>Input-anchor recall / annotated variant</td><td>99.98 ± 0.03 / 44.88 ± 0.70</td></tr>
+          <tr><td>Exact, length 2 / 3 / 4</td><td>96.75 / 94.00 / 81.25</td></tr>
+        </tbody>
+      </table>
+      <p class="tbl-note">Rows 1–4: dialogue-context ablation block. Rows 5–9: ordered multi-action planning on the 320-item sequence suite (80 two-action + 160 three-action + 80 four-action). Five-pass mean ± sample SD; length-specific exact reports means only.</p>
+    </div>
+
+    <!-- Table IV -->
+    <div class="tbl-wrap">
+      <div class="tbl-title"><i class="fas fa-bolt"></i> Table IV — MuJoCo trajectory execution &amp; timing</div>
+      <table>
+        <thead>
+          <tr><th>Metric</th><th>Value</th></tr>
+        </thead>
+        <tbody>
+          <tr><td>Trials / motions / intensity</td><td>160 / 8 defaults / level 3</td></tr>
+          <tr class="ours"><td>Completed trials</td><td class="best">160/160</td></tr>
+          <tr><td>Stops / timeouts</td><td class="best">0 / 0</td></tr>
+          <tr><td>Target-sim joint MAE</td><td>0.04066 rad (2.33°)</td></tr>
+          <tr><td>Per-class MAE range</td><td>0.02289 – 0.05420 rad</td></tr>
+          <tr><td>VLM inference mean / P95</td><td>3.532 / 4.368 s</td></tr>
+          <tr><td>Trajectory construction mean / P95</td><td>0.93 / 1.70 ms</td></tr>
+          <tr><td>Command submission mean / P95</td><td>0.23 / 0.60 ms</td></tr>
+        </tbody>
+      </table>
+      <p class="tbl-note">Hosted VLM inference dominates the initial response delay; local trajectory construction and submission are sub-millisecond on average.</p>
+    </div>
+
+    <!-- confusion matrices -->
+    <div class="fig-card">
+      <img src="./static/images/Confusion_Matrices_Easy_Medium_Hard.png" alt="Pooled confusion matrices for Easy, Medium and Hard tiers" data-lightbox>
+      <div class="fig-cap">
+        <strong>Figure 4:</strong> Pooled confusion matrices for five complete passes over 160 tier-specific
+        utterances per tier. Each panel aggregates 800 decisions; entries are pooled counts and color denotes
+        row-normalized percentage. (a) Easy 98.25 ± 0.52% | 786/800; (b) Medium 70.50 ± 0.81% | 564/800;
+        (c) Hard 60.75 ± 0.81% | 486/800. 100 pooled samples per true class.
+      </div>
+    </div>
+
+    <!-- error structure callout -->
+    <div class="callout">
+      <h3><i class="fas fa-magnifying-glass-chart"></i> Functional error structure</h3>
+      <p>
+        Degradation is localized to <strong>meaningful semantic boundaries</strong>, not to the motion interface.
+        Easy has only 14 errors among 800 decisions (786/800 pooled correct). The leading Medium confusions are
+        welcoming→comforting (39/100) and pointing→emphasizing (30/100). On Hard these each occur 41 times, while
+        doubting→emphasizing occurs 37 times; comforting and neutral still retain <strong>86%</strong> and
+        <strong>99%</strong> recall on Hard (Hard pooled 486/800). Errors therefore concentrate at boundaries
+        between related communicative acts — supporting the design choice of a compact, library-grounded motion
+        contract, with language-side distinctions improved by relational context and hierarchical intent
+        representations.
+      </p>
+    </div>
+
+    <!-- metric cards -->
+    <div class="metric-grid">
+      <div class="metric-card">
+        <i class="fas fa-bullseye"></i>
+        <h3>98.25%</h3>
+        <p>Easy-tier top-1 intent accuracy for structured GPT-5.5 planning — 786 of 800 pooled decisions correct across five passes.</p>
+      </div>
+      <div class="metric-card">
+        <i class="fas fa-chart-line"></i>
+        <h3>+4.42</h3>
+        <p>Full structured interface minus direct-label GPT-5.5 (72.08 ± 0.74% overall), with model, dataset, sampling, and run count held identical. The gap widens to +6.62 on Hard.</p>
+      </div>
+      <div class="metric-card">
+        <i class="fas fa-list-ol"></i>
+        <h3>91.50%</h3>
+        <p>Ordered exact match on the 320-item multi-action suite: 96.75% at length 2, 94.00% at length 3, 81.25% at length 4. Primary-class accuracy 97.75 ± 0.68%.</p>
+      </div>
+      <div class="metric-card">
+        <i class="fas fa-cube"></i>
+        <h3>160/160</h3>
+        <p>Class-balanced 50 Hz MuJoCo trials completed (20 per class, 8 default motions, intensity level 3), with 0 stops and 0 timeouts. These are MuJoCo trials — not real-robot trials.</p>
+      </div>
+      <div class="metric-card">
+        <i class="fas fa-crosshairs"></i>
+        <h3>0.04066 rad</h3>
+        <p>Target-to-simulated joint MAE (2.33°) over 160 trials × 100 resampled points × 14 joints; per-class range 0.02289–0.05420 rad. VLM inference 3.532 s mean / 4.368 s P95.</p>
+      </div>
+      <div class="metric-card">
+        <i class="fas fa-robot"></i>
+        <h3>29/29</h3>
+        <p>All 29 authored motion variants realized on the physical Unitree G1 across 8 communicative classes, plus two built-in neutral poses.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== FULL LIBRARY ===================== -->
+<section class="sec fade-up">
+  <div class="fig-card">
+    <img src="./static/images/Real_G1_Full_Library_29_Variants.png" alt="Full library coverage of 29 motion variants on the physical Unitree G1" data-lightbox>
+    <div class="fig-cap">
+      <strong>Figure 5:</strong> Qualitative full-library coverage on the physical G1. The 29 library motions span
+      all eight communicative classes — 29 motion-library IDs | 8 semantic classes — with one representative frame
+      from each recorded variant execution under the same stationary, overhead-supported protocol, including
+      unilateral, bilateral, crossed-arm, and elevated-arm expressions.
+    </div>
+  </div>
+</section>
+
+<!-- ===================== DEMOS ===================== -->
+<section class="sec fade-up" id="demos" style="padding-top:1rem">
+  <div class="sec-label">Demos</div>
+  <h2 class="sec-title">Simulation ↔ Real robot, 29 paired executions</h2>
+  <p class="sec-desc">
+    Every library variant is shown side by side: the MuJoCo preview generated from the same keyframe record, and
+    the corresponding execution on the physical Unitree G1 under a consistent stationary, overhead-supported
+    protocol.
+  </p>
+
+  <div class="featured-grid">
+    <div class="feature-card">
+      <div class="feature-title">
+        <div>
+          <h3>Welcoming · Face Wave</h3>
+          <span style="font-family:inherit;font-size:.72rem;letter-spacing:.06em">GESTURE 26</span>
+        </div>
+        <span>Sim ↔ Real</span>
+      </div>
+      <div class="paired-videos">
+        <div class="video-pane"><div class="video-label">Simulation</div><video controls loop preload="metadata" playsinline><source src="./static/videos/sim/26_welcoming_face_wave.mp4" type="video/mp4"></video></div>
+        <div class="video-pane"><div class="video-label">Real Robot</div><video controls loop preload="metadata" playsinline><source src="./static/videos/real/26_real_welcoming_face_wave.mp4" type="video/mp4"></video></div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-title">
+        <div>
+          <h3>Agreeing · Thumbs Up</h3>
+          <span style="font-family:inherit;font-size:.72rem;letter-spacing:.06em">GESTURE 03</span>
+        </div>
+        <span>Sim ↔ Real</span>
+      </div>
+      <div class="paired-videos">
+        <div class="video-pane"><div class="video-label">Simulation</div><video controls loop preload="metadata" playsinline><source src="./static/videos/sim/03_agreeing_thumbs_up.mp4" type="video/mp4"></video></div>
+        <div class="video-pane"><div class="video-label">Real Robot</div><video controls loop preload="metadata" playsinline><source src="./static/videos/real/03_real_agreeing_thumbs_up.mp4" type="video/mp4"></video></div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-title">
+        <div>
+          <h3>Comforting · Hug</h3>
+          <span style="font-family:inherit;font-size:.72rem;letter-spacing:.06em">GESTURE 07</span>
+        </div>
+        <span>Sim ↔ Real</span>
+      </div>
+      <div class="paired-videos">
+        <div class="video-pane"><div class="video-label">Simulation</div><video controls loop preload="metadata" playsinline><source src="./static/videos/sim/07_comforting_hug.mp4" type="video/mp4"></video></div>
+        <div class="video-pane"><div class="video-label">Real Robot</div><video controls loop preload="metadata" playsinline><source src="./static/videos/real/07_real_comforting_hug.mp4" type="video/mp4"></video></div>
+      </div>
+    </div>
+    <div class="feature-card">
+      <div class="feature-title">
+        <div>
+          <h3>Pointing · Point Up-Right</h3>
+          <span style="font-family:inherit;font-size:.72rem;letter-spacing:.06em">GESTURE 20</span>
+        </div>
+        <span>Sim ↔ Real</span>
+      </div>
+      <div class="paired-videos">
+        <div class="video-pane"><div class="video-label">Simulation</div><video controls loop preload="metadata" playsinline><source src="./static/videos/sim/20_pointing_point_up_right.mp4" type="video/mp4"></video></div>
+        <div class="video-pane"><div class="video-label">Real Robot</div><video controls loop preload="metadata" playsinline><source src="./static/videos/real/20_real_pointing_point_up_right.mp4" type="video/mp4"></video></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="demo-controls">
+    <div class="filters" id="filters"></div>
+    <button class="autoplay-btn" id="autoplayToggle" type="button" aria-pressed="false"></button>
+  </div>
+
+  <div class="demo-grid" id="demoGrid"></div>
+</section>
+
+<!-- ===================== LAB TOUR ===================== -->
+<section class="band">
+  <div class="sec fade-up" id="labtour">
+    <div class="sec-label">Integrated System</div>
+    <h2 class="sec-title">Four-stop laboratory tour on the physical G1</h2>
+    <p class="sec-desc">
+      The same stack guides visitors along four fixed stops — the introduction board, motion-capture area,
+      autonomous-vehicle equipment area, and legged-robot equipment area. G1 onboard odometry drives the route
+      while EmoPose schedules narration gestures. A visitor can interrupt for dialogue or a scene description; a
+      VLM interprets the live camera frame, and EmoPose answers through speech and library-grounded gestures.
+    </p>
+
+    <div class="fig-card">
+      <video class="overview-demo-video" controls loop preload="metadata" playsinline
+             poster="./static/images/Laboratory_Tour_Demo.png">
+        <source src="./static/videos/overview/01_emopose_real_lab_tour_demo_en_lite.mp4" type="video/mp4">
+      </video>
+      <div class="fig-cap">
+        <strong>Lab Tour Demo:</strong> English-language integrated run of the four-stop laboratory tour
+        (lite encoding). Expressive narration, interruption handling, camera-grounded dialogue, and navigation
+        composed on the physical Unitree G1.
+      </div>
+    </div>
+
+    <div class="fig-card">
+      <img src="./static/images/Laboratory_Tour_Demo.png" alt="Integrated laboratory tour demonstration frames" data-lightbox>
+      <div class="fig-cap">
+        <strong>Figure 6:</strong> Integrated laboratory-tour demonstration. Top: frames from the final physical
+        run at the introduction board, motion-capture area, autonomous-vehicle equipment area, and legged-robot
+        equipment area. Enlarged views from the English-language interface recording show an interrupting
+        camera-grounded question and its gesture-annotated response (bottom left), together with the live camera
+        and active motion state (bottom right).
+      </div>
+    </div>
+
+    <div class="callout" style="border-left-color:var(--teal);background:color-mix(in oklch, var(--teal) 7%, var(--surface))">
+      <h3><i class="fas fa-triangle-exclamation" style="color:var(--teal)"></i> Scope &amp; limitations</h3>
+      <p>
+        The current benchmark is in English only, the physical repertoire is limited to 14-DoF upper-limb
+        gestures, and the tour follows fixed destinations using onboard odometry. Future work includes
+        independently annotated multilingual data and held-out prompt development, extension of the authority
+        architecture to coordinated whole-body behavior, and coupling with more stable localization, navigation,
+        and perception-aware replanning.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ===================== CITE ===================== -->
+<section class="sec fade-up" id="cite">
+  <div class="sec-label">BibTeX</div>
+  <h2 class="sec-title">Cite this work</h2>
+  <p class="sec-desc">If you find EmoPose useful, please consider citing:</p>
+  <div class="cite-wrap">
+    <button class="copy-btn" id="copyBibtex" type="button"><i class="far fa-copy"></i> <span>Copy</span></button>
+    <pre id="bibtex">@misc{peng2026emopose,
+  title         = {EmoPose: Vision-Language Model Guided Emotion-Aware Gesture Generation for Humanoid Robots},
+  author        = {Peng, Daojie and Wang, Bingtao and Ma, Fulong and Yue, Wenjun and Zhang, Liang and Ma, Jun},
+  year          = {2026},
+  eprint        = {2609.23414},
+  archivePrefix = {arXiv},
+  primaryClass  = {cs.RO},
+  howpublished  = {arXiv preprint arXiv:2609.23414}
+}</pre>
+  </div>
+</section>
+
+<!-- ===================== FOOTER ===================== -->
+<footer>
+  <div class="foot-links">
+    <a href="https://arxiv.org/abs/2609.23414">arXiv</a>
+    <a href="./static/paper/EmoPose_paper.pdf">Paper PDF</a>
+    <a href="https://github.com/DaojiePENG/EmoPose">Code</a>
+    <a href="https://daojiepeng.github.io/Personal/">Author</a>
+  </div>
+  <div>© 2026 EmoPose Authors · HKUST(GZ) Robotics · <a href="https://daojiepeng.github.io/Personal/">Daojie Peng</a></div>
+</footer>
+
+<!-- lightbox -->
+<dialog class="fig-dialog" id="figDialog">
+  <img id="figDialogImg" alt="">
+  <div class="dialog-bar">
+    <span id="figDialogCap"></span>
+    <button class="dialog-close" id="figDialogClose" type="button">Close</button>
+  </div>
+</dialog>
+
+<script src="./static/js/index.js"></script>
+</body>
+</html>
