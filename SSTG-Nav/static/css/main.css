@@ -995,7 +995,7 @@ sup {
 .result-summary {
   display: grid;
   margin-bottom: 26px;
-  grid-template-columns: 1fr auto 1fr auto 1fr;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
   align-items: stretch;
   gap: 13px;
 }
@@ -1056,6 +1056,10 @@ sup {
   margin-bottom: 24px;
 }
 
+.figure-mechanism {
+  margin-bottom: 48px;
+}
+
 .analysis-grid {
   display: grid;
   grid-template-columns: 1.1fr 0.9fr;
@@ -1071,7 +1075,7 @@ sup {
 
 .evidence-layout {
   display: grid;
-  grid-template-columns: minmax(0, 1.35fr) minmax(290px, 0.65fr);
+  grid-template-columns: repeat(2, minmax(0, 1fr));
   align-items: center;
   gap: 56px;
 }

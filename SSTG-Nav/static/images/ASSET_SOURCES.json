@@ -1,0 +1,170 @@
+{
+  "schema": "sstg-nav-project-image-sources-v1",
+  "updated_on": "2026-10-29",
+  "paper_revision": "3b900d6301f8b9b4c5619fa3e4b7c8596d063f20",
+  "paper_revision_short": "3b900d6",
+  "scope": "Only the listed images were refreshed from the current CVPR manuscript. Older image files are not represented by this manifest.",
+  "assets": [
+    {
+      "path": "static/images/system-overview.png",
+      "role": "Current paper Figure 1: shared spatial memory, query-specific instance selection and calibrated approach execution",
+      "source_repository": "CVPR2027SSTGNavPaper",
+      "source_revision": "3b900d6301f8b9b4c5619fa3e4b7c8596d063f20",
+      "source_path": "figures/overview.pdf",
+      "source_sha256": "a54ded7abb014beb2cace52f73584b94a743f1cc84ec09805cb8e4e21c24d519",
+      "pdf_page_number": 1,
+      "pdf_page_size_pt": [
+        509.760009765625,
+        287.6502990722656
+      ],
+      "export_size_px": [
+        2800,
+        1580
+      ],
+      "sha256": "dd3495f56ca0b1fb91c9b7639c5e2400b954b1e75788edba4ae382ea01488aef",
+      "export": "PyMuPDF RGB rasterization on white; original aspect ratio; lossless PNG; no content, color or label editing",
+      "exported_on": "2026-10-29"
+    },
+    {
+      "path": "static/images/rgbd-grounding.png",
+      "role": "Current paper Figure 2: calibrated RGB-D and source-supported approach geometry",
+      "source_repository": "CVPR2027SSTGNavPaper",
+      "source_revision": "3b900d6301f8b9b4c5619fa3e4b7c8596d063f20",
+      "source_path": "figures/approach-geometry.pdf",
+      "source_sha256": "36448547afee37160939aabe297f6591cf49f431060b90bf38771a1bcbe103a5",
+      "pdf_page_number": 1,
+      "pdf_page_size_pt": [
+        241.1999969482422,
+        140.39999389648438
+      ],
+      "export_size_px": [
+        1600,
+        932
+      ],
+      "sha256": "f7a000cafb8a3dfab5b6c5d74674056727e62c7387c01620f3012069af0d33fb",
+      "export": "PyMuPDF RGB rasterization on white; original aspect ratio; lossless PNG; no content, color or label editing",
+      "exported_on": "2026-10-29"
+    },
+    {
+      "path": "static/images/goat-multimodal-demo.png",
+      "role": "Current paper Figure 3: continuous multimodal memory reads, immediate endpoint reuse and return to the same bed",
+      "source_repository": "CVPR2027SSTGNavPaper",
+      "source_revision": "3b900d6301f8b9b4c5619fa3e4b7c8596d063f20",
+      "source_path": "figures/goat-demo.pdf",
+      "source_sha256": "a77115dbdf7ebb42b8897ba6e8c3ecf074e2712adc1fc26623d378758dee1b27",
+      "pdf_page_number": 1,
+      "pdf_page_size_pt": [
+        504.0,
+        266.3999938964844
+      ],
+      "export_size_px": [
+        2800,
+        1480
+      ],
+      "sha256": "9ff2f1eb848ec05d15b1c47d9e0d1ee08038184e4db4779bc44759f3ae431f3d",
+      "export": "PyMuPDF RGB rasterization on white; original aspect ratio; lossless PNG; no content, color or label editing",
+      "exported_on": "2026-10-29"
+    },
+    {
+      "path": "static/images/mechanism-reuse.png",
+      "role": "Current paper Figure 4: matched standoff sensitivity and survey acquisition cost",
+      "source_repository": "CVPR2027SSTGNavPaper",
+      "source_revision": "3b900d6301f8b9b4c5619fa3e4b7c8596d063f20",
+      "source_path": "figures/reuse.pdf",
+      "source_sha256": "9e2021fb640af9e41cc4262671f840eb12d6bae2506d9187e16385f3cdd150fa",
+      "pdf_page_number": 1,
+      "pdf_page_size_pt": [
+        496.79998779296875,
+        174.24000549316406
+      ],
+      "export_size_px": [
+        2200,
+        772
+      ],
+      "sha256": "2188028917418325674470313614759f811c31201a46737dd4593a21f81b02c4",
+      "export": "PyMuPDF RGB rasterization on white; original aspect ratio; lossless PNG; no content, color or label editing",
+      "exported_on": "2026-10-29"
+    },
+    {
+      "path": "static/images/robot-query-loop.png",
+      "role": "Current paper Figure 5: recorded qualitative physical-system realization",
+      "source_repository": "CVPR2027SSTGNavPaper",
+      "source_revision": "3b900d6301f8b9b4c5619fa3e4b7c8596d063f20",
+      "source_path": "figures/physical-system.pdf",
+      "source_sha256": "94c9f76bdaa06fb85b2e9246002228096c2a074a48001d9d76eb0e873cdd3423",
+      "pdf_page_number": 1,
+      "pdf_page_size_pt": [
+        527.9810791015625,
+        103.78411865234375
+      ],
+      "export_size_px": [
+        2400,
+        472
+      ],
+      "sha256": "301041449b5a395d9118a88a86910f8079b54f7b9ff7972d8f294214e32430ef",
+      "export": "PyMuPDF RGB rasterization on white; original aspect ratio; lossless PNG; no content, color or label editing",
+      "exported_on": "2026-10-29"
+    },
+    {
+      "path": "static/images/goat-benchmark-results.png",
+      "role": "Current paper Table 1: GOAT-Bench SR/SPL with complete evaluation-setting caption",
+      "source_repository": "CVPR2027SSTGNavPaper",
+      "source_revision": "3b900d6301f8b9b4c5619fa3e4b7c8596d063f20",
+      "source_path": "main.pdf",
+      "source_sha256": "bb0ea1fccd8daf55fb7fbb58498db3dc157408a78beeefd037be401d98b51a86",
+      "pdf_page_number": 6,
+      "pdf_page_size_pt": [
+        612.0,
+        792.0
+      ],
+      "export_size_px": [
+        2601,
+        994
+      ],
+      "sha256": "81b41c3c9a88b5e9f170a73009787cf4666b93cb6722a9bb149196550620f00b",
+      "export": "PyMuPDF RGB rasterization on white; original aspect ratio; lossless PNG; no content, color or label editing",
+      "exported_on": "2026-10-29",
+      "pdf_crop_bounds_pt": [
+        55,
+        69,
+        558,
+        261
+      ]
+    },
+    {
+      "path": "static/images/multion-benchmark-results.png",
+      "role": "Current paper Table 2: online MultiON Success/Progress/SPL/PPL with complete comparison-scope caption",
+      "source_repository": "CVPR2027SSTGNavPaper",
+      "source_revision": "3b900d6301f8b9b4c5619fa3e4b7c8596d063f20",
+      "source_path": "main.pdf",
+      "source_sha256": "bb0ea1fccd8daf55fb7fbb58498db3dc157408a78beeefd037be401d98b51a86",
+      "pdf_page_number": 6,
+      "pdf_page_size_pt": [
+        612.0,
+        792.0
+      ],
+      "export_size_px": [
+        2801,
+        959
+      ],
+      "sha256": "6c86d805adecc7a58f5c3a69c1b77b570c748cd56e18b1898397b57d2095f181",
+      "export": "PyMuPDF RGB rasterization on white; original aspect ratio; lossless PNG; no content, color or label editing",
+      "exported_on": "2026-10-29",
+      "pdf_crop_bounds_pt": [
+        55,
+        268,
+        558,
+        440
+      ]
+    }
+  ],
+  "manuscript": {
+    "path": "static/paper/SSTG-Nav.pdf",
+    "source_repository": "CVPR2027SSTGNavPaper",
+    "source_path": "reading.pdf",
+    "source_revision": "3b900d6301f8b9b4c5619fa3e4b7c8596d063f20",
+    "role": "Current public manuscript with authors, references and supplementary material",
+    "sha256": "ff6660d1795dc351e2c151d4e394bedd42e2cbe00b1a7448ea3ea5e146d617f8",
+    "updated_on": "2026-10-29"
+  }
+}

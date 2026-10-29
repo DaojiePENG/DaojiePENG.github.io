@@ -4,7 +4,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>SSTG-Nav — Reusable Object Navigation</title>
-  <meta name="description" content="SSTG-Nav turns a one-time RGB-D survey into a reusable metric-semantic topology for dependable, repeated object navigation.">
+  <meta name="description" content="SSTG-Nav couples reusable object identity with measured approach geometry for category, description and photograph navigation, with GOAT-Bench and online MultiON evaluation.">
   <meta name="author" content="Daojie Peng, Bingtao Wang, Jun Ma">
   <meta name="citation_title" content="SSTG-Nav: Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation">
   <meta name="citation_author" content="Daojie Peng">
@@ -17,7 +17,7 @@
   <meta name="theme-color" content="#071315">
   <meta property="og:type" content="website">
   <meta property="og:title" content="SSTG-Nav: Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation">
-  <meta property="og:description" content="Pre-explore once. Ground objects metrically. Navigate repeatedly.">
+  <meta property="og:description" content="Shared observations. Query-specific identity. Measured approaches for repeated navigation.">
   <meta property="og:image" content="https://daojiepeng.github.io/SSTG-Nav/static/images/system-overview.png">
   <meta property="og:url" content="https://daojiepeng.github.io/SSTG-Nav/">
   <link rel="canonical" href="https://daojiepeng.github.io/SSTG-Nav/">
@@ -48,7 +48,7 @@
         <a href="#demos">Demos</a>
         <a href="#robot">Robot</a>
         <a href="#benchmark">Benchmark</a>
-        <a class="nav-paper" href="https://arxiv.org/abs/2608.00527" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a>
+        <a class="nav-paper" href="static/paper/SSTG-Nav.pdf" target="_blank" rel="noopener">Paper <span aria-hidden="true">↗</span></a>
       </nav>
     </div>
   </header>
@@ -70,7 +70,7 @@
         <div class="hero-copy">
           <div class="eyebrow"><span class="eyebrow-dot"></span> Reusable Object Navigation</div>
           <h1 id="hero-title"><span>SSTG-Nav:</span> Metric-Grounded Spatial-Semantic Topological Graphs for Reusable Object Navigation</h1>
-          <p class="hero-lede">Pre-explore once. Ground objects metrically. Navigate repeatedly.</p>
+          <p class="hero-lede">Shared observations. Query-specific identity. Measured approaches.</p>
 
           <div class="authors" aria-label="Authors">
             <a href="../Personal/">Daojie Peng<sup>1</sup></a>
@@ -80,30 +80,32 @@
           <p class="affiliations"><sup>1</sup> The Hong Kong University of Science and Technology (Guangzhou) &nbsp;·&nbsp; <sup>2</sup> Shandong University &nbsp;·&nbsp; <sup>†</sup> Corresponding author</p>
 
           <div class="hero-actions">
-            <a class="button button-primary" href="https://arxiv.org/abs/2608.00527" target="_blank" rel="noopener">
-              <span class="button-icon" aria-hidden="true">▤</span> Read the paper
+            <a class="button button-primary" href="static/paper/SSTG-Nav.pdf" target="_blank" rel="noopener">
+              <span class="button-icon" aria-hidden="true">▤</span> Latest manuscript
             </a>
             <a class="button button-secondary" href="https://github.com/DaojiePENG/sstg-nav-bench">
               <svg aria-hidden="true" viewBox="0 0 24 24"><path d="M12 .8a11.4 11.4 0 0 0-3.6 22.2c.6.1.8-.3.8-.6v-2.2c-3.4.8-4.2-1.5-4.2-1.5-.5-1.4-1.3-1.8-1.3-1.8-1.1-.8.1-.8.1-.8 1.2.1 1.9 1.2 1.9 1.2 1.1 1.9 2.8 1.4 3.5 1 .1-.8.4-1.4.8-1.7-2.7-.3-5.6-1.4-5.6-6.1 0-1.4.5-2.5 1.2-3.4-.1-.3-.5-1.6.1-3.3 0 0 1-.3 3.5 1.3a11.9 11.9 0 0 1 6.4 0c2.4-1.6 3.5-1.3 3.5-1.3.6 1.7.2 3 .1 3.3.8.9 1.2 2 1.2 3.4 0 4.8-2.9 5.8-5.6 6.1.4.4.8 1.1.8 2.2v3.3c0 .3.2.7.8.6A11.4 11.4 0 0 0 12 .8Z"/></svg>
               View code
             </a>
+            <a class="button button-secondary" href="https://arxiv.org/abs/2608.00527" target="_blank" rel="noopener">arXiv <span aria-hidden="true">↗</span></a>
           </div>
         </div>
 
         <aside class="hero-metrics" aria-label="Headline results">
           <div class="metric-card metric-card-wide">
-            <span class="metric-label">Top-3 success</span>
-            <strong>97.5<span>%</span></strong>
-            <small>Fusion-aware recovery</small>
+            <span class="metric-label">GOAT-Bench · Unseen SR</span>
+            <strong>64.5<span>%</span></strong>
+            <small>Strict 0.25 m · navmesh-assisted execution</small>
           </div>
           <div class="metric-card">
-            <span class="metric-label">Geometric ceiling</span>
-            <strong>99.4<span>%</span></strong>
+            <span class="metric-label">GOAT · Unseen SPL</span>
+            <strong>42.8<span>%</span></strong>
+            <small>Same multimodal sequences</small>
           </div>
           <div class="metric-card">
-            <span class="metric-label">Evaluation</span>
-            <strong>1,000</strong>
-            <small>episodes · 36 scenes</small>
+            <span class="metric-label">MultiON · 3ON success</span>
+            <strong>35.7<span>%</span></strong>
+            <small>Online memory · 1,000 test episodes</small>
           </div>
         </aside>
       </div>
@@ -116,34 +118,34 @@
         <div class="section-heading reveal">
           <p class="section-kicker">The central idea</p>
           <h2>Turn one survey into a reusable navigation memory.</h2>
-          <p>Object recognition alone does not tell a robot where it can safely stop. SSTG-Nav bridges that gap by attaching semantic evidence to metric, reachable standoffs and preserving them for future requests.</p>
+          <p>Recognizing a remembered object does not specify a reachable approach. SSTG-Nav links reusable instance evidence to measured approach locations, so different requests can share the same observations and geometry.</p>
         </div>
 
         <figure class="figure-frame figure-hero reveal" data-figure>
           <button class="figure-open" type="button" aria-label="Enlarge system overview">Expand</button>
-          <img src="static/images/system-overview.png" alt="SSTG-Nav pipeline from a one-time goal-independent survey through reusable metric-semantic topology to repeated natural-language navigation" loading="eager">
-          <figcaption><span>System overview.</span> A one-time RGB-D survey builds a persistent spatial-semantic topology; repeated language requests retrieve reachable candidates, execute navigation, and verify arrival.</figcaption>
+          <img src="static/images/system-overview.png" width="2800" height="1580" alt="SSTG-Nav architecture: shared calibrated RGB-D memory, separate text and photograph instance selection, source-facing metric approaches, and execution from successive reached poses" loading="eager">
+          <figcaption><span>System overview.</span> Category, description and photograph requests read shared calibrated observations. Query evidence orders instance hypotheses; depth and source poses supply their approaches. Execution preserves semantic priority, and each reached pose starts the next request.</figcaption>
         </figure>
 
         <div class="abstract-layout">
           <article class="abstract-card reveal">
             <p class="section-kicker">Abstract</p>
-            <p>Service robots operating for months in the same homes, offices, and facilities should become more reliable with experience instead of searching familiar space from scratch for every request. Yet ObjectNav is predominantly formulated as one-shot exploration, leaving a central deployment challenge unresolved: recognizing an object does not identify a reachable place to stop, and one confident map error can terminate the task.</p>
-            <p>We introduce SSTG-Nav, a reusable metric-semantic memory that turns a one-time survey into actionable object goals, consolidates evidence across viewpoints, and retains spatially distinct recovery standoffs. Across 1,000 HM3D-v2 episodes and a ROS 2/Nav2 realization, the results establish pre-exploration as a practical regime for dependable, repeated semantic navigation.</p>
+            <p>Robots operating in familiar environments should reuse prior observations for subsequent object navigation. SSTG-Nav couples reusable object identity with calibrated approach geometry. A goal-independent RGB-D survey retains observations and connectivity; category, description and photograph queries select instances, while depth and source poses provide ordered approaches. Source-aware consolidation compresses identity, and a linked residual bank retains alternative access geometry.</p>
+            <p>On GOAT-Bench, one shared survey supports successive multimodal requests and achieves 64.5% Unseen success under the strict 0.25 m criterion with navmesh-assisted execution. Matched HM3D studies isolate a 15.3-percentage-point success gain from metric standoffs. Online MultiON demonstrates reuse of observations acquired during navigation, and repeated-request studies quantify how survey costs are amortized.</p>
           </article>
 
           <div class="idea-stack reveal">
             <article class="idea-card">
               <span class="idea-index">01</span>
-              <div><h3>Goal-independent survey</h3><p>Build the topology before any ObjectNav goal is revealed.</p></div>
+              <div><h3>Shared observations</h3><p>Retain calibrated RGB-D views and connectivity for successive requests.</p></div>
             </article>
             <article class="idea-card">
               <span class="idea-index">02</span>
-              <div><h3>Actionable semantics</h3><p>Back-project RGB-D evidence into reachable, object-centric standoffs.</p></div>
+              <div><h3>Identity with geometry</h3><p>Select instances from query evidence and link them to source-facing approaches.</p></div>
             </article>
             <article class="idea-card">
               <span class="idea-index">03</span>
-              <div><h3>Recovery by design</h3><p>Keep distinct alternatives, verify arrival, and continue when a candidate fails.</p></div>
+              <div><h3>Reuse across goals</h3><p>Keep alternative approaches and continue from the actual reached pose.</p></div>
             </article>
           </div>
         </div>
@@ -157,55 +159,55 @@
             <p class="section-kicker">Method</p>
             <h2>From pixels to places the robot can reach.</h2>
           </div>
-          <p>Each detection is geometrically grounded, consolidated across observations, and stored alongside the navigation graph—so a later language query resolves to a physical standoff rather than a camera pose.</p>
+          <p>Instance selection and approach construction share their source observations. Text and photograph requests use different evidence paths, then resolve to ordered metric approaches from the agent's current pose.</p>
         </div>
 
         <div class="pipeline" aria-label="SSTG-Nav method stages">
           <article class="pipeline-card reveal">
             <span class="pipeline-number">1</span>
             <div class="pipeline-icon" aria-hidden="true">◎</div>
-            <h3>Survey</h3>
-            <p>Farthest-point exploration samples free space and captures calibrated cardinal RGB-D views.</p>
+            <h3>Retain observations</h3>
+            <p>A goal-independent survey stores calibrated RGB-D views, connectivity and cached visual descriptors.</p>
           </article>
           <article class="pipeline-card reveal">
             <span class="pipeline-number">2</span>
             <div class="pipeline-icon" aria-hidden="true">⌖</div>
-            <h3>Ground</h3>
-            <p>Depth back-projection converts semantic detections into metric object locations and reachable standoffs.</p>
+            <h3>Select instances</h3>
+            <p>Text-region grounding and scene-wide photograph matching rank hypotheses using query-specific evidence.</p>
           </article>
           <article class="pipeline-card reveal">
             <span class="pipeline-number">3</span>
             <div class="pipeline-icon" aria-hidden="true">⎔</div>
-            <h3>Fuse</h3>
-            <p>Source-aware 3D and reachability checks merge corroborating views without erasing useful alternatives.</p>
+            <h3>Measure approaches</h3>
+            <p>Calibrated depth estimates visible surfaces; source poses preserve distinct approach sides and floor height.</p>
           </article>
           <article class="pipeline-card reveal">
             <span class="pipeline-number">4</span>
             <div class="pipeline-icon" aria-hidden="true">↗</div>
-            <h3>Retrieve &amp; recover</h3>
-            <p>Language retrieval ranks candidates; fresh arrival evidence decides whether to stop or continue.</p>
+            <h3>Execute &amp; reuse</h3>
+            <p>Try feasible approaches within the fixed instance order. Retain observations as the next request starts at the reached pose.</p>
           </article>
         </div>
 
         <div class="method-figures">
           <figure class="figure-frame reveal" data-figure>
             <button class="figure-open" type="button" aria-label="Enlarge RGB-D grounding figure">Expand</button>
-            <img src="static/images/rgbd-grounding.png" alt="RGB-D grounding from visual detection through depth back-projection to a reachable object-centric standoff" loading="lazy">
-            <figcaption><span>Metric grounding.</span> A visual observation becomes an actionable goal while free-space constraints keep the proposed standoff reachable.</figcaption>
+            <img src="static/images/rgbd-grounding.png" width="1600" height="932" alt="Calibrated RGB and depth map a selected pixel to a visible surface; schematic source-facing offsets preserve floor height and alternative approach sides" loading="lazy">
+            <figcaption><span>Source-supported approach geometry.</span> Back-projection locates a visible surface. Source-facing offsets produce approach candidates on the observed floor; navigable snapping precedes execution.</figcaption>
           </figure>
 
           <div class="memory-card reveal">
-            <div class="memory-topline"><span>Persistent memory</span><span class="live-dot">Reusable</span></div>
+            <div class="memory-topline"><span>GOAT-Bench example</span><span class="live-dot">Shared survey</span></div>
             <div class="memory-graph" aria-hidden="true">
               <span class="graph-edge e1"></span><span class="graph-edge e2"></span><span class="graph-edge e3"></span><span class="graph-edge e4"></span>
               <span class="graph-node g1">A</span><span class="graph-node g2">B</span><span class="graph-node g3 goal">⌖</span><span class="graph-node g4">C</span><span class="graph-node g5">D</span>
             </div>
             <dl class="memory-stats">
-              <div><dt>6,642</dt><dd>topology nodes</dd></div>
-              <div><dt>21,845</dt><dd>navigable edges</dd></div>
-              <div><dt>1,329</dt><dd>fused candidates</dd></div>
+              <div><dt>126</dt><dd>survey nodes</dd></div>
+              <div><dt>504</dt><dd>RGB-D views</dd></div>
+              <div><dt>6</dt><dd>successive goals</dd></div>
             </dl>
-            <p>One representation supports multiple object requests without rebuilding the map or revisiting the whole environment.</p>
+            <p>In the recorded case below, photograph, category and description requests reuse one survey. The schematic above represents linked observations and approaches.</p>
           </div>
         </div>
       </div>
@@ -215,73 +217,70 @@
       <div class="page-shell">
         <div class="section-heading section-heading-split reveal">
           <div>
-            <p class="section-kicker">Full validation</p>
-            <h2>Metric grounding closes most of the gap to geometric coverage.</h2>
+            <p class="section-kicker">Benchmark results</p>
+            <h2>Reusable navigation across multimodal and online tasks.</h2>
           </div>
-          <p>Results use 1,000 episodes across all 36 HM3D ObjectNav-v2 validation scenes. All system variants share the same goal-independent topology protocol.</p>
+          <p>GOAT-Bench tests requests over a shared survey. MultiON starts with empty memory and tests ordered goals using observations acquired along the way. The main comparisons below retain each benchmark's evaluation settings.</p>
         </div>
 
         <div class="result-summary reveal">
           <article>
-            <span>Camera node</span>
-            <strong>83.5%</strong>
-            <small>SR · 0.560 SPL</small>
+            <span>GOAT-Bench · Seen</span>
+            <strong>66.4%</strong>
+            <small>SR · 45.5% SPL</small>
           </article>
-          <span class="result-arrow" aria-hidden="true">→</span>
           <article class="highlight">
-            <span>Metric grounded</span>
-            <strong>92.0%</strong>
-            <small>SR · 0.603 SPL</small>
+            <span>GOAT-Bench · Seen-Synonyms</span>
+            <strong>68.7%</strong>
+            <small>SR · 44.7% SPL</small>
           </article>
-          <span class="result-arrow" aria-hidden="true">→</span>
           <article class="highlight warm">
-            <span>Fusion-aware Top-3</span>
-            <strong>97.5%</strong>
-            <small>SR · 0.601 SPL</small>
+            <span>GOAT-Bench · Unseen</span>
+            <strong>64.5%</strong>
+            <small>SR · 42.8% SPL</small>
           </article>
         </div>
 
         <figure class="figure-frame figure-results reveal" data-figure>
-          <button class="figure-open" type="button" aria-label="Enlarge full validation results">Expand</button>
-          <img src="static/images/full-results.png" alt="Bar chart comparing success rate and SPL for geometry oracle, camera-node, raw metric, fused, and Top-3 SSTG-Nav variants" loading="lazy">
-          <figcaption><span>Independent full-validation results.</span> Metric grounding produces the largest single-step gain; structured recovery reaches 97.5% success while retaining competitive path efficiency.</figcaption>
+          <button class="figure-open" type="button" aria-label="Enlarge GOAT-Bench benchmark comparison">Expand</button>
+          <img src="static/images/goat-benchmark-results.png" width="2601" height="994" alt="Paper Table 1: GOAT-Bench success rate and SPL across Seen, Seen-Synonyms and Unseen, with paper-reported baselines and SSTG-Nav" loading="lazy">
+          <figcaption><span>GOAT-Bench main comparison.</span> All 1,060 released validation episodes; our runs use strict 0.25 m success and navmesh-assisted execution. Baselines are paper-reported: AstraNav-Memory reports 1 m, and controller/evaluator settings differ across methods.</figcaption>
         </figure>
 
-        <div class="analysis-grid">
-          <figure class="figure-frame reveal" data-figure>
-            <button class="figure-open" type="button" aria-label="Enlarge metric ablation figure">Expand</button>
-            <img src="static/images/metric-ablation.png" alt="Metric ablation results for grounding, fusion, and recovery components" loading="lazy">
-            <figcaption><span>Controlled ablations.</span> Grounding, consolidation, and recovery make distinct contributions.</figcaption>
-          </figure>
-          <figure class="figure-frame reveal" data-figure>
-            <button class="figure-open" type="button" aria-label="Enlarge density and semantics figure">Expand</button>
-            <img src="static/images/density-semantics.png" alt="Topology density, semantic model, and corruption control results" loading="lazy">
-            <figcaption><span>Stress tests.</span> Density, semantic model, and corruption controls reveal where performance originates.</figcaption>
-          </figure>
-        </div>
+        <figure class="figure-frame figure-results reveal" data-figure>
+          <button class="figure-open" type="button" aria-label="Enlarge online MultiON benchmark comparison">Expand</button>
+          <img src="static/images/multion-benchmark-results.png" width="2801" height="959" alt="Paper Table 2: online MultiON sequence Success, Progress, SPL and PPL for 1ON, 2ON and 3ON, compared with reported baselines" loading="lazy">
+          <figcaption><span>Online MultiON.</span> One frozen RGB-D/GPS/compass policy over 1,000 test episodes per task, with 2,500 actions and the released 1.5 m Found condition. Sequence Success is 71.9%, 50.6% and 35.7% for 1ON, 2ON and 3ON; the table compares the original MultiON reports.</figcaption>
+        </figure>
       </div>
     </section>
 
     <section class="section section-evidence" id="evidence">
       <div class="page-shell">
         <div class="section-heading reveal">
-          <p class="section-kicker">What the topology preserves</p>
-          <h2>Compact enough to reuse. Diverse enough to recover.</h2>
-          <p>Source-aware fusion reduces 20,107 raw candidates to 1,329 fused candidates—a 93.4% reduction—while residual metric standoffs retain spatial diversity for sequential recovery.</p>
+          <p class="section-kicker">Controlled mechanism studies</p>
+          <h2>Measured approaches. Compact identity. Reusable evidence.</h2>
+          <p>Matched HM3D studies separate endpoint geometry, memory capacity and acquisition cost. With detections and rankings fixed, replacing an observation pose with a reachable standoff raises one-shot success by 15.3 percentage points.</p>
         </div>
 
+        <figure class="figure-frame figure-mechanism reveal" data-figure>
+          <button class="figure-open" type="button" aria-label="Enlarge geometry and survey acquisition studies">Expand</button>
+          <img src="static/images/mechanism-reuse.png" width="2200" height="772" alt="Standoff sensitivity with semantic evidence fixed, and a reliability-motion frontier for staged survey budgets across repeated requests" loading="lazy">
+          <figcaption><span>Geometry and acquisition.</span> Nearby 0.8–1.0 m offsets form a stable operating region under the official strict 0.1 m goal-region criterion. Across 50 requests, a half-survey captures 78% of the full survey's SR improvement over lazy acquisition with 41% of its additional motion. Intervals are scene-clustered 95% estimates.</figcaption>
+        </figure>
+
         <div class="evidence-layout">
-          <figure class="figure-frame reveal" data-figure>
-            <button class="figure-open" type="button" aria-label="Enlarge topology maps">Expand</button>
-            <img src="static/images/topology-maps.png" alt="Example SSTG-Nav topological maps showing spatial sampling and semantic candidates" loading="lazy">
-            <figcaption><span>Goal-independent topologies.</span> Spatial coverage is constructed without access to downstream ObjectNav goals.</figcaption>
-          </figure>
           <div class="evidence-copy reveal">
             <div class="evidence-stat"><strong>93.4%</strong><span>candidate reduction through source-aware fusion</span></div>
             <div class="evidence-rule"></div>
-            <h3>Why not merge everything?</h3>
-            <p>A fused representative is valuable when independent views corroborate the same physical object. But over-fusion can remove the spatially distinct options needed after a blocked approach or false-positive arrival.</p>
-            <p>Fusion-aware Top-3 therefore begins with the strongest supported representative, then draws recovery options from residual metric standoffs.</p>
+            <h3>Compress identity, retain access diversity.</h3>
+            <p>In the HM3D category-memory study, source-aware consolidation reduces the primary index from 20,107 detections to 1,329 entries. A linked residual bank keeps physically distinct approaches available after consolidation.</p>
+          </div>
+          <div class="evidence-copy reveal">
+            <div class="evidence-stat"><strong>60.0%</strong><span>less serialized storage than the full raw bank</span></div>
+            <div class="evidence-rule"></div>
+            <h3>Preserve useful candidate coverage.</h3>
+            <p>The budgeted bank retains 98.9% of full-bank oracle endpoint Recall@3: 0.627 versus 0.634. This measures the approach candidates preserved before arrival decisions; benchmark system performance is reported above.</p>
           </div>
         </div>
       </div>
@@ -299,13 +298,13 @@
 
         <div class="trajectory-heading reveal">
           <div><p class="section-kicker">GOAT-Bench · Multimodal survey reuse</p><h3>Different ways to ask. One spatial memory.</h3></div>
-          <p>A continuous six-goal episode connects the current query, its survey evidence, and the executed approach.</p>
+          <p>A photograph finds the bed, a category request reuses the reached pose, and a later description recalls the bed after intervening rack goals.</p>
         </div>
 
         <figure class="figure-frame multion-demo-figure reveal" data-figure>
           <button class="figure-open" type="button" aria-label="Enlarge GOAT-Bench multimodal navigation example">Expand</button>
-          <img src="static/images/goat-multimodal-demo.png" alt="Actual description, photograph, and category queries with their survey evidence, arrival views, and executed GOAT-Bench routes" loading="lazy">
-          <figcaption><span>Multimodal reuse.</span> Description, image, and category goals resolve against the same surveyed spatial memory. The photograph goal is followed by a bed-category request that succeeds from the existing arrival pose.</figcaption>
+          <img src="static/images/goat-multimodal-demo.png" width="2800" height="1480" alt="Figure 3: six recorded GOAT-Bench paths; Q2 photo selects source A, Q6 description selects source B using bed-pillow context, and Q3 reuses the existing endpoint without motion" loading="lazy">
+          <figcaption><span>Different reads, the same bed.</span> Q2 photograph matching promotes source A from rank 4 to 1. Q3 selects a stored alternative at the reached pose and stops with zero navigation moves. After Q4–Q5, Q6 uses bed–pillow context and six observation sources to select source B's measured approach and return to the bed. Diamonds mark stored views, squares metric destinations and circles actual arrivals.</figcaption>
         </figure>
 
         <article class="multion-demo-card goat-demo-card reveal">
@@ -368,7 +367,7 @@
           </article>
         </div>
 
-        <p class="multion-demo-note reveal">Two qualitative examples from the frozen online policy. Each recording pairs the first-person view with the policy-observed map, played at 8 frames per second with one frame per action and a final observation.</p>
+        <p class="multion-demo-note reveal">Two qualitative examples from the earlier geometric controller illustrate online observation reuse. Each pairs the first-person view with the policy-observed map, played at 8 frames per second with one frame per action and a final observation.</p>
 
         <div class="trajectory-heading multion-legacy-heading reveal">
           <div><p class="section-kicker">HM3D mechanism examples</p><h3>See why the destination representation matters.</h3></div>
@@ -456,21 +455,15 @@
         <div class="section-heading section-heading-split reveal">
           <div>
             <p class="section-kicker">Physical deployment</p>
-            <h2>The same memory closes the loop on a real robot.</h2>
+            <h2>From stored observation to physical execution.</h2>
           </div>
-          <p>A ROS 2/Nav2 realization connects live RGB-D observations, semantic retrieval, metric candidate selection, navigation execution, and arrival verification.</p>
+          <p>A Yahboom X3 running ROS 2/Nav2 connects calibrated RGB-D perception, persistent topology, language retrieval and physical navigation in a recorded qualitative demonstration.</p>
         </div>
 
         <figure class="figure-frame figure-robot reveal" data-figure>
           <button class="figure-open" type="button" aria-label="Enlarge real-robot query loop">Expand</button>
-          <img src="static/images/robot-query-loop.png" alt="Four-step real-robot loop showing RGB-D alignment, semantic topology, language retrieval, and Nav2 arrival" loading="lazy">
-          <figcaption><span>Reusable query-to-execution loop.</span> A natural-language request retrieves a grounded goal from the existing topology; Nav2 executes it and fresh RGB-D evidence verifies arrival.</figcaption>
-        </figure>
-
-        <figure class="figure-frame figure-cases reveal" data-figure>
-          <button class="figure-open" type="button" aria-label="Enlarge audited qualitative cases">Expand</button>
-          <img src="static/images/audited-cases.png" alt="Audited SSTG-Nav cases for field of view and depth, 3D fusion, arrival recovery, and physical-system operation" loading="lazy">
-          <figcaption><span>Audited cases.</span> Representative evidence spans sensing, 3D fusion, recovery, and the physical system.</figcaption>
+          <img src="static/images/robot-query-loop.png" width="2400" height="472" alt="Four-step real-robot loop showing RGB-D alignment, semantic topology, language retrieval, and Nav2 arrival" loading="lazy">
+          <figcaption><span>Physical-system realization.</span> Aligned RGB-D localizes an observed toy; the persistent topology stores its supporting views. A language request retrieves Node 22 and supplies a metric goal to Nav2, which executes the approach.</figcaption>
         </figure>
       </div>
     </section>
@@ -481,9 +474,9 @@
           <div class="benchmark-copy">
             <p class="section-kicker">Open benchmark</p>
             <h2>Reproduce the reusable ObjectNav evaluation.</h2>
-            <p>The public SSTG-Nav implementation covers topology construction, calibrated RGB-D grounding, source-aware fusion, retrieval, sequential recovery, evaluation metrics, and validation utilities for Habitat and HM3D.</p>
+            <p>The public SSTG-Nav benchmark implementation covers calibrated RGB-D memory, source-aware instances, measured approaches and evaluation on GOAT-Bench, online MultiON and HM3D.</p>
             <div class="benchmark-tags" aria-label="Repository contents">
-              <span>Habitat / HM3D</span><span>RGB-D grounding</span><span>3D fusion</span><span>Top-3 recovery</span><span>SR · SPL · DTG</span>
+              <span>GOAT-Bench</span><span>Online MultiON</span><span>HM3D</span><span>RGB-D grounding</span><span>Source-aware memory</span>
             </div>
             <p class="release-note">The complete robot-deployment and project-specific integration stack is not publicly released due to confidentiality obligations associated with the Huawei collaboration.</p>
           </div>
@@ -528,7 +521,7 @@
     <div class="page-shell footer-layout">
       <div class="footer-brand"><img src="static/images/sstg-mark.svg" alt="" width="32" height="32"><span>SSTG-Nav</span></div>
       <p>Metric-grounded spatial-semantic topologies for dependable, reusable navigation.</p>
-      <div class="footer-links"><a href="https://arxiv.org/abs/2608.00527">Paper</a><a href="https://github.com/DaojiePENG/sstg-nav-bench">Code</a><a href="mailto:dpeng108@connect.hkust-gz.edu.cn">Contact</a></div>
+      <div class="footer-links"><a href="static/paper/SSTG-Nav.pdf">Paper</a><a href="https://arxiv.org/abs/2608.00527">arXiv</a><a href="https://github.com/DaojiePENG/sstg-nav-bench">Code</a><a href="mailto:dpeng108@connect.hkust-gz.edu.cn">Contact</a></div>
     </div>
   </footer>
 
